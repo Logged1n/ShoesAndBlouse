@@ -1,10 +1,10 @@
 using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using ShoesAndBlouse.Application;
 using ShoesAndBlouse.Application.Abstractions;
-using ShoesAndBlouse.Application.Product.Commands;
-using ShoesAndBlouse.Application.Product.Queries;
+using ShoesAndBlouse.Application.Products.Commands;
+using ShoesAndBlouse.Application.Products.Queries;
+using ShoesAndBlouse.Domain.Entities;
 using ShoesAndBlouse.Infrastructure;
 using ShoesAndBlouse.Infrastructure.Data;
 using ShoesAndBlouse.Infrastructure.Repositories;
@@ -19,7 +19,7 @@ builder.Services.AddSwaggerGen();
 builder.Services
     .AddApplication()
     .AddInfrastructure();
-//Product Repository setup
+//Products Repository setup
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 //Postgres Database setup
 var cs = builder.Configuration.GetConnectionString("Default");
@@ -36,13 +36,28 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/products/{id}", async (IMediator mediator, int id) =>
+app.MapGet("/api/products/{id}", async (IMediator mediator, int id) =>
 {
-    var result = await mediator.Send(new GetProductById { Id = id });
-    
-    if (result != null) return Results.Ok(result);
-    
-    return Results.NotFound();
+    var getProduct = new GetProductById { Id = id };
+    var product = await mediator.Send(getProduct);
+    return Results.Ok(product);
+})
+.WithName("GetProductById");
+
+app.MapPost("/api/products", async (IMediator mediator, Product product) =>
+{
+    var createProduct = new CreateProduct { Name = product.Name, 
+        Description = product.Description };
+    var createdProduct = await mediator.Send(createProduct);
+    return Results.CreatedAtRoute("GetById", new { createdProduct.Name,
+        createdProduct.Description },
+        createdProduct);
 });
 
+app.MapGet("/api/products", async (IMediator mediator) =>
+{
+    var getCommand = new GetAllProducts();
+    var products = await mediator.Send(getCommand);
+    return Results.Ok(products);
+});
 app.Run();

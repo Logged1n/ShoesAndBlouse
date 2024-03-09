@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using ShoesAndBlouse.Application.Abstractions;
-using ShoesAndBlouse.Application.Product.Queries;
+using ShoesAndBlouse.Application.Products.Queries;
 
-namespace ShoesAndBlouse.Application.Product.QueryHandlers;
+namespace ShoesAndBlouse.Application.Products.QueryHandlers;
 
 public class GetProductByIdHandler(IProductRepository productRepository)
     : IRequestHandler<GetProductById, Domain.Entities.Product>

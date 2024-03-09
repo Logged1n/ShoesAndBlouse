@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using ShoesAndBlouse.Application.Abstractions;
-using ShoesAndBlouse.Application.Product.Commands;
+using ShoesAndBlouse.Application.Products.Commands;
 using ShoesAndBlouse.Domain.Entities; 
 
-namespace ShoesAndBlouse.Application.Product.CommandHandlers;
+namespace ShoesAndBlouse.Application.Products.CommandHandlers;
 
 public class CreateProductHandler(IProductRepository productRepository) : IRequestHandler<CreateProduct, Domain.Entities.Product>
 {
@@ -12,9 +12,9 @@ public class CreateProductHandler(IProductRepository productRepository) : IReque
         var product = new Domain.Entities.Product
         {
             Name = request.Name,
-            Description = request.Description
+            Description = request.Description,
         };
 
-        return await productRepository.AddProduct(product);
+        return await productRepository.CreateProduct(product);
     }
 }
