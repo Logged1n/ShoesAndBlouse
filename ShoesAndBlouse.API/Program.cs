@@ -1,10 +1,30 @@
+using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
+using ShoesAndBlouse.Application;
+using ShoesAndBlouse.Application.Abstractions;
+using ShoesAndBlouse.Application.Product.Commands;
+using ShoesAndBlouse.Application.Product.Queries;
+using ShoesAndBlouse.Infrastructure;
+using ShoesAndBlouse.Infrastructure.Data;
+using ShoesAndBlouse.Infrastructure.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+//Clean Architecture Setup
+builder.Services
+    .AddApplication()
+    .AddInfrastructure();
+//Product Repository setup
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+//Postgres Database setup
+var cs = builder.Configuration.GetConnectionString("Default");
+builder.Services.AddDbContext<ProductDbContext>(opt => opt.UseNpgsql(cs));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateProduct).Assembly));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -16,29 +36,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
+app.MapGet("/products/{id}", async (IMediator mediator, int id) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-    {
-        var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-            .ToArray();
-        return forecast;
-    })
-    .WithName("GetWeatherForecast")
-    .WithOpenApi();
+    var result = await mediator.Send(new GetProductById { Id = id });
+    
+    if (result != null) return Results.Ok(result);
+    
+    return Results.NotFound();
+});
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

@@ -2,13 +2,17 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{17FC7193-D207-4434-9BA1-58C0669C19C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoesAndBlouse.Core", "ShoesAndBlouse.Core\ShoesAndBlouse.Core.csproj", "{D1B29834-D868-4518-AC9D-D2D2E9489485}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoesAndBlouse.Domain", "ShoesAndBlouse.Domain\ShoesAndBlouse.Domain.csproj", "{D1B29834-D868-4518-AC9D-D2D2E9489485}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoesAndBlouse.Infrastructure", "ShoesAndBlouse.Infrastructure\ShoesAndBlouse.Infrastructure.csproj", "{E9628A96-2D15-46F9-986A-E7F2EEED352F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoesAndBlouse.UseCases", "ShoesAndBlouse.UseCases\ShoesAndBlouse.UseCases.csproj", "{BC012D5D-EB8A-4C8E-A84B-E625B5008EFF}"
 	ProjectSection(ProjectDependencies) = postProject
-		{E9628A96-2D15-46F9-986A-E7F2EEED352F} = {E9628A96-2D15-46F9-986A-E7F2EEED352F}
+		{D1B29834-D868-4518-AC9D-D2D2E9489485} = {D1B29834-D868-4518-AC9D-D2D2E9489485}
+		{BC012D5D-EB8A-4C8E-A84B-E625B5008EFF} = {BC012D5D-EB8A-4C8E-A84B-E625B5008EFF}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoesAndBlouse.Application", "ShoesAndBlouse.Application\ShoesAndBlouse.Application.csproj", "{BC012D5D-EB8A-4C8E-A84B-E625B5008EFF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D1B29834-D868-4518-AC9D-D2D2E9489485} = {D1B29834-D868-4518-AC9D-D2D2E9489485}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoesAndBlouse.API", "ShoesAndBlouse.API\ShoesAndBlouse.API.csproj", "{A756556A-B076-417F-821F-D3F2DF59A774}"
