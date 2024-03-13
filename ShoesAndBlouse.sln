@@ -1,6 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{17FC7193-D207-4434-9BA1-58C0669C19C9}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile = Dockerfile
+		.dockerignore = .dockerignore
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoesAndBlouse.Domain", "ShoesAndBlouse.Domain\ShoesAndBlouse.Domain.csproj", "{D1B29834-D868-4518-AC9D-D2D2E9489485}"
 EndProject

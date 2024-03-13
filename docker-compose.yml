@@ -1,0 +1,53 @@
+﻿version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: \shoes-and-blouse-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - \shoesandblouse\shoes-and-blouse-frontend\
+    networks: 
+    - my-network
+
+  backend:
+    build: 
+      context: \
+      dockerfile: Dockerfile
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "7076:7076"
+      - "5000:5000"
+    volumes:
+      - \shoesandblouse\ShoesAndBlouse.API\
+    depends_on: 
+      - postgres
+      - redis
+    networks: 
+      - my-network
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: ShoesAndBlouse
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    networks: 
+      - my-network
+  
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
+  
