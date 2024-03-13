@@ -25,6 +25,8 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 var cs = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<ProductDbContext>(opt => opt.UseNpgsql(cs));
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateProduct).Assembly));
+//builder.WebHost.UseUrls("http://localhost:7076");
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
