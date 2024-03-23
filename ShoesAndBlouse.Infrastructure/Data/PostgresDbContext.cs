@@ -20,4 +20,4 @@ public class PostgresDbContext : DbContext
     
     public DbSet<Product> Product { get; set; }
     //Add DbSets here
-};
+}

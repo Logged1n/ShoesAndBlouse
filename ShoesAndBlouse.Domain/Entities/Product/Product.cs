@@ -8,4 +8,4 @@ public sealed class Product
     public Money Price { get;  set; }
     //public Category? Category { get; set; }
     //public string PhotoPath { get; set; } = string.Empty;
-};
+}
