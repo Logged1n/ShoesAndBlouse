@@ -1,13 +1,9 @@
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ShoesAndBlouse.Application;
 using ShoesAndBlouse.Application.Abstractions;
 using ShoesAndBlouse.Application.Products.Commands;
-using ShoesAndBlouse.Application.Products.Queries;
-using ShoesAndBlouse.Domain.Entities.Product;
 using ShoesAndBlouse.Infrastructure;
 using ShoesAndBlouse.Infrastructure.Data;
-using ShoesAndBlouse.Infrastructure.Repositories;
 using ShoesAndBlouse.Infrastructure.Repositories.Cache;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,13 +18,8 @@ builder.Services
     .AddApplication()
     .AddInfrastructure();
 
-//Repository setup
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-
-//Caching Repository setup
-builder.Services.AddScoped<IProductRepository, CachingProductRepository>();
+//Decorator pattern for Caching repositories
 builder.Services.Decorate<IProductRepository, CachingProductRepository>();
-
 
 //Redis Caching setup
 builder.Services.AddStackExchangeRedisCache(redisOptions =>
@@ -44,6 +35,9 @@ builder.Services.AddDbContext<PostgresDbContext>(opt => opt.UseNpgsql(cs));
 //Mediator pattern setup
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateProduct).Assembly));
 
+//Enable Controllers
+builder.Services.AddControllers();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -54,38 +48,6 @@ if (app.Environment.IsDevelopment())
 //Comment out only for docker usage
 app.UseHttpsRedirection();
 
-app.MapPost("/api/v1/products", async (IMediator mediator, Product product) =>
-    {
-        var createProduct = new CreateProduct { 
-            Name = product.Name, 
-            Description = product.Description,
-            Price = product.Price
-        };
-    
-        var createdProduct = await mediator.Send(createProduct);
-    
-        return Results.CreatedAtRoute("GetById", new { 
-            createdProduct.Name,
-            createdProduct.Description,
-            createdProduct.Price
-        }, createdProduct);
-    })
-    .WithName("CreateProduct");
-
-app.MapGet("/api/v1/products/{id:int}", async (IMediator mediator, int id) =>
-{
-    var getProduct = new GetProductById { Id = id };
-    var product = await mediator.Send(getProduct);
-    return Results.Ok(product);
-})
-.WithName("GetProductById");
-
-app.MapGet("/api/v1/products", async (IMediator mediator) =>
-{
-    var getCommand = new GetAllProducts();
-    var products = await mediator.Send(getCommand);
-    return Results.Ok(products);
-})
-.WithName("GetAllProducts");
+app.MapControllers();
 
 app.Run();
