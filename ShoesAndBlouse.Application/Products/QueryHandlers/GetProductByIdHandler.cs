@@ -1,13 +1,13 @@
 ﻿using MediatR;
 using ShoesAndBlouse.Application.Abstractions;
 using ShoesAndBlouse.Application.Products.Queries;
+using ShoesAndBlouse.Domain.Entities.Product;
 
 namespace ShoesAndBlouse.Application.Products.QueryHandlers;
 
-public class GetProductByIdHandler(IProductRepository productRepository)
-    : IRequestHandler<GetProductById, Domain.Entities.Product>
+public class GetProductByIdHandler(IProductRepository productRepository) : IRequestHandler<GetProductById, Product>
 {
-    public async Task<Domain.Entities.Product> Handle(GetProductById request, CancellationToken cancellationToken)
+    public async Task<Product?> Handle(GetProductById request, CancellationToken cancellationToken)
     {
         return await productRepository.GetProductById(request.Id);
     }

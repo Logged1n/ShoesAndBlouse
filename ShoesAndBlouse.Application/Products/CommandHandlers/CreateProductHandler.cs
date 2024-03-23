@@ -1,18 +1,19 @@
 ﻿using MediatR;
 using ShoesAndBlouse.Application.Abstractions;
 using ShoesAndBlouse.Application.Products.Commands;
-using ShoesAndBlouse.Domain.Entities; 
+using ShoesAndBlouse.Domain.Entities.Product;
 
 namespace ShoesAndBlouse.Application.Products.CommandHandlers;
 
-public class CreateProductHandler(IProductRepository productRepository) : IRequestHandler<CreateProduct, Domain.Entities.Product>
+public class CreateProductHandler(IProductRepository productRepository) : IRequestHandler<CreateProduct, Product>
 {
-    public async Task<Domain.Entities.Product> Handle(CreateProduct request, CancellationToken cancellationToken)
+    public async Task<Product> Handle(CreateProduct request, CancellationToken cancellationToken)
     {
-        var product = new Domain.Entities.Product
+        var product = new Product
         {
             Name = request.Name,
             Description = request.Description,
+            Price = request.Price
         };
 
         return await productRepository.CreateProduct(product);
