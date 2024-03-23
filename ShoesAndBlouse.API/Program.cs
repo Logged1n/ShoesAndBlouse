@@ -8,6 +8,7 @@ using ShoesAndBlouse.Domain.Entities.Product;
 using ShoesAndBlouse.Infrastructure;
 using ShoesAndBlouse.Infrastructure.Data;
 using ShoesAndBlouse.Infrastructure.Repositories;
+using ShoesAndBlouse.Infrastructure.Repositories.Cache;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,8 +22,20 @@ builder.Services
     .AddApplication()
     .AddInfrastructure();
 
-//Products Repository setup
+//Repository setup
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+//Caching Repository setup
+builder.Services.AddScoped<IProductRepository, CachingProductRepository>();
+builder.Services.Decorate<IProductRepository, CachingProductRepository>();
+
+
+//Redis Caching setup
+builder.Services.AddStackExchangeRedisCache(redisOptions =>
+{
+    var connection = builder.Configuration.GetConnectionString("Redis");
+    redisOptions.Configuration = connection;
+});
 
 //Postgres Database setup
 var cs = builder.Configuration.GetConnectionString("Default");
@@ -41,7 +54,7 @@ if (app.Environment.IsDevelopment())
 //Comment out only for docker usage
 app.UseHttpsRedirection();
 
-app.MapPost("/api/products", async (IMediator mediator, Product product) =>
+app.MapPost("/api/v1/products", async (IMediator mediator, Product product) =>
     {
         var createProduct = new CreateProduct { 
             Name = product.Name, 
@@ -59,7 +72,7 @@ app.MapPost("/api/products", async (IMediator mediator, Product product) =>
     })
     .WithName("CreateProduct");
 
-app.MapGet("/api/products/{id}", async (IMediator mediator, int id) =>
+app.MapGet("/api/v1/products/{id:int}", async (IMediator mediator, int id) =>
 {
     var getProduct = new GetProductById { Id = id };
     var product = await mediator.Send(getProduct);
@@ -67,7 +80,7 @@ app.MapGet("/api/products/{id}", async (IMediator mediator, int id) =>
 })
 .WithName("GetProductById");
 
-app.MapGet("/api/products", async (IMediator mediator) =>
+app.MapGet("/api/v1/products", async (IMediator mediator) =>
 {
     var getCommand = new GetAllProducts();
     var products = await mediator.Send(getCommand);

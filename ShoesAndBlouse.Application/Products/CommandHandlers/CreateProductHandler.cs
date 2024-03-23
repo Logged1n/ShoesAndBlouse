@@ -16,6 +16,6 @@ public class CreateProductHandler(IProductRepository productRepository) : IReque
             Price = request.Price
         };
 
-        return await productRepository.CreateProduct(product);
+        return await productRepository.CreateProduct(product, cancellationToken);
     }
 }
