@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShoesAndBlouse.Application.Abstractions;
-using ShoesAndBlouse.Domain.Entities;
+using ShoesAndBlouse.Domain.Entities.Product;
 using ShoesAndBlouse.Infrastructure.Data;
 
 namespace ShoesAndBlouse.Infrastructure.Repositories;
 
-public class ProductRepository(ProductDbContext context) : IProductRepository
+public class ProductRepository(PostgresDbContext context) : IProductRepository
 {
     public async Task<ICollection<Product>> GetAll()
     {
@@ -24,13 +24,14 @@ public class ProductRepository(ProductDbContext context) : IProductRepository
         return toCreate;
     }
 
-    public async Task<Product?> UpdateProduct(int productId, string name, string description)
+    public async Task<Product> UpdateProduct(int productId, string name, string description, Money price)
     {
         var product = await context.Product.FirstOrDefaultAsync(p => p.Id == productId);
         if (product is null) return product;
         
         product.Name = name;
         product.Description = description;
+        product.Price = price; 
         await context.SaveChangesAsync();
         
         return product;
@@ -41,7 +42,7 @@ public class ProductRepository(ProductDbContext context) : IProductRepository
         var product = context.Product
             .FirstOrDefault(p => p.Id == productId);
 
-        if (product is null) return null;
+        if (product is null) return product;
         
         context.Product.Remove(product);
 

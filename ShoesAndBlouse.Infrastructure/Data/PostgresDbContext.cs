@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ShoesAndBlouse.Domain.Entities;
 using Microsoft.Extensions.Configuration;
+using ShoesAndBlouse.Domain.Entities.Product;
 
 namespace ShoesAndBlouse.Infrastructure.Data;
 
-public class ProductDbContext : DbContext
+public class PostgresDbContext : DbContext
 {
     protected readonly IConfiguration Configuration;
     
-    public ProductDbContext(IConfiguration configuration)
+    public PostgresDbContext(IConfiguration configuration)
     {
         Configuration = configuration;
     }
@@ -19,4 +19,5 @@ public class ProductDbContext : DbContext
     }
     
     public DbSet<Product> Product { get; set; }
+    //Add DbSets here
 };
