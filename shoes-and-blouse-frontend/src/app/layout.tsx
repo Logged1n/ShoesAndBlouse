@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "../styles/globals.css";
 import React from "react";
+import Header from "@/components/Header/Header";
 
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Shoes And Blouse",
@@ -19,7 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
       <div className="mainLayout">
-          {/*HEADER COMPONENT*/}
+          <Header />
         <main className="mainContent">
             {children}
         </main>

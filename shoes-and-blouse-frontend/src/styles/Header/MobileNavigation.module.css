@@ -1,0 +1,83 @@
+.mobileNavigation {
+    position: fixed;
+    top: -100%;
+    /* start off the left side of the screen */
+    width: 100%; /* width of the navigation when it's shown */
+    height: 100vh;
+    transition: top 0.5s; /* smooth transition effect */
+    z-index: 1;
+    overflow-y: hidden;
+    overflow-x: clip;
+}
+
+.mobileNavigation.active {
+    top: 5rem; /* show navigation */
+    transition: top 0.5s; /* smooth transition effect */
+}
+
+.mobileNavigation > .navList {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2rem;
+    padding-top: 2rem;
+    padding-left: 1rem;
+}
+
+.mobileNavigation > .navList > li > a {
+    font-size: var(--fs-body);
+    text-decoration: none;
+}
+
+.mobileNavigation > .navList > li > a:hover {
+    transition: 0.3s ease-in-out;
+}
+
+.mobileNavigation.active > .navList {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding-top: 2rem;
+    padding-inline: 1.5rem;
+}
+
+.mobileNavigation > .searchWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+    margin-top: 5rem;
+    margin-inline: 1.5rem;
+    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 0.5rem;
+    border: 2px solid rgba(97, 83, 77, 0.5);
+    background: #fff9f3;
+    width: calc(100% - 3rem);
+    height: 3.5rem;
+    flex-shrink: 0;
+}
+
+.searchWrapper > input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: transparent;
+    font-size: var(--fs-body);
+}
+
+.searchWrapper > img {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-inline: 1.5rem;
+}
+
+
+
+@media screen and (min-width: 960px) {
+    .mobileNavigation {
+        display: none;
+    }
+}
