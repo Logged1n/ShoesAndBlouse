@@ -1,23 +1,25 @@
+import {ReactNode} from 'react'
 import styles from "../styles/Dropdown.module.css";
+import Link from "next/link";
 
-export default function Dropdown(){
-    return(
-        <div className={styles.container}>
-            <button>Produkty</button>
-            <div className={styles.contents}>
-                <a href={"#"}>Mężczyzna</a>
-                    <div>
-
-                    </div>
-                <a href={"#"}>Kobieta</a>
-                    <div>
-
-                    </div>
-                <a href={"#"}>Dzieci</a>
-                    <div>
-
-                    </div>
-            </div>
-        </div>
-    );
+type Props = {
+    category: string;
+    children?: ReactNode;
 }
+
+    const Dropdown: React.FC<Props> = ({category, children}) => {
+        return(
+            <div className={styles.container}>
+                <button>{category}</button>
+                {
+                    children == null ? null :
+                        <div className={styles.contents}>
+                            <Link href={"#"}>{children}</Link>
+                        </div>
+                }
+
+            </div>
+        );
+
+}
+export default Dropdown;
