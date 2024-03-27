@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using ShoesAndBlouse.Application.Abstractions;
+using ShoesAndBlouse.Application.Products.Commands;
 using ShoesAndBlouse.Infrastructure.Repositories;
 using ShoesAndBlouse.Infrastructure.Repositories.Cache;
 
@@ -11,6 +12,7 @@ public static class DependencyInjection
     {
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IProductRepository, CachingProductRepository>();
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateProduct).Assembly));
         return services;
     }
 }

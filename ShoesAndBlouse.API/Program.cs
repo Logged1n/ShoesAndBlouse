@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ShoesAndBlouse.Application;
 using ShoesAndBlouse.Application.Abstractions;
-using ShoesAndBlouse.Application.Products.Commands;
 using ShoesAndBlouse.Infrastructure;
 using ShoesAndBlouse.Infrastructure.Data;
 using ShoesAndBlouse.Infrastructure.Repositories.Cache;
@@ -31,9 +30,6 @@ builder.Services.AddStackExchangeRedisCache(redisOptions =>
 //Postgres Database setup
 var cs = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<PostgresDbContext>(opt => opt.UseNpgsql(cs));
-
-//Mediator pattern setup
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateProduct).Assembly));
 
 //Enable Controllers
 builder.Services.AddControllers();

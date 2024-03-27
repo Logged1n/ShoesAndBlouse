@@ -25,7 +25,8 @@ public class ProductController : ControllerBase
     [HttpGet("GetAllProducts")]
     public async Task<IActionResult> GetAllProducts()
     {
-        return Ok(await _mediator.Send(new GetAllProducts()));
+        var products = await _mediator.Send(new GetAllProducts());
+        return Ok(products);
     }
 
     [HttpPost("CreateProduct")]
