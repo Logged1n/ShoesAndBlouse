@@ -5,7 +5,7 @@ using ShoesAndBlouse.Infrastructure.Data;
 
 namespace ShoesAndBlouse.Infrastructure.Repositories;
 
-public class UserRepository(UserDbContext context) : IUserRepository
+public class UserRepository(PostgresDbContext context) : IUserRepository
 {
     public async Task<ICollection<User>> GetAll()
     {

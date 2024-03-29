@@ -5,7 +5,7 @@ using ShoesAndBlouse.Infrastructure.Data;
 
 namespace ShoesAndBlouse.Infrastructure.Repositories;
 
-public class CategoryRepository(CategoryDbContext context) : ICategoryRepository
+public class CategoryRepository(PostgresDbContext context) : ICategoryRepository
 {
     public async Task<ICollection<Category>> GetAll()
     {

@@ -5,7 +5,7 @@ using ShoesAndBlouse.Infrastructure.Data;
 
 namespace ShoesAndBlouse.Infrastructure.Repositories;
 
-    public class ReviewRepository(ReviewDbContext context) : IReviewRepository
+    public class ReviewRepository(PostgresDbContext context) : IReviewRepository
     {
         public async Task<ICollection<Review>> GetAll()
         {
