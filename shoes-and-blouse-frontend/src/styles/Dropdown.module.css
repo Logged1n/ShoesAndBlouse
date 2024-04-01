@@ -1,6 +1,5 @@
 .container button{
-    background-color: #009a9a;
-    color:deepskyblue;
+    /* TODO COLORS */
     padding:10px 15px;
     border:none;
     cursor:pointer;
@@ -20,5 +19,4 @@
 }
 .container:hover .contents{
     display:block;
-
 }

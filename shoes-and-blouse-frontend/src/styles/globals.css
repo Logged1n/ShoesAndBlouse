@@ -1,9 +1,11 @@
 :root {
   /* Colors */
---clr-neutral-400: hsla(18, 11%, 34%, 1);
-
-  /* Font families */
-
+  --clr-primary-400: hsla(222.09, 78.82%, 50%, 1);
+  --clr-primary-400-semi-transparent: hsla(222.09, 78.82%, 50%, 0.5);
+  --clr-accent-400: hsla(251.94, 78.82%, 50%, 1);
+  --clr-accent-400-semi-transparent: hsla(251.94, 78.82%, 50%, 0.5);
+  --clr-accent-100: hsla(191.94, 78.82%, 50%, 1);
+  --clr-accent-100-semi-transparent: hsla(191.94, 78.82%, 50%, 0.5) ;
 
   /* Font weights */
   --fw-bold: 700;
@@ -138,19 +140,19 @@ svg {
 /* General styles */
 h1 {
   line-height: 1.1;
-  font-family: var(--ff-primary);
+  font-family: var(--fs-primary-heading);
   font-size: var(--fs-primary-heading);
 }
 
 body {
-  background-color: var(--clr-neutral-100);
+  background-color: var(--clr-accent-100);
   font-family: var(--ff-body);
   font-size: var(--fs-body);
 }
 
 a {
   font-size: var(--fs-body);
-  color: var(--clr-neutral-400);
+  color: var(--clr-accent-400);
 }
 
 a:hover {
@@ -172,6 +174,7 @@ h3 {
 }
 
 button {
+  /* TODO style buttons correctly
   width: 100%;
   max-width: 25rem;
   height: 3.5rem;
@@ -180,15 +183,19 @@ button {
   background: transparent;
   position: relative;
   cursor: pointer;
+  */
 }
 
 .primary-button {
+  /* TODO
   border: 2.5px solid var(--clr-neutral-400);
   transition: 0.3s ease-in-out;
   color: var(--clr-primary-400);
+   */
 }
 
 .primary-button:before {
+  /* TODO
   content: ' ';
   position: absolute;
   z-index: -1;
@@ -199,34 +206,45 @@ button {
   border-radius: 0.65rem;
   transition: 0.3s ease-in-out;
   border: 2.5px solid var(--clr-accent-400-semi-transparent-2);
+  */
 }
 
 .primary-button:hover {
+  /* TODO
   border: 2.5px solid var(--clr-neutral-400-semi-transparent);
   transition: 0.3s ease-in-out;
+  */
 }
 
 .primary-button:hover:before {
+  /* TODO
   border: 2.5px solid var(--clr-accent-400);
   transition: 0.3s ease-in-out;
   z-index: 100;
+  */
 }
 
 .secondary-button {
+  /* TODO
   border: 2.5px solid var(--clr-accent-400-semi-transparent);
   color: var(--clr-accent-400);
   transition: 0.3s ease-in-out;
+  */
 }
 
 .secondary-button:hover {
+  /* TODO
   border: 2.5px solid var(--clr-accent-400);
   transition: 0.3s ease-in-out;
+  */
 }
 
 @media screen and (min-width: 60rem) {
   button {
+    /* TODO
     max-width: 16rem;
     height: 4.21rem;
+    */
   }
 }
 

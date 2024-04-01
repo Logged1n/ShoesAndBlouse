@@ -13,6 +13,7 @@
 .mobileNavigation.active {
     top: 5rem; /* show navigation */
     transition: top 0.5s; /* smooth transition effect */
+    background-color: #009a9a; /*TODO change color*/
 }
 
 .mobileNavigation > .navList {
