@@ -1,7 +1,10 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace ShoesAndBlouse.Domain.Entities;
 
 public sealed class Review
 {
+    [Key]
     public int Id { get; set; }
     public int Score { get; set; }
     public int ProductId { get; set; }

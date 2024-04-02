@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ShoesAndBlouse.Application.Abstractions;
 using ShoesAndBlouse.Domain.Entities;
+using ShoesAndBlouse.Domain.Entities.Category;
 using ShoesAndBlouse.Infrastructure.Data;
 
 namespace ShoesAndBlouse.Infrastructure.Repositories;
@@ -17,25 +18,25 @@ public class CategoryRepository(PostgresDbContext context) : ICategoryRepository
         return await context.Category.FirstOrDefaultAsync(c => c.Id == categoryId);
     }
 
-    public async Task<Category> CreateCategory(Category toCreate)
+    public async Task<Category> CreateCategory(Category toCreate, CancellationToken cancellationToken=default)
     {
         context.Category.Add(toCreate);
         await context.SaveChangesAsync();
         return toCreate;
     }
 
-    public async Task<Category?> UpdateCategory(int categoryId, string name)
+    public async Task<Category?> UpdateCategory(Category toUpdate, CancellationToken cancellationToken=default)
     {
-        var category = await context.Category.FirstOrDefaultAsync(c => c.Id == categoryId);
+        var category = await context.Category.FirstOrDefaultAsync(c => c.Id == toUpdate.Id);
         if (category is null) return category;
 
-        category.Name = name;
+        category.Name = toUpdate.Name;
         await context.SaveChangesAsync();
         
         return category;
     }
 
-    public async Task<Category?> DeleteCategory(int categoryId)
+    public async Task<Category?> DeleteCategory(int categoryId, CancellationToken cancellationToken=default)
     {
         var category = context.Category
             .FirstOrDefault(c => c.Id == categoryId);

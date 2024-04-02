@@ -17,7 +17,7 @@ namespace ShoesAndBlouse.Infrastructure.Repositories;
             return await context.Review.FirstOrDefaultAsync(r => r.Id == reviewId);
         }
 
-        public async Task<Review> CreateReview(Review toCreate)
+        public async Task<Review> CreateReview(Review toCreate, CancellationToken cancellationToken=default)
         {
             context.Review.Add(toCreate);
             await context.SaveChangesAsync();
@@ -25,22 +25,22 @@ namespace ShoesAndBlouse.Infrastructure.Repositories;
         }
         
 
-        public async Task<Review?> UpdateReview(int reviewId, int score, int productId,int userId,  string title, string description)
+        public async Task<Review?> UpdateReview(Review toUpdate, CancellationToken cancellationToken=default)
         {
-            var review = await context.Review.FirstOrDefaultAsync(r => r.Id == reviewId);
+            var review = await context.Review.FirstOrDefaultAsync(r => r.Id == toUpdate.Id);
             if (review is null) return review;
-        
-            review.Title = title;
-            review.Score = score;
-            review.ProductId = productId;
-            review.UserId = userId;
-            review.Description = description;
+
+            review.Title = toUpdate.Title;
+            review.Score = toUpdate.Score;
+            review.ProductId = toUpdate.ProductId;
+            review.UserId = toUpdate.UserId;
+            review.Description = toUpdate.Description;
             await context.SaveChangesAsync();
         
             return review;
         }
 
-        public async Task<Review?> DeleteReview(int reviewId)
+        public async Task<Review?> DeleteReview(int reviewId, CancellationToken cancellationToken=default)
         {
             var review = context.Review
                 .FirstOrDefault(r => r.Id == reviewId);
