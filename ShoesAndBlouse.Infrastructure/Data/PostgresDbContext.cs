@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using ShoesAndBlouse.Domain.Entities;
-using ShoesAndBlouse.Domain.Entities.Category;
 using ShoesAndBlouse.Domain.Entities.Product;
 using ShoesAndBlouse.Domain.Entities.User;
 

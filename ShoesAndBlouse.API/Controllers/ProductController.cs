@@ -35,5 +35,31 @@ public class ProductController : ControllerBase
         await _mediator.Send(command);
         return Created();
     }
+
+    [HttpDelete("DeleteProduct/{productId}")]
+    public async Task<IActionResult> DeleteProduct(int productId)
+    {
+        var result = await _mediator.Send(new DeleteProduct(productId));
+
+        if (result) return NoContent();
+        return NotFound();
+    }
+
+    [HttpPatch("UpdateProduct/{productId}")]
+    public async Task<IActionResult> UpdateProduct(int productId, [FromBody] UpdateProduct command)
+    {
+        if (productId != command.ProductId)
+        {
+            return BadRequest(); // Zwracamy BadRequest (400), jeśli identyfikator produktu w ścieżce URL nie zgadza się z identyfikatorem w ciele żądania.
+        }
+
+        var result = await _mediator.Send(command);
+
+        if (result)
+            return NoContent(); // Zwracamy NoContent (204) jeśli produkt został pomyślnie zaktualizowany.
+        else
+            return NotFound(); // Zwracamy NotFound (404) jeśli produkt o podanym identyfikatorze nie został znaleziony.
+
+    }
     
 }

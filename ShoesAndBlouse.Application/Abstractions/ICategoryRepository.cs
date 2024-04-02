@@ -1,5 +1,4 @@
 using ShoesAndBlouse.Domain.Entities;
-using ShoesAndBlouse.Domain.Entities.Category;
 
 namespace ShoesAndBlouse.Application.Abstractions;
 

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ShoesAndBlouse.Domain.Entities.Category;
+namespace ShoesAndBlouse.Domain.Entities;
 
 public sealed class Category
 {

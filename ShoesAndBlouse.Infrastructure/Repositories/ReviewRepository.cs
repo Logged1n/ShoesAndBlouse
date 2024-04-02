@@ -27,7 +27,7 @@ namespace ShoesAndBlouse.Infrastructure.Repositories;
 
         public async Task<Review?> UpdateReview(Review toUpdate, CancellationToken cancellationToken=default)
         {
-            var review = await context.Review.FirstOrDefaultAsync(r => r.Id == toUpdate.Id);
+            var review = await context.Review.FirstOrDefaultAsync(r => r.Id == toUpdate.Id, cancellationToken);
             if (review is null) return review;
 
             review.Title = toUpdate.Title;
@@ -35,7 +35,7 @@ namespace ShoesAndBlouse.Infrastructure.Repositories;
             review.ProductId = toUpdate.ProductId;
             review.UserId = toUpdate.UserId;
             review.Description = toUpdate.Description;
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(cancellationToken);
         
             return review;
         }
@@ -49,7 +49,7 @@ namespace ShoesAndBlouse.Infrastructure.Repositories;
         
             context.Review.Remove(review);
 
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(cancellationToken);
             return review;
         }
     }

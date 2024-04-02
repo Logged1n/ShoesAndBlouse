@@ -39,15 +39,15 @@ public class ProductRepository(PostgresDbContext context) : IProductRepository
         return product;
     }
 
-    public async Task<Product?> DeleteProduct(int productId, CancellationToken cancellationToken = default)
+    public async Task<bool> DeleteProduct(int productId, CancellationToken cancellationToken = default)
     {
         var product = context.Product.FirstOrDefault(p => p.Id == productId);
 
-        if (product is null) return product;
+        if (product is null) return false;
         
         context.Product.Remove(product);
         await context.SaveChangesAsync(cancellationToken);
         
-        return product;
+        return true;
     }
 }
