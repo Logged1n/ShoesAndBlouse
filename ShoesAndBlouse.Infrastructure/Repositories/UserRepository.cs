@@ -8,11 +8,11 @@ namespace ShoesAndBlouse.Infrastructure.Repositories;
 
 public class UserRepository(PostgresDbContext context) : IUserRepository
 {
-    public async Task<ICollection<User>> GetAll()
+    public async Task<ICollection<User>> GetAll(CancellationToken cancellationToken=default)
     {
-        return await context.User.ToListAsync();
+        return await context.User.ToListAsync(cancellationToken);
     }
-    public async Task<User?> GetUserById(int userId)
+    public async Task<User?> GetUserById(int userId, CancellationToken cancellationToken=default)
     {
         return await context.User.FirstOrDefaultAsync(u => u.Id == userId);
     }
