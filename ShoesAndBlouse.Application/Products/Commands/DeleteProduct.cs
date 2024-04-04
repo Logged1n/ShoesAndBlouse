@@ -1,6 +1,5 @@
-﻿namespace ShoesAndBlouse.Application.Products.Commands;
+﻿using MediatR;
 
-public class DeleteProduct
-{
-    
-}
+namespace ShoesAndBlouse.Application.Products.Commands;
+
+public sealed record DeleteProduct(int productId) : IRequest<bool>;

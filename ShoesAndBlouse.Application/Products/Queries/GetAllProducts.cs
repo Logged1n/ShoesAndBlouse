@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using ShoesAndBlouse.Domain.Entities.Product;
+using ShoesAndBlouse.Domain.Entities;
 
 namespace ShoesAndBlouse.Application.Products.Queries;
 

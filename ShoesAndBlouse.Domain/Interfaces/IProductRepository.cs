@@ -1,6 +1,6 @@
-﻿using ShoesAndBlouse.Domain.Entities.Product;
+﻿using ShoesAndBlouse.Domain.Entities;
 
-namespace ShoesAndBlouse.Application.Abstractions;
+namespace ShoesAndBlouse.Domain.Interfaces;
 
 public interface IProductRepository
 {
@@ -8,5 +8,5 @@ public interface IProductRepository
     Task<Product?> GetProductById(int productId, CancellationToken cancellationToken = default);
     Task<Product> CreateProduct(Product toCreate, CancellationToken cancellationToken = default);
     Task<Product> UpdateProduct(Product toUpdate, CancellationToken cancellationToken = default);
-    Task<Product?> DeleteProduct(int productId, CancellationToken cancellationToken = default);
+    Task<bool> DeleteProduct(int productId, CancellationToken cancellationToken = default);
 }

@@ -1,18 +1,25 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using ShoesAndBlouse.Application.Abstractions;
-using ShoesAndBlouse.Application.Products.Commands;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using ShoesAndBlouse.Domain.Interfaces;
+using ShoesAndBlouse.Infrastructure.Data;
 using ShoesAndBlouse.Infrastructure.Repositories;
-using ShoesAndBlouse.Infrastructure.Repositories.Cache;
 
-namespace ShoesAndBlouse.Infrastructure;
-
-public static class DependencyInjection
+namespace ShoesAndBlouse.Infrastructure
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+    public static class DependencyInjection
     {
-        services.AddScoped<IProductRepository, ProductRepository>();
-        services.AddScoped<IProductRepository, CachingProductRepository>();
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateProduct).Assembly));
-        return services;
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddScoped<IProductRepository, ProductRepository>();
+            
+            services.AddMediatR(cfg => 
+                cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
+            
+            services.AddDbContext<PostgresDbContext>(options =>
+                options.UseNpgsql(configuration.GetConnectionString("Postgres")));
+            
+            return services;
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using MediatR;
-using ShoesAndBlouse.Application.Abstractions;
 using ShoesAndBlouse.Application.Products.Commands;
-using ShoesAndBlouse.Domain.Entities.Product;
+using ShoesAndBlouse.Domain.Entities;
+using ShoesAndBlouse.Domain.Interfaces;
 
 namespace ShoesAndBlouse.Application.Products.CommandHandlers;
 
@@ -13,7 +13,9 @@ public class CreateProductHandler(IProductRepository productRepository) : IReque
         {
             Name = request.Name,
             Description = request.Description,
-            Price = request.Price
+            Price = request.Price,
+            //Categories = await categoryRepository.GetCategoryByName(request.Categories, cancellationToken), // TODO GetCategoriesByNames Command
+            PhotoPath = request.PhotoPath,
         };
 
         return await productRepository.CreateProduct(product, cancellationToken);

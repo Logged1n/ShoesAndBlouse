@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using ShoesAndBlouse.Application.Abstractions;
 using ShoesAndBlouse.Domain.Entities;
+using ShoesAndBlouse.Domain.Interfaces;
 using ShoesAndBlouse.Infrastructure.Data;
 
 namespace ShoesAndBlouse.Infrastructure.Repositories;
@@ -9,47 +9,47 @@ namespace ShoesAndBlouse.Infrastructure.Repositories;
     {
         public async Task<ICollection<Review>> GetAll()
         {
-            return await context.Review.ToListAsync();
+            return await context.Reviews.ToListAsync();
         }
 
         public async Task<Review?> GetReviewById(int reviewId)
         {
-            return await context.Review.FirstOrDefaultAsync(r => r.Id == reviewId);
+            return await context.Reviews.FirstOrDefaultAsync(r => r.Id == reviewId);
         }
 
-        public async Task<Review> CreateReview(Review toCreate)
+        public async Task<Review> CreateReview(Review toCreate, CancellationToken cancellationToken=default)
         {
-            context.Review.Add(toCreate);
+            context.Reviews.Add(toCreate);
             await context.SaveChangesAsync();
             return toCreate;
         }
         
 
-        public async Task<Review?> UpdateReview(int reviewId, int score, int productId,int userId,  string title, string description)
+        public async Task<Review?> UpdateReview(Review toUpdate, CancellationToken cancellationToken=default)
         {
-            var review = await context.Review.FirstOrDefaultAsync(r => r.Id == reviewId);
+            var review = await context.Reviews.FirstOrDefaultAsync(r => r.Id == toUpdate.Id, cancellationToken);
             if (review is null) return review;
-        
-            review.Title = title;
-            review.Score = score;
-            review.ProductId = productId;
-            review.UserId = userId;
-            review.Description = description;
-            await context.SaveChangesAsync();
+
+            review.Title = toUpdate.Title;
+            review.Score = toUpdate.Score;
+            review.Product = toUpdate.Product;
+            review.User = toUpdate.User;
+            review.Description = toUpdate.Description;
+            await context.SaveChangesAsync(cancellationToken);
         
             return review;
         }
 
-        public async Task<Review?> DeleteReview(int reviewId)
+        public async Task<Review?> DeleteReview(int reviewId, CancellationToken cancellationToken=default)
         {
-            var review = context.Review
+            var review = context.Reviews
                 .FirstOrDefault(r => r.Id == reviewId);
 
             if (review is null) return null;
         
-            context.Review.Remove(review);
+            context.Reviews.Remove(review);
 
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(cancellationToken);
             return review;
         }
     }

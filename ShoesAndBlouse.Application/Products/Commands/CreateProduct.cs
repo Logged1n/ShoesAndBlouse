@@ -1,11 +1,14 @@
 ﻿using MediatR;
-using ShoesAndBlouse.Domain.Entities.Product;
+using ShoesAndBlouse.Domain.Entities;
+using ShoesAndBlouse.Domain.ValueObjects;
 
 namespace ShoesAndBlouse.Application.Products.Commands;
 
-public sealed record CreateProduct : IRequest<Product>
+public record CreateProduct : IRequest<Product>
 {
-    public string? Name { get; set; }
-    public string? Description { get; set; }
-    public Money? Price { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public Money Price { get; set; } = new("zl", 299.99m);
+    public List<string> Categories {get; set;} = [];
+    public string PhotoPath {get; set;} = string.Empty;
 }

@@ -1,27 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using ShoesAndBlouse.Domain.Entities;
-using ShoesAndBlouse.Domain.Entities.Product;
 
 namespace ShoesAndBlouse.Infrastructure.Data;
 
 public class PostgresDbContext : DbContext
 {
-    protected readonly IConfiguration Configuration;
+    public PostgresDbContext(DbContextOptions<PostgresDbContext> options) : base(options)
+    { }
     
-    public PostgresDbContext(IConfiguration configuration)
-    {
-        Configuration = configuration;
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-    {
-        options.UseNpgsql(Configuration.GetConnectionString("Default"));
-    }
-
-    public DbSet<Product> Product { get; set; }
-    public DbSet<Review> Review { get; set; }
-    public DbSet<User> User { get; set; }
-    public DbSet<Category> Category { get; set; }
+    public DbSet<Product> Products { get; set; }
+    public DbSet<Review> Reviews { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<Category> Categories { get; set; }
     //Add DbSets here
 }

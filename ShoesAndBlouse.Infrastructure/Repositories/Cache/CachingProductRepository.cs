@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using Microsoft.Extensions.Caching.Distributed;
-using ShoesAndBlouse.Application.Abstractions;
-using ShoesAndBlouse.Domain.Entities.Product;
+using ShoesAndBlouse.Domain.Entities;
+using ShoesAndBlouse.Domain.Interfaces;
 using ShoesAndBlouse.Infrastructure.Constants;
 
 namespace ShoesAndBlouse.Infrastructure.Repositories.Cache;
@@ -56,7 +56,7 @@ public sealed class CachingProductRepository : IProductRepository
         return await _decorated.UpdateProduct(toUpdate, cancellationToken);
     }
 
-    public async Task<Product?> DeleteProduct(int productId, CancellationToken cancellationToken = default)
+    public async Task<bool> DeleteProduct(int productId, CancellationToken cancellationToken = default)
     {
         return await _decorated.DeleteProduct(productId, cancellationToken);
     }
