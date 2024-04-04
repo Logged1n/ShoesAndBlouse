@@ -7,20 +7,20 @@ namespace ShoesAndBlouse.Infrastructure.Repositories;
 
     public class ReviewRepository(PostgresDbContext context) : IReviewRepository
     {
-        public async Task<ICollection<Review>> GetAll()
+        public async Task<ICollection<Review>> GetAll(CancellationToken cancellationToken)
         {
-            return await context.Reviews.ToListAsync();
+            return await context.Reviews.ToListAsync(cancellationToken);
         }
 
-        public async Task<Review?> GetReviewById(int reviewId)
+        public async Task<Review?> GetReviewById(int reviewId, CancellationToken cancellationToken)
         {
-            return await context.Reviews.FirstOrDefaultAsync(r => r.Id == reviewId);
+            return await context.Reviews.FirstOrDefaultAsync(r => r.Id == reviewId, cancellationToken);
         }
 
         public async Task<Review> CreateReview(Review toCreate, CancellationToken cancellationToken=default)
         {
             context.Reviews.Add(toCreate);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(cancellationToken);
             return toCreate;
         }
         
@@ -40,16 +40,16 @@ namespace ShoesAndBlouse.Infrastructure.Repositories;
             return review;
         }
 
-        public async Task<Review?> DeleteReview(int reviewId, CancellationToken cancellationToken=default)
+        public async Task<bool> DeleteReview(int reviewId, CancellationToken cancellationToken=default)
         {
             var review = context.Reviews
                 .FirstOrDefault(r => r.Id == reviewId);
 
-            if (review is null) return null;
+            if (review is null) return false;
         
             context.Reviews.Remove(review);
 
             await context.SaveChangesAsync(cancellationToken);
-            return review;
+            return true;
         }
     }

@@ -1,3 +1,4 @@
+using System.Collections;
 using Microsoft.EntityFrameworkCore;
 using ShoesAndBlouse.Domain.Entities;
 using ShoesAndBlouse.Domain.Interfaces;
@@ -7,20 +8,20 @@ namespace ShoesAndBlouse.Infrastructure.Repositories;
 
 public class CategoryRepository(PostgresDbContext context) : ICategoryRepository
 {
-    public async Task<ICollection<Category>> GetAll()
+    public async Task<ICollection<Category>> GetAll(CancellationToken cancellationToken)
     {
-        return await context.Categories.ToListAsync();
+        return await context.Categories.ToListAsync(cancellationToken);
     }
 
-    public async Task<Category?> GetCategoryById(int categoryId)
+    public async Task<Category?> GetCategoryById(int categoryId, CancellationToken cancellationToken)
     {
-        return await context.Categories.FirstOrDefaultAsync(c => c.Id == categoryId);
+        return await context.Categories.FirstOrDefaultAsync(c => c.Id == categoryId, cancellationToken);
     }
 
     public async Task<Category> CreateCategory(Category toCreate, CancellationToken cancellationToken=default)
     {
         context.Categories.Add(toCreate);
-        await context.SaveChangesAsync();
+        await context.SaveChangesAsync(cancellationToken);
         return toCreate;
     }
 
@@ -30,32 +31,34 @@ public class CategoryRepository(PostgresDbContext context) : ICategoryRepository
         if (category is null) return category;
 
         category.Name = toUpdate.Name;
-        await context.SaveChangesAsync();
+        await context.SaveChangesAsync(cancellationToken);
         
         return category;
     }
 
-    public async Task<Category?> DeleteCategory(int categoryId, CancellationToken cancellationToken=default)
+    public async Task<bool> DeleteCategory(int categoryId, CancellationToken cancellationToken=default)
     {
         var category = context.Categories
             .FirstOrDefault(c => c.Id == categoryId);
 
-        if (category is null) return null;
+        if (category is null) return false;
         
         context.Categories.Remove(category);
 
-        await context.SaveChangesAsync();
-        return category;
+        await context.SaveChangesAsync(cancellationToken);
+        return true;
     }
 
-    public Task<Category?> GetCategoryByName(string categoryName, CancellationToken cancellationToken = default)
+    public async Task<Category?> GetCategoryByName(string categoryName, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return await context.Categories.FirstOrDefaultAsync(c => c.Name == categoryName, cancellationToken);
     }
 
     public Task<ICollection<Category>> GetCategoriesByNames(List<string> categoryNames, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return await context.Categories
+            .Where(category => categoryNames.Contains(category.Name))
+            .ToListAsync(cancellationToken);
     }
 }
 
