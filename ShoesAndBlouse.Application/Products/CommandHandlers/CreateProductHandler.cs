@@ -5,18 +5,18 @@ using ShoesAndBlouse.Domain.Interfaces;
 
 namespace ShoesAndBlouse.Application.Products.CommandHandlers;
 
-public class CreateProductHandler(IProductRepository productRepository) : IRequestHandler<CreateProduct, Product>
+public class CreateProductHandler(IProductRepository productRepository, ICategoryRepository categoryRepository) : IRequestHandler<CreateProduct, Product>
 {
     public async Task<Product> Handle(CreateProduct request, CancellationToken cancellationToken)
     {
-        //var categories = await categoryRepository.GetCategoriesByNames(request.CategoryNames, cancellationToken);
+        var categories = await categoryRepository.GetCategoriesByNames(request.CategoryNames, cancellationToken);
         
         var product = new Product
         {
             Name = request.Name,
             Description = request.Description,
             Price = request.Price,
-            //Category = categories,
+            Category = categories,
             PhotoPath = request.PhotoPath,
         };
 
