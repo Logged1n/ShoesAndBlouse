@@ -9,12 +9,14 @@ public class CreateProductHandler(IProductRepository productRepository) : IReque
 {
     public async Task<Product> Handle(CreateProduct request, CancellationToken cancellationToken)
     {
+        //var categories = await categoryRepository.GetCategoriesByNames(request.CategoryNames, cancellationToken);
+        
         var product = new Product
         {
             Name = request.Name,
             Description = request.Description,
             Price = request.Price,
-            //Categories = await categoryRepository.GetCategoryByName(request.Categories, cancellationToken), // TODO GetCategoriesByNames Command
+            //Category = categories,
             PhotoPath = request.PhotoPath,
         };
 

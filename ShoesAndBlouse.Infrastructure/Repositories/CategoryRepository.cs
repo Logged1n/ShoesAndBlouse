@@ -53,7 +53,7 @@ public class CategoryRepository(PostgresDbContext context) : ICategoryRepository
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Category?>> GetCategoriesByNames(List<string> categoryNames, CancellationToken cancellationToken = default)
+    public Task<ICollection<Category>> GetCategoriesByNames(List<string> categoryNames, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

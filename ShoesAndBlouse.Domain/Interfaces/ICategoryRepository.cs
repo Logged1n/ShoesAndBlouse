@@ -11,6 +11,6 @@ public interface ICategoryRepository
     Task<Category?> DeleteCategory(int productId, CancellationToken cancellationToken = default);
     Task<Category?> GetCategoryByName(string categoryName, CancellationToken cancellationToken = default);
 
-    Task<IEnumerable<Category?>> GetCategoriesByNames(List<string> categoryNames,
+    Task<ICollection<Category>> GetCategoriesByNames(List<string> categoryNames,
         CancellationToken cancellationToken = default);
 }
