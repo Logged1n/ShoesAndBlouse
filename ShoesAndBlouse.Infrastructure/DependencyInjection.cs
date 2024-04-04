@@ -12,6 +12,7 @@ namespace ShoesAndBlouse.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
             
             services.AddMediatR(cfg => 
                 cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
