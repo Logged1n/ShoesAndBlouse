@@ -9,8 +9,8 @@ namespace ShoesAndBlouse.Infrastructure.Data;
 public class PostgresDbContext : DbContext
 {
     protected readonly IConfiguration Configuration;
-    
-    public PostgresDbContext(IConfiguration configuration)
+
+    public PostgresDbContext(DbContextOptions<PostgresDbContext> options, IConfiguration configuration) : base(options)
     {
         Configuration = configuration;
     }

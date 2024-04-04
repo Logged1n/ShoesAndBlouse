@@ -13,7 +13,9 @@ public class CreateProductHandler(IProductRepository productRepository) : IReque
         {
             Name = request.Name,
             Description = request.Description,
-            Price = request.Price
+            Price = request.Price,
+            Category = request.Categories,
+            PhotoPath = request.PhotoPath,
         };
 
         return await productRepository.CreateProduct(product, cancellationToken);

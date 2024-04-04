@@ -9,12 +9,12 @@ public class ProductRepository(PostgresDbContext context) : IProductRepository
 {
     public async Task<ICollection<Product>> GetAll(CancellationToken cancellationToken = default)
     {
-        return await context.Product.ToListAsync(cancellationToken: cancellationToken);
+        return await context.Product.ToListAsync(cancellationToken);
     }
 
     public async Task<Product?> GetProductById(int productId, CancellationToken cancellationToken = default)
     {
-        return await context.Product.FirstOrDefaultAsync(p => p.Id == productId, cancellationToken: cancellationToken);
+        return await context.Product.FirstOrDefaultAsync(p => p.Id == productId, cancellationToken);
     }
 
     public async Task<Product> CreateProduct(Product toCreate, CancellationToken cancellationToken = default)
@@ -26,14 +26,17 @@ public class ProductRepository(PostgresDbContext context) : IProductRepository
 
     public async Task<Product> UpdateProduct(Product toUpdate, CancellationToken cancellationToken = default)
     {
-        var product = await context.Product.FirstOrDefaultAsync(p => p.Id == toUpdate.Id, cancellationToken: cancellationToken);
+        var product = await context.Product.FirstOrDefaultAsync(p => p.Id == toUpdate.Id, cancellationToken);
 
         if (product is null)
             return await CreateProduct(toUpdate, cancellationToken); //or error
         
         product.Name = toUpdate.Name;
         product.Description = toUpdate.Description;
-        product.Price = toUpdate.Price; 
+        product.Price = toUpdate.Price;
+        product.Category = toUpdate.Category;
+        product.PhotoPath = toUpdate.PhotoPath;
+
         await context.SaveChangesAsync(cancellationToken);
         
         return product;
