@@ -7,13 +7,13 @@ namespace ShoesAndBlouse.Infrastructure.Repositories;
 
 public class UserRepository(PostgresDbContext context) : IUserRepository
 {
-    public async Task<ICollection<User>> GetAll()
+    public async Task<ICollection<User>> GetAll(CancellationToken cancellationToken)
     {
-        return await context.Users.ToListAsync();
+        return await context.Users.ToListAsync(cancellationToken);
     }
-    public async Task<User?> GetUserById(int userId)
+    public async Task<User?> GetUserById(int userId, CancellationToken cancellationToken)
     {
-        return await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        return await context.Users.FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
     }
 
     public async Task<User> CreateUser(User toCreate, CancellationToken cancellationToken=default)
@@ -39,16 +39,16 @@ public class UserRepository(PostgresDbContext context) : IUserRepository
         return user;
     }
 
-    public async Task<User?> DeleteUser(int userId, CancellationToken cancellationToken=default)
+    public async Task<bool> DeleteUser(int userId, CancellationToken cancellationToken=default)
     {
         var user = context.Users
             .FirstOrDefault(u => u.Id == userId);
 
-        if (user is null) return null;
+        if (user is null) return false;
         
         context.Users.Remove(user);
 
         await context.SaveChangesAsync(cancellationToken);
-        return user;
+        return true;
     }
 }
