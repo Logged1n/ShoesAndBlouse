@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using ShoesAndBlouse.Domain.Entities;
-using ShoesAndBlouse.Domain.Entities.Product;
+using ShoesAndBlouse.Domain.ValueObjects;
 
 namespace ShoesAndBlouse.Application.Products.Commands
 {

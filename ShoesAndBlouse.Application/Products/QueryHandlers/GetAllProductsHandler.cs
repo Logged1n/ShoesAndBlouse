@@ -1,7 +1,7 @@
 ﻿using MediatR;
-using ShoesAndBlouse.Application.Abstractions;
 using ShoesAndBlouse.Application.Products.Queries;
-using ShoesAndBlouse.Domain.Entities.Product;
+using ShoesAndBlouse.Domain.Entities;
+using ShoesAndBlouse.Domain.Interfaces;
 
 namespace ShoesAndBlouse.Application.Products.QueryHandlers;
 

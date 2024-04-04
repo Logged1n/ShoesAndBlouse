@@ -1,7 +1,6 @@
 using ShoesAndBlouse.Domain.Entities;
-using ShoesAndBlouse.Domain.Entities.User;
 
-namespace ShoesAndBlouse.Application.Abstractions
+namespace ShoesAndBlouse.Domain.Interfaces
 {
     public interface IUserRepository
     {

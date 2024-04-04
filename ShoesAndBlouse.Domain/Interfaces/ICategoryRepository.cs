@@ -1,6 +1,6 @@
 using ShoesAndBlouse.Domain.Entities;
 
-namespace ShoesAndBlouse.Application.Abstractions;
+namespace ShoesAndBlouse.Domain.Interfaces;
 
 public interface ICategoryRepository
 {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ShoesAndBlouse.Application.Abstractions;
-using ShoesAndBlouse.Domain.Entities.Product;
+using ShoesAndBlouse.Domain.Entities;
+using ShoesAndBlouse.Domain.Interfaces;
 using ShoesAndBlouse.Infrastructure.Data;
 
 namespace ShoesAndBlouse.Infrastructure.Repositories;
@@ -34,7 +34,7 @@ public class ProductRepository(PostgresDbContext context) : IProductRepository
         product.Name = toUpdate.Name;
         product.Description = toUpdate.Description;
         product.Price = toUpdate.Price;
-        product.Categories = toUpdate.Categories;
+        product.Category = toUpdate.Category;
         product.PhotoPath = toUpdate.PhotoPath;
 
         await context.SaveChangesAsync(cancellationToken);

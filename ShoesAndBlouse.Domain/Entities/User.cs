@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using ShoesAndBlouse.Domain.ValueObjects;
 
-namespace ShoesAndBlouse.Domain.Entities.User;
+namespace ShoesAndBlouse.Domain.Entities;
 
 public sealed class User
 {

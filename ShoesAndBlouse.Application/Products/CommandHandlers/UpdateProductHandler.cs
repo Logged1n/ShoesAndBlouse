@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using ShoesAndBlouse.Application.Abstractions;
 using ShoesAndBlouse.Application.Products.Commands;
+using ShoesAndBlouse.Domain.Interfaces;
 
 namespace ShoesAndBlouse.Application.Products.CommandHandlers
 {
@@ -31,7 +31,7 @@ namespace ShoesAndBlouse.Application.Products.CommandHandlers
                 existingProduct.Price = request.Price;
 
             if (request.Category is not null)
-                existingProduct.Categories = request.Category;
+                existingProduct.Category = request.Category;
 
             if (request.PhotoPath is not null)
                 existingProduct.PhotoPath = request.PhotoPath;

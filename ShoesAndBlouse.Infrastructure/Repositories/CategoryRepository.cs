@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using ShoesAndBlouse.Application.Abstractions;
 using ShoesAndBlouse.Domain.Entities;
+using ShoesAndBlouse.Domain.Interfaces;
 using ShoesAndBlouse.Infrastructure.Data;
 
 namespace ShoesAndBlouse.Infrastructure.Repositories;

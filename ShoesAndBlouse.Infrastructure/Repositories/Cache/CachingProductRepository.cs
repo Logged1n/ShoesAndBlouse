@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using Microsoft.Extensions.Caching.Distributed;
-using ShoesAndBlouse.Application.Abstractions;
-using ShoesAndBlouse.Domain.Entities.Product;
+using ShoesAndBlouse.Domain.Entities;
+using ShoesAndBlouse.Domain.Interfaces;
 using ShoesAndBlouse.Infrastructure.Constants;
 
 namespace ShoesAndBlouse.Infrastructure.Repositories.Cache;

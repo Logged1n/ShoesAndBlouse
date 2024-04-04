@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using ShoesAndBlouse.Application.Abstractions;
 using ShoesAndBlouse.Application.Products.Commands;
+using ShoesAndBlouse.Domain.Interfaces;
 
 namespace ShoesAndBlouse.Application.Products.CommandHandlers;
 

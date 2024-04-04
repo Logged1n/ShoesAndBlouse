@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using ShoesAndBlouse.Application.Abstractions;
 using ShoesAndBlouse.Domain.Entities;
+using ShoesAndBlouse.Domain.Interfaces;
 using ShoesAndBlouse.Infrastructure.Data;
 
 namespace ShoesAndBlouse.Infrastructure.Repositories;
@@ -32,8 +32,8 @@ namespace ShoesAndBlouse.Infrastructure.Repositories;
 
             review.Title = toUpdate.Title;
             review.Score = toUpdate.Score;
-            review.ProductId = toUpdate.ProductId;
-            review.UserId = toUpdate.UserId;
+            review.Product = toUpdate.Product;
+            review.User = toUpdate.User;
             review.Description = toUpdate.Description;
             await context.SaveChangesAsync(cancellationToken);
         

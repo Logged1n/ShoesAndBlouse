@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShoesAndBlouse.Domain.Entities;
-using ShoesAndBlouse.Domain.Entities.Product;
-using ShoesAndBlouse.Domain.Entities.User;
 
 namespace ShoesAndBlouse.Infrastructure.Data;
 
