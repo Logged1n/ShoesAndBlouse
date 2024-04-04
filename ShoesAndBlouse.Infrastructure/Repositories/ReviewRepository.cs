@@ -9,17 +9,17 @@ namespace ShoesAndBlouse.Infrastructure.Repositories;
     {
         public async Task<ICollection<Review>> GetAll()
         {
-            return await context.Review.ToListAsync();
+            return await context.Reviews.ToListAsync();
         }
 
         public async Task<Review?> GetReviewById(int reviewId)
         {
-            return await context.Review.FirstOrDefaultAsync(r => r.Id == reviewId);
+            return await context.Reviews.FirstOrDefaultAsync(r => r.Id == reviewId);
         }
 
         public async Task<Review> CreateReview(Review toCreate, CancellationToken cancellationToken=default)
         {
-            context.Review.Add(toCreate);
+            context.Reviews.Add(toCreate);
             await context.SaveChangesAsync();
             return toCreate;
         }
@@ -27,7 +27,7 @@ namespace ShoesAndBlouse.Infrastructure.Repositories;
 
         public async Task<Review?> UpdateReview(Review toUpdate, CancellationToken cancellationToken=default)
         {
-            var review = await context.Review.FirstOrDefaultAsync(r => r.Id == toUpdate.Id, cancellationToken);
+            var review = await context.Reviews.FirstOrDefaultAsync(r => r.Id == toUpdate.Id, cancellationToken);
             if (review is null) return review;
 
             review.Title = toUpdate.Title;
@@ -42,12 +42,12 @@ namespace ShoesAndBlouse.Infrastructure.Repositories;
 
         public async Task<Review?> DeleteReview(int reviewId, CancellationToken cancellationToken=default)
         {
-            var review = context.Review
+            var review = context.Reviews
                 .FirstOrDefault(r => r.Id == reviewId);
 
             if (review is null) return null;
         
-            context.Review.Remove(review);
+            context.Reviews.Remove(review);
 
             await context.SaveChangesAsync(cancellationToken);
             return review;

@@ -31,7 +31,7 @@ namespace ShoesAndBlouse.Application.Products.CommandHandlers
                 existingProduct.Price = request.Price;
 
             if (request.Category is not null)
-                existingProduct.Category = request.Category;
+                existingProduct.Categories = request.Category;
 
             if (request.PhotoPath is not null)
                 existingProduct.PhotoPath = request.PhotoPath;

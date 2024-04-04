@@ -14,7 +14,7 @@ public class CreateProductHandler(IProductRepository productRepository) : IReque
             Name = request.Name,
             Description = request.Description,
             Price = request.Price,
-            Category = request.Categories,
+            //Categories = await categoryRepository.GetCategoryByName(request.Categories, cancellationToken), // TODO GetCategoriesByNames Command
             PhotoPath = request.PhotoPath,
         };
 

@@ -9,23 +9,23 @@ public class UserRepository(PostgresDbContext context) : IUserRepository
 {
     public async Task<ICollection<User>> GetAll()
     {
-        return await context.User.ToListAsync();
+        return await context.Users.ToListAsync();
     }
     public async Task<User?> GetUserById(int userId)
     {
-        return await context.User.FirstOrDefaultAsync(u => u.Id == userId);
+        return await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
     }
 
     public async Task<User> CreateUser(User toCreate, CancellationToken cancellationToken=default)
     {
-        context.User.Add(toCreate);
+        context.Users.Add(toCreate);
         await context.SaveChangesAsync(cancellationToken);
         return toCreate;
     }
 
     public async Task<User?> UpdateUser(User toUpdate, CancellationToken cancellationToken=default)
     {
-        var user = await context.User.FirstOrDefaultAsync(u => u.Id == toUpdate.Id, cancellationToken);
+        var user = await context.Users.FirstOrDefaultAsync(u => u.Id == toUpdate.Id, cancellationToken);
         if (user is null)
         {
             return await CreateUser(toUpdate, cancellationToken);
@@ -41,12 +41,12 @@ public class UserRepository(PostgresDbContext context) : IUserRepository
 
     public async Task<User?> DeleteUser(int userId, CancellationToken cancellationToken=default)
     {
-        var user = context.User
+        var user = context.Users
             .FirstOrDefault(u => u.Id == userId);
 
         if (user is null) return null;
         
-        context.User.Remove(user);
+        context.Users.Remove(user);
 
         await context.SaveChangesAsync(cancellationToken);
         return user;

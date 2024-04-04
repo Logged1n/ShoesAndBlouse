@@ -41,7 +41,7 @@ public class ProductController : ControllerBase
     {
         var result = await _mediator.Send(new DeleteProduct(productId));
 
-        if (result) return NoContent();
+        if (result) return Ok();
         return NotFound();
     }
 

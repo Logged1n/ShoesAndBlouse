@@ -1,9 +1,6 @@
-using Microsoft.EntityFrameworkCore;
 using ShoesAndBlouse.Application;
-using ShoesAndBlouse.Application.Abstractions;
 using ShoesAndBlouse.Infrastructure;
-using ShoesAndBlouse.Infrastructure.Data;
-using ShoesAndBlouse.Infrastructure.Repositories.Cache;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,22 +12,17 @@ builder.Services.AddSwaggerGen();
 //Clean Architecture Setup
 builder.Services
     .AddApplication()
-    .AddInfrastructure();
+    .AddInfrastructure(builder.Configuration);
 
 //Decorator pattern for Caching repositories
-builder.Services.Decorate<IProductRepository, CachingProductRepository>();
+//builder.Services.Decorate<IProductRepository, CachingProductRepository>();
 
 //Redis Caching setup
-builder.Services.AddStackExchangeRedisCache(redisOptions =>
-{
-    var connection = builder.Configuration.GetConnectionString("Redis");
-    redisOptions.Configuration = connection;
-});
-
-//Postgres Database setup
-var cs = builder.Configuration.GetConnectionString("Default");
-builder.Services.AddDbContext<PostgresDbContext>(opt => opt.UseNpgsql(cs));
-
+//builder.Services.AddStackExchangeRedisCache(redisOptions =>
+//{
+ //   var connection = builder.Configuration.GetConnectionString("Redis");
+ //   redisOptions.Configuration = connection;
+//});
 //Enable Controllers
 builder.Services.AddControllers();
 
@@ -43,7 +35,7 @@ if (app.Environment.IsDevelopment())
 }
 //Comment out only for docker usage
 app.UseHttpsRedirection();
-
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();

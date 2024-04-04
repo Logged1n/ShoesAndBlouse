@@ -7,12 +7,12 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        var assembly = typeof(DependencyInjection).Assembly;
+        var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
         services.AddMediatR(configuration =>
-            configuration.RegisterServicesFromAssembly(assembly));
+            configuration.RegisterServicesFromAssemblies(assemblies));
 
-        services.AddValidatorsFromAssembly(assembly);
+        services.AddValidatorsFromAssemblies(assemblies);
 
         return services;
     }
