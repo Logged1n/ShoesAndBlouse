@@ -1,7 +1,6 @@
 using ShoesAndBlouse.Application;
 using ShoesAndBlouse.Infrastructure;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

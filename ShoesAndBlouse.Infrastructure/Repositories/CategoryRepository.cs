@@ -54,7 +54,7 @@ public class CategoryRepository(PostgresDbContext context) : ICategoryRepository
         return await context.Categories.FirstOrDefaultAsync(c => c.Name == categoryName, cancellationToken);
     }
 
-    public async Task<ICollection<Category>> GetCategoriesByNames(List<string> categoryNames, CancellationToken cancellationToken = default)
+    public Task<ICollection<Category>> GetCategoriesByNames(List<string> categoryNames, CancellationToken cancellationToken = default)
     {
         return await context.Categories
             .Where(category => categoryNames.Contains(category.Name))
