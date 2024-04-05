@@ -9,48 +9,48 @@ public class ProductRepository(PostgresDbContext context) : IProductRepository
 {
     public async Task<ICollection<Product>> GetAll(CancellationToken cancellationToken = default)
     {
-        return await context.Products.ToListAsync(cancellationToken);
+        return await context.Products.ToListAsync(cancellationToken); // Return list of all products from database
     }
 
     public async Task<Product?> GetProductById(int productId, CancellationToken cancellationToken = default)
     {
-        return await context.Products.FirstOrDefaultAsync(p => p.Id == productId, cancellationToken);
+        return await context.Products.FirstOrDefaultAsync(p => p.Id == productId, cancellationToken); // return first found product with provided Id
     }
 
     public async Task<Product> CreateProduct(Product toCreate, CancellationToken cancellationToken = default)
     {
-        context.Products.Add(toCreate);
-        await context.SaveChangesAsync(cancellationToken);
-        return toCreate;
+        context.Products.Add(toCreate); //Add product
+        await context.SaveChangesAsync(cancellationToken); // Save changes to database
+        return toCreate; // return saved product
     }
 
-    public async Task<Product> UpdateProduct(Product toUpdate, CancellationToken cancellationToken = default)
+    public async Task<bool> UpdateProduct(Product toUpdate, CancellationToken cancellationToken = default)
     {
-        var product = await context.Products.FirstOrDefaultAsync(p => p.Id == toUpdate.Id, cancellationToken);
+        var product = await context.Products.FirstOrDefaultAsync(p => p.Id == toUpdate.Id, cancellationToken); // Find product to update
 
         if (product is null)
-            return await CreateProduct(toUpdate, cancellationToken); //or error
-        
-        product.Name = toUpdate.Name;
+            return false; //If it was not found
+        //else set new Product Props
+        product.Name = toUpdate.Name; 
         product.Description = toUpdate.Description;
         product.Price = toUpdate.Price;
-        product.Category = toUpdate.Category;
+        product.Categories = toUpdate.Categories;
         product.PhotoPath = toUpdate.PhotoPath;
 
-        await context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken); // save changes to database
         
-        return product;
+        return true; // update succeeded!
     }
 
     public async Task<bool> DeleteProduct(int productId, CancellationToken cancellationToken = default)
     {
-        var product = context.Products.FirstOrDefault(p => p.Id == productId);
+        var product = context.Products.FirstOrDefault(p => p.Id == productId); // find the product
 
-        if (product is null) return false;
+        if (product is null) return false; // if it was not found delete failed
         
-        context.Products.Remove(product);
-        await context.SaveChangesAsync(cancellationToken);
+        context.Products.Remove(product);  // else remove it
+        await context.SaveChangesAsync(cancellationToken); // and save changes to databse
         
-        return true;
+        return true; // delete succeeded!
     }
 }

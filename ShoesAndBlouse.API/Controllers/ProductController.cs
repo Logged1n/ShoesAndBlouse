@@ -45,21 +45,15 @@ public class ProductController : ControllerBase
         return NotFound();
     }
 
-    [HttpPatch("UpdateProduct/{productId}")]
-    public async Task<IActionResult> UpdateProduct(int productId, [FromBody] UpdateProduct command)
+    [HttpPatch("UpdateProduct")]
+    public async Task<IActionResult> UpdateProduct([FromBody] UpdateProduct command)
     {
-        if (productId != command.ProductId)
-        {
-            return BadRequest(); // Zwracamy BadRequest (400), jeśli identyfikator produktu w ścieżce URL nie zgadza się z identyfikatorem w ciele żądania.
-        }
-
         var result = await _mediator.Send(command);
 
         if (result)
-            return NoContent(); // Zwracamy NoContent (204) jeśli produkt został pomyślnie zaktualizowany.
+            return Ok();
         else
-            return NotFound(); // Zwracamy NotFound (404) jeśli produkt o podanym identyfikatorze nie został znaleziony.
-
+            return NotFound(); // Return NotFound (404) if product was not found.
     }
     
 }

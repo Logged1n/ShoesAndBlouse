@@ -10,5 +10,7 @@ public sealed class User
     public string Name { get; set; } = string.Empty;
     public string Surname { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
-    public Address Address { get; set; } = new Address("New York", "15-151", "USA", "123456789");
+    public Address Address { get; set; }
+    public List<Order> Orders { get; set; }
+    public List<Review> Reviews { get; set; }
 }
