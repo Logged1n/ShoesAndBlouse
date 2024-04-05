@@ -9,17 +9,18 @@ public class CreateProductHandler(IProductRepository productRepository, ICategor
 {
     public async Task<Product> Handle(CreateProduct request, CancellationToken cancellationToken)
     {
+        //Get List of Categories form categoryRepository
         var categories = await categoryRepository.GetCategoriesByNames(request.CategoryNames, cancellationToken);
-        
+         //Create new product based on request
         var product = new Product
         {
             Name = request.Name,
             Description = request.Description,
             Price = request.Price,
-            Category = categories,
+            Categories = categories,
             PhotoPath = request.PhotoPath,
         };
-
+        //Save it in database
         return await productRepository.CreateProduct(product, cancellationToken);
     }
 }
