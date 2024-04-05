@@ -7,10 +7,12 @@ namespace ShoesAndBlouse.Application.Products.CommandHandlers
     public class UpdateProductHandler : IRequestHandler<UpdateProduct, bool>
     {
         private readonly IProductRepository _productRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public UpdateProductHandler(IProductRepository productRepository)
+        public UpdateProductHandler(IProductRepository productRepository, ICategoryRepository categoryRepository)
         {
             _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<bool> Handle(UpdateProduct request, CancellationToken cancellationToken)
@@ -18,9 +20,9 @@ namespace ShoesAndBlouse.Application.Products.CommandHandlers
             var existingProduct = await _productRepository.GetProductById(request.ProductId, cancellationToken);
 
             if (existingProduct is null)
-                return false; // Produkt nie istnieje, zwracamy false.
+                return false; // Product does not exist - return false, there is nothing to update
 
-            // Aktualizacja danych produktu na podstawie danych przekazanych w UpdateProductCommand.
+            // Update Product data
             if (request.Name is not null)
                 existingProduct.Name = request.Name;
 
@@ -31,14 +33,14 @@ namespace ShoesAndBlouse.Application.Products.CommandHandlers
                 existingProduct.Price = request.Price;
 
             if (request.Category is not null)
-                existingProduct.Category = request.Category;
+                existingProduct.Categories = await _categoryRepository.GetCategoriesByNames(request.Category, cancellationToken); // get the categories from categoryRepository
 
             if (request.PhotoPath is not null)
                 existingProduct.PhotoPath = request.PhotoPath;
 
-            await _productRepository.UpdateProduct(existingProduct, cancellationToken); // Aktualizacja produktu w repozytorium.
+            await _productRepository.UpdateProduct(existingProduct, cancellationToken); // Update it in repository
 
-            return true; // Zwracamy true, jeśli produkt został pomyślnie zaktualizowany.
+            return true; // Update succeeded!
         }
     }
 }

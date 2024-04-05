@@ -14,7 +14,7 @@ namespace ShoesAndBlouse.Tests.Domain.Entities
             {
                 Id = 1,
                 Name = "Test Category",
-                Product = [new Product { Id = 1, Name = "Test Product", Description = "Test Description", Price = new Money("zl", 299.99m) }]
+                Products = [new Product { Id = 1, Name = "Test Product", Description = "Test Description", Price = new Money("zl", 299.99m) }]
             };
 
             // Act
@@ -38,7 +38,7 @@ namespace ShoesAndBlouse.Tests.Domain.Entities
             {
                 Id = 1,
                 Name = invalidName,
-                Product = [new Product { Id = 1, Name = "Test Product", Description = "Test Description", Price = new Money("zl", 299.99m) }]
+                Products = [new Product { Id = 1, Name = "Test Product", Description = "Test Description", Price = new Money("zl", 299.99m) }]
             };
 
             // Act

@@ -51,7 +51,7 @@ public sealed class CachingProductRepository : IProductRepository
         return await _decorated.CreateProduct(toCreate, cancellationToken);
     }
 
-    public async Task<Product> UpdateProduct(Product toUpdate, CancellationToken cancellationToken = default)
+    public async Task<bool> UpdateProduct(Product toUpdate, CancellationToken cancellationToken = default)
     {
         return await _decorated.UpdateProduct(toUpdate, cancellationToken);
     }

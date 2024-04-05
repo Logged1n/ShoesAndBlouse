@@ -12,7 +12,7 @@ public class CreateCategoryHandler(ICategoryRepository categoryRepository) : IRe
         var category = new Category
         {
             Name = request.Name,
-            Product = request.Products,
+            Products = request.Products,
         };
         return await categoryRepository.CreateCategory(category, cancellationToken);
     }

@@ -22,6 +22,7 @@ builder.Services
  //   var connection = builder.Configuration.GetConnectionString("Redis");
  //   redisOptions.Configuration = connection;
 //});
+
 //Enable Controllers
 builder.Services.AddControllers();
 
@@ -34,7 +35,13 @@ if (app.Environment.IsDevelopment())
 }
 //Comment out only for docker usage
 app.UseHttpsRedirection();
+
+//Session Setup
+app.UseAuthentication();
 app.UseAuthorization();
+app.UseSession();
+
+//Setup Controllers
 app.MapControllers();
 
 app.Run();

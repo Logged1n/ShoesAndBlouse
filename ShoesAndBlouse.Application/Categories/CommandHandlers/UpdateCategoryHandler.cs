@@ -23,7 +23,7 @@ public class UpdateCategoryHandler : IRequestHandler<UpdateCategory, bool>
         if (request.Name is not null)
             existingCategory.Name = request.Name;
         if (request.Product is not null)
-            existingCategory.Product = request.Product;
+            existingCategory.Products = request.Product;
 
         await _categoryRepository.UpdateCategory(existingCategory, cancellationToken);
 
