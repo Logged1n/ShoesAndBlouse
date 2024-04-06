@@ -5,9 +5,9 @@ using ShoesAndBlouse.Domain.Interfaces;
 
 namespace ShoesAndBlouse.Application.Categories.QueryHandlers;
 
-public class GetCategoryByIdHandler(ICategoryRepository categoryRepository) : IRequestHandler<GetCategoryById, Category?>
+public class GetCategoryByIdQueryHandler(ICategoryRepository categoryRepository) : IRequestHandler<GetCategoryByIdQuery, Category?>
 {
-    public async Task<Category?> Handle(GetCategoryById request, CancellationToken cancellationToken)
+    public async Task<Category?> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
     {
         return await categoryRepository.GetCategoryById(request.categoryId, cancellationToken);
     }

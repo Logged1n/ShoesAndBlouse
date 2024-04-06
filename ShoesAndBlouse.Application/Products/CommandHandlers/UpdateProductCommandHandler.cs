@@ -4,18 +4,18 @@ using ShoesAndBlouse.Domain.Interfaces;
 
 namespace ShoesAndBlouse.Application.Products.CommandHandlers
 {
-    public class UpdateProductHandler : IRequestHandler<UpdateProduct, bool>
+    public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, bool>
     {
         private readonly IProductRepository _productRepository;
         private readonly ICategoryRepository _categoryRepository;
 
-        public UpdateProductHandler(IProductRepository productRepository, ICategoryRepository categoryRepository)
+        public UpdateProductCommandHandler(IProductRepository productRepository, ICategoryRepository categoryRepository)
         {
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<bool> Handle(UpdateProduct request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
             var existingProduct = await _productRepository.GetProductById(request.ProductId, cancellationToken);
 

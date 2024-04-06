@@ -11,7 +11,6 @@ public class PostgresDbContextFactory : IDesignTimeDbContextFactory<PostgresDbCo
     //(Error while validating the service descriptor 'ServiceType: MediatR.IRequestHandler`2[ShoesAndBlouse.Application.Products.Commands.CreateProduct,ShoesAndBlouse.Domain.Entities.Product] Lifetime:
     //Transient ImplementationType: ShoesAndBlouse.Application.Products.CommandHandlers.CreateProductHandler':
    // Unable to resolve service for type 'ShoesAndBlouse.Domain.Interfaces.ICategoryRepository' while attempting to activate 'ShoesAndBlouse.Application.Products.CommandHandlers.CreateProductHandler'.)"
-   //TODO fix it; it is caused by CategoryRepository
 
     public PostgresDbContext CreateDbContext(string[] args)
     {

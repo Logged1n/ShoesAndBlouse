@@ -2,7 +2,7 @@ using MediatR;
 
 namespace ShoesAndBlouse.Application.Categories.Commands;
 
-public sealed record DeleteCategory(int categoryId) : IRequest<bool>
+public sealed record DeleteCategoryCommand(int categoryId) : IRequest<bool>
 {
     
 }

@@ -1,7 +1,11 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ShoesAndBlouse.API.Validators.Product;
 using ShoesAndBlouse.Application.Products.Commands;
 using ShoesAndBlouse.Application.Products.Queries;
+using ShoesAndBlouse.Domain.Entities;
 
 namespace ShoesAndBlouse.API.Controllers;
 
@@ -16,38 +20,47 @@ public class ProductController : ControllerBase
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
     }
 
-    [HttpGet("GetProductById/{productId}")]
-    public async Task<IActionResult> GetProductById(int productId)
+    [HttpGet("GetById/{productId}")]
+    public async Task<IActionResult> GetById(int productId)
     {
-        return Ok(await _mediator.Send(new GetProductById { Id = productId}));
+        return Ok(await _mediator.Send(new GetProductByIdQuery { Id = productId}));
     }
 
-    [HttpGet("GetAllProducts")]
-    public async Task<IActionResult> GetAllProducts()
+    [HttpGet("GetAll")]
+    public async Task<IActionResult> GetAll()
     {
-        var products = await _mediator.Send(new GetAllProducts());
+        var products = await _mediator.Send(new GetAllProductsQuery());
         return Ok(products);
     }
 
-    [HttpPost("CreateProduct")]
-    public async Task<IActionResult> CreateProduct([FromBody] CreateProduct command)
+    [HttpPost("Create")]
+    public async Task<IActionResult> Create([FromBody] CreateProductCommand command)
     {
-        await _mediator.Send(command);
-        return Created();
+        ValidationResult validationResult = await new CreateProductCommandValidator().ValidateAsync(command);
+        if (!validationResult.IsValid)
+            return BadRequest(validationResult.Errors);
+        
+        var product = await _mediator.Send(command);
+        
+        return CreatedAtAction(nameof(GetById), new { id= product.Id}, product);
     }
 
-    [HttpDelete("DeleteProduct/{productId}")]
-    public async Task<IActionResult> DeleteProduct(int productId)
+    [HttpDelete("Delete/{productId}")]
+    public async Task<IActionResult> Delete(int productId)
     {
-        var result = await _mediator.Send(new DeleteProduct(productId));
+        var result = await _mediator.Send(new DeleteProductCommand(productId));
 
         if (result) return Ok();
         return NotFound();
     }
 
-    [HttpPatch("UpdateProduct")]
-    public async Task<IActionResult> UpdateProduct([FromBody] UpdateProduct command)
+    [HttpPatch("Update")]
+    public async Task<IActionResult> Update([FromBody] UpdateProductCommand command)
     {
+        var validationResult = await new UpdateProductCommandValidator().ValidateAsync(command);
+        if (!validationResult.IsValid)
+            return BadRequest(validationResult.Errors);
+        
         var result = await _mediator.Send(command);
 
         if (result)

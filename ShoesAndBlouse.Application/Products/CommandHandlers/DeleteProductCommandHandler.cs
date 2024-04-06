@@ -4,15 +4,15 @@ using ShoesAndBlouse.Domain.Interfaces;
 
 namespace ShoesAndBlouse.Application.Products.CommandHandlers;
 
-public class DeleteProductHandler : IRequestHandler<DeleteProduct, bool>
+public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand, bool>
 {
     private readonly IProductRepository _productRepository;
-    public DeleteProductHandler(IProductRepository productRepository)
+    public DeleteProductCommandHandler(IProductRepository productRepository)
     {
         _productRepository = productRepository;
     }
     
-    public async Task<bool> Handle(DeleteProduct request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
     {
         //Find the product in repository
         var productToDelete = await _productRepository.GetProductById(request.productId, cancellationToken);
