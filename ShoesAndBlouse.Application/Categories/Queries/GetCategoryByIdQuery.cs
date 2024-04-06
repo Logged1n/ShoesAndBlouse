@@ -3,7 +3,7 @@ using ShoesAndBlouse.Domain.Entities;
 
 namespace ShoesAndBlouse.Application.Categories.Queries;
 
-public sealed record GetCategoryByName : IRequest<Category?>
+public sealed record GetCategoryByIdQuery : IRequest<Category?>
 {
-    public string Name { get; set; } = string.Empty;
+    public int categoryId { get; set; }
 }
