@@ -4,7 +4,7 @@ using ShoesAndBlouse.Domain.ValueObjects;
 
 namespace ShoesAndBlouse.Application.Products.Commands;
 
-public record CreateProduct : IRequest<Product>
+public record CreateProductCommand : IRequest<Product>
 {
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;

@@ -4,16 +4,16 @@ using ShoesAndBlouse.Domain.Interfaces;
 
 namespace ShoesAndBlouse.Application.Categories.CommandHandlers;
 
-public class UpdateCategoryHandler : IRequestHandler<UpdateCategory, bool>
+public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryCommand, bool>
 {
     private readonly ICategoryRepository _categoryRepository;
 
-    public UpdateCategoryHandler(ICategoryRepository categoryRepository)
+    public UpdateCategoryCommandHandler(ICategoryRepository categoryRepository)
     {
         _categoryRepository = categoryRepository;
     }
 
-    public async Task<bool> Handle(UpdateCategory request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
     {
         var existingCategory = await _categoryRepository.GetCategoryById(request.CategoryId, cancellationToken);
 

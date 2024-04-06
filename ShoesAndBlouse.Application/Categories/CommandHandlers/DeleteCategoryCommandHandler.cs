@@ -5,16 +5,16 @@ using ShoesAndBlouse.Domain.Entities;
 
 namespace ShoesAndBlouse.Application.Categories.CommandHandlers;
 
-public class DeleteCategoryHandler : IRequestHandler<DeleteCategory, bool>
+public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand, bool>
 {
     private readonly ICategoryRepository _categoryRepository;
 
-    public DeleteCategoryHandler(ICategoryRepository categoryRepository)
+    public DeleteCategoryCommandHandler(ICategoryRepository categoryRepository)
     {
         _categoryRepository = categoryRepository;
     }
 
-    public async Task<bool> Handle(DeleteCategory request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
     {
         var categoryToDelete = await _categoryRepository.GetCategoryById(request.categoryId, cancellationToken);
 

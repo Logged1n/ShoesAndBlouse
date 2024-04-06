@@ -19,18 +19,18 @@ public class ProductController : ControllerBase
     [HttpGet("GetProductById/{productId}")]
     public async Task<IActionResult> GetProductById(int productId)
     {
-        return Ok(await _mediator.Send(new GetProductById { Id = productId}));
+        return Ok(await _mediator.Send(new GetProductByIdQuery { Id = productId}));
     }
 
     [HttpGet("GetAllProducts")]
     public async Task<IActionResult> GetAllProducts()
     {
-        var products = await _mediator.Send(new GetAllProducts());
+        var products = await _mediator.Send(new GetAllProductsQuery());
         return Ok(products);
     }
 
     [HttpPost("CreateProduct")]
-    public async Task<IActionResult> CreateProduct([FromBody] CreateProduct command)
+    public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommand command)
     {
         await _mediator.Send(command);
         return Created();
@@ -39,14 +39,14 @@ public class ProductController : ControllerBase
     [HttpDelete("DeleteProduct/{productId}")]
     public async Task<IActionResult> DeleteProduct(int productId)
     {
-        var result = await _mediator.Send(new DeleteProduct(productId));
+        var result = await _mediator.Send(new DeleteProductCommand(productId));
 
         if (result) return Ok();
         return NotFound();
     }
 
     [HttpPatch("UpdateProduct")]
-    public async Task<IActionResult> UpdateProduct([FromBody] UpdateProduct command)
+    public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductCommand command)
     {
         var result = await _mediator.Send(command);
 

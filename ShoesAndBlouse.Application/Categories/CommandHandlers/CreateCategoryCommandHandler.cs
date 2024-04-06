@@ -5,9 +5,9 @@ using ShoesAndBlouse.Domain.Entities;
 
 namespace ShoesAndBlouse.Application.Categories.CommandHandlers;
 
-public class CreateCategoryHandler(ICategoryRepository categoryRepository) : IRequestHandler<CreateCategory, Category>
+public class CreateCategoryCommandHandler(ICategoryRepository categoryRepository) : IRequestHandler<CreateCategoryCommand, Category>
 {
-    public async Task<Category> Handle(CreateCategory request, CancellationToken cancellationToken)
+    public async Task<Category> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
     {
         var category = new Category
         {

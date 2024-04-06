@@ -5,9 +5,9 @@ using ShoesAndBlouse.Domain.Interfaces;
 
 namespace ShoesAndBlouse.Application.Products.CommandHandlers;
 
-public class CreateProductHandler(IProductRepository productRepository, ICategoryRepository categoryRepository) : IRequestHandler<CreateProduct, Product>
+public class CreateProductCommandHandler(IProductRepository productRepository, ICategoryRepository categoryRepository) : IRequestHandler<CreateProductCommand, Product>
 {
-    public async Task<Product> Handle(CreateProduct request, CancellationToken cancellationToken)
+    public async Task<Product> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
         //Get List of Categories form categoryRepository
         var categories = await categoryRepository.GetCategoriesByNames(request.CategoryNames, cancellationToken);
