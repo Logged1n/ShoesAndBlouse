@@ -14,7 +14,8 @@ public class ProductRepository(PostgresDbContext context) : IProductRepository
 
     public async Task<Product?> GetProductById(int productId, CancellationToken cancellationToken = default)
     {
-        return await context.Products.FirstOrDefaultAsync(p => p.Id == productId, cancellationToken); // return first found product with provided Id
+        var product = await context.Products.FirstOrDefaultAsync(p => p.Id == productId, cancellationToken);
+        return product ; // return first found product with provided Id
     }
 
     public async Task<Product> CreateProduct(Product toCreate, CancellationToken cancellationToken = default)

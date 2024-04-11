@@ -40,7 +40,7 @@
 .upperHamburger {
     width: 1.5rem;
     height: 0.125rem;
-    background-color: var(--clr-neutral-400);
+    background-color: #000;
     transform-origin: 0 0;
     transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
 }
@@ -48,7 +48,7 @@
 .bottomHamburger {
     width: 1rem;
     height: 0.125rem;
-    background-color: var(--clr-neutral-400);
+    background-color: #000;
     transform-origin: 0 100%;
     transition: all 0.5s ease;
 }
@@ -56,7 +56,7 @@
 .mobileActive > .hamburgerWrapper > span {
     opacity: 1;
     transform: rotate(45deg) translate(-0.1325rem, -0.125rem);
-    background: var(--clr-neutral-400);
+    background: #000;
 }
 
 .mobileActive > .hamburgerWrapper > .upperHamburger {
