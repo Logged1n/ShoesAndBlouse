@@ -7,7 +7,7 @@ public enum OrderStatus
     Shipped,
     Arrived,
     Collected,
-    Returning,
     Completed,
+    Returning,
     Cancelled
 }

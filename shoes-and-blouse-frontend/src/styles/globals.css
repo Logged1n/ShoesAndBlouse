@@ -4,7 +4,7 @@
   --clr-primary-400-semi-transparent: hsla(222.09, 78.82%, 50%, 0.5);
   --clr-accent-400: hsla(251.94, 78.82%, 50%, 1);
   --clr-accent-400-semi-transparent: hsla(251.94, 78.82%, 50%, 0.5);
-  --clr-accent-100: hsla(191.94, 78.82%, 50%, 1);
+  --clr-accent-100: #FFFFFF;
   --clr-accent-100-semi-transparent: hsla(191.94, 78.82%, 50%, 0.5) ;
 
   /* Font weights */

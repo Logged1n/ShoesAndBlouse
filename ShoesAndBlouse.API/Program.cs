@@ -1,5 +1,6 @@
 using ShoesAndBlouse.Application;
 using ShoesAndBlouse.Infrastructure;
+using ShoesAndBlouse.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,9 +33,10 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.ApplyMigrations();
 }
 //Comment out only for docker usage
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 //Session Setup
 app.UseAuthentication();
