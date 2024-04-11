@@ -1,11 +1,10 @@
-﻿using FluentValidation;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ShoesAndBlouse.API.Validators.Product;
 using ShoesAndBlouse.Application.Products.Commands;
 using ShoesAndBlouse.Application.Products.Queries;
-using ShoesAndBlouse.Domain.Entities;
+
 
 namespace ShoesAndBlouse.API.Controllers;
 
@@ -23,7 +22,11 @@ public class ProductController : ControllerBase
     [HttpGet("GetById/{productId}")]
     public async Task<IActionResult> GetById(int productId)
     {
-        return Ok(await _mediator.Send(new GetProductByIdQuery { Id = productId}));
+        var product = await _mediator.Send(new GetProductByIdQuery { Id = productId });
+        if (product is null)
+            return NotFound();
+        
+        return Ok(product);
     }
 
     [HttpGet("GetAll")]
@@ -42,7 +45,7 @@ public class ProductController : ControllerBase
         
         var product = await _mediator.Send(command);
         
-        return CreatedAtAction(nameof(GetById), new { id= product.Id}, product);
+        return CreatedAtAction(nameof(GetById), new { id = product.Id}, product);
     }
 
     [HttpDelete("Delete/{productId}")]
