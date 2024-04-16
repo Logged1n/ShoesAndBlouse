@@ -15,7 +15,7 @@ public class PostgresDbContextFactory : IDesignTimeDbContextFactory<PostgresDbCo
     public PostgresDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<PostgresDbContext>();
-        optionsBuilder.UseNpgsql("Host=host.docker.internal;Port=5432;Database=ShoesAndBlouse;Username=postgres;Password=admin");
+        optionsBuilder.UseNpgsql("Host=host.docker.internal;Port=5432;Database=ShoesAndBlouse;User Id=postgres;Password=admin");
 
         return new PostgresDbContext(optionsBuilder.Options);
     }

@@ -29,7 +29,7 @@ namespace ShoesAndBlouse.Infrastructure
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
-            //Setup ClaimsIdentity Authenticatio
+            //Setup ClaimsIdentity Authentication
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = true;
