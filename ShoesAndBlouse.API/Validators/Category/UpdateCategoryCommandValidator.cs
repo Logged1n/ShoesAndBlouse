@@ -17,11 +17,11 @@ public class UpdateCategoryCommandValidator : AbstractValidator<UpdateCategoryCo
                 .MaximumLength(100).WithMessage("Category name cannot exceed 100 characters");
         });
 
-        When(x => x.Product != null && x.Product.Count != 0, () =>
+        When(x => x.Products != null && x.Products.Count != 0, () =>
         {
-            RuleFor(x => x.Product)
-                .NotNull().When(x => x.Product != null).WithMessage("Lista produktów nie może być pusta.")
-                .Must(x => x != null && x.Count != 0).When(x => x.Product != null).WithMessage("Lista produktów nie może być pusta.");
+            RuleFor(x => x.Products)
+                .NotNull().When(x => x.Products != null).WithMessage("Lista produktów nie może być pusta.")
+                .Must(x => x != null && x.Count != 0).When(x => x.Products != null).WithMessage("Lista produktów nie może być pusta.");
 
         });
     }

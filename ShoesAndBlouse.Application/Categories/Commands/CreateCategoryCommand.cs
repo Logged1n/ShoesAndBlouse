@@ -6,5 +6,5 @@ namespace ShoesAndBlouse.Application.Categories.Commands;
 public record CreateCategoryCommand : IRequest<Category>
 {
     public string Name { get; set; } = string.Empty;
-    public List<Product> Products { get; set; } = [];
+    public List<int> Products { get; set; } = [];
 }
