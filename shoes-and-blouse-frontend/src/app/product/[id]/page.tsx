@@ -3,7 +3,7 @@ import axios from "axios";
 //calls the .NET api for a specific product data
 async function GetProduct(id: string) {
     try {
-        const { data } = await axios.get(`${process.env.API_URL}/v1/product/GetById/${id}`);
+        const { data } = await axios.get(`${process.env.API_URL}/api/v1/product/GetById/${id}`);
         return data;
     }
     catch(error)
