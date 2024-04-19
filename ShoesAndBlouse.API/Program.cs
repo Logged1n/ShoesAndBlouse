@@ -22,7 +22,7 @@ builder.Services.AddControllers();
 //TODO DI
 builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
 builder.Services.AddAuthorizationBuilder();
-builder.Services.AddIdentityCore<User>()
+builder.Services.AddIdentityCore<IdentityUser>()
     .AddEntityFrameworkStores<PostgresDbContext>()
     .AddApiEndpoints();
 
@@ -32,14 +32,14 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    //app.ApplyMigrations(); //TODO handle errors
+    app.ApplyMigrations(); //TODO handle errors
 }
 //Comment out only for docker usage
 //app.UseHttpsRedirection();
 
 
 //Setup Controllers
-app.MapIdentityApi<User>();
+app.MapIdentityApi<IdentityUser>();
 app.MapControllers();
 
 app.Run();
