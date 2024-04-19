@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
-using ShoesAndBlouse.Domain.ValueObjects;
+using Microsoft.AspNetCore.Identity;
 
 namespace ShoesAndBlouse.Domain.Entities;
 
-public sealed class User
+public sealed class  User : IdentityUser
 {
     [Key]
     public int Id { get; set; }

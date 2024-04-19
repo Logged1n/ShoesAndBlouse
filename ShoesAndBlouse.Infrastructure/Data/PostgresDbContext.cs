@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ShoesAndBlouse.Domain.Entities;
 
 namespace ShoesAndBlouse.Infrastructure.Data;
 
-public class PostgresDbContext : IdentityDbContext
+public class PostgresDbContext : IdentityDbContext<IdentityUser>
 {
     public PostgresDbContext(DbContextOptions<PostgresDbContext> options) : base(options)
     { }
