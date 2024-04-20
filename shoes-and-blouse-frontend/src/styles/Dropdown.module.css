@@ -1,14 +1,18 @@
 .container button{
     /* TODO COLORS */
     padding:10px 15px;
-    border:none;
     cursor:pointer;
+    width: 230px;
+    border:none;
+    background-color: #d3ffc1;
+}
+.container button:hover{
+    background-color: #ade899;
 }
 .contents{
     display: block;
-    color:black;
+    color: #ffffff;
     text-decoration:none;
-    padding: 10px 15px;
 }
 .container .contents{
     display:none;
