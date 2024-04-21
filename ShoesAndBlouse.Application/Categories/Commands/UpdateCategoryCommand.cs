@@ -6,5 +6,5 @@ public class UpdateCategoryCommand : IRequest<bool>
 {
     public int CategoryId { get; set; }
     public string? Name { get; set; }
-    public List<Product>? Product { get; set; }
+    public List<int>? Products { get; set; }
 }

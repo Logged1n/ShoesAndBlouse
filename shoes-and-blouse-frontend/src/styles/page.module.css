@@ -6,7 +6,6 @@
   padding: 6rem;
   min-height: 100vh;
 }
-
 .description {
   display: inherit;
   justify-content: inherit;
@@ -33,7 +32,6 @@
   border: 1px solid rgba(var(--callout-border-rgb), 0.3);
   border-radius: var(--border-radius);
 }
-
 .code {
   font-weight: 700;
   font-family: var(--font-mono);
@@ -55,7 +53,9 @@
           background 200ms,
           border 200ms;
 }
-
+.dropdown{
+  display:flex;
+}
 .card span {
   display: inline-block;
   transition: transform 200ms;
@@ -73,7 +73,13 @@
   line-height: 1.5;
   max-width: 30ch;
 }
-
+.text{
+  margin: auto;
+  background-color: #f6ffc3;
+  width: 500px;
+  height: 500px;
+  text-align: center;
+}
 .center {
   display: flex;
   justify-content: center;
