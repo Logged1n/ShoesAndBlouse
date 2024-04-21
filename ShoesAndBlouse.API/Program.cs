@@ -1,6 +1,9 @@
-using ShoesAndBlouse.Application;
-using ShoesAndBlouse.Infrastructure;
+using Microsoft.AspNetCore.Identity;
 using ShoesAndBlouse.API.Extensions;
+using ShoesAndBlouse.Application;
+using ShoesAndBlouse.Domain.Entities;
+using ShoesAndBlouse.Infrastructure;
+using ShoesAndBlouse.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,18 +17,14 @@ builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
 
-//Decorator pattern for Caching repositories
-//builder.Services.Decorate<IProductRepository, CachingProductRepository>();
-
-//Redis Caching setup
-//builder.Services.AddStackExchangeRedisCache(redisOptions =>
-//{
- //   var connection = builder.Configuration.GetConnectionString("Redis");
- //   redisOptions.Configuration = connection;
-//});
-
 //Enable Controllers
 builder.Services.AddControllers();
+//TODO DI
+builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
+builder.Services.AddAuthorizationBuilder();
+builder.Services.AddIdentityCore<IdentityUser>()
+    .AddEntityFrameworkStores<PostgresDbContext>()
+    .AddApiEndpoints();
 
 var app = builder.Build();
 
@@ -33,17 +32,14 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.ApplyMigrations();
+    app.ApplyMigrations(); //TODO handle errors
 }
 //Comment out only for docker usage
 //app.UseHttpsRedirection();
 
-//Session Setup
-app.UseAuthentication();
-app.UseAuthorization();
-app.UseSession();
 
 //Setup Controllers
+app.MapIdentityApi<IdentityUser>();
 app.MapControllers();
 
 app.Run();

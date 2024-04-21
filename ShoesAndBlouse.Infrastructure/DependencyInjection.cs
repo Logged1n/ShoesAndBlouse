@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ShoesAndBlouse.Domain.Interfaces;
@@ -21,26 +20,9 @@ namespace ShoesAndBlouse.Infrastructure
             //Add DbContext
             services.AddDbContext<PostgresDbContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("Postgres")));
+            
             //Setup Session Management
             services.AddDistributedMemoryCache();
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromMinutes(20);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
-            });
-            //Setup ClaimsIdentity Authentication
-            services.AddIdentity<IdentityUser, IdentityRole>(options =>
-            {
-                options.SignIn.RequireConfirmedAccount = true;
-                options.Password.RequireDigit = false;
-                options.Password.RequiredLength = 6;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireLowercase = false;
-            }).AddEntityFrameworkStores<PostgresDbContext>()
-            .AddDefaultTokenProviders();;
-            
             return services;
         }
     }
