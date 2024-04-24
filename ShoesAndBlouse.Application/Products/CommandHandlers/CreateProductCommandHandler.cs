@@ -9,18 +9,27 @@ public class CreateProductCommandHandler(IProductRepository productRepository, I
 {
     public async Task<Product> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
-        //Get List of Categories form categoryRepository
-        var categories = await categoryRepository.GetCategoriesByNames(request.CategoryNames, cancellationToken);
-         //Create new product based on request
         var product = new Product
         {
             Name = request.Name,
             Description = request.Description,
             Price = request.Price,
-            Categories = categories,
-            PhotoPath = request.PhotoPath,
+            PhotoPath = request.PhotoPath
         };
-        //Save it in database
-        return await productRepository.CreateProduct(product, cancellationToken);
+
+        foreach (var categoryId in request.CategoryIds)
+        {
+            var category = await categoryRepository.GetCategoryById(categoryId, cancellationToken);
+            if (category is not null)
+            {
+                product.Categories.Add(category);
+                category.Products.Add(product);
+                await categoryRepository.UpdateCategory(category, cancellationToken);
+            }
+                
+        }
+
+        await productRepository.CreateProduct(product, cancellationToken);
+        return product;
     }
 }

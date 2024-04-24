@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using ShoesAndBlouse.API.Validators.Product;
 using ShoesAndBlouse.Application.Products.Commands;
 using ShoesAndBlouse.Application.Products.Queries;
+using ShoesAndBlouse.Domain.Entities;
 
 
 namespace ShoesAndBlouse.API.Controllers;
@@ -20,7 +21,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("GetById/{productId}")]
-    public async Task<IActionResult> GetById(int productId)
+    public async Task<ActionResult<Product>> GetById(int productId)
     {
         var product = await _mediator.Send(new GetProductByIdQuery { Id = productId });
         if (product is null)
@@ -30,7 +31,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("GetAll")]
-    public async Task<IActionResult> GetAll()
+    public async Task<ActionResult<List<Product>>> GetAll()
     {
         var products = await _mediator.Send(new GetAllProductsQuery());
         return Ok(products);
@@ -45,7 +46,7 @@ public class ProductController : ControllerBase
         
         var product = await _mediator.Send(command);
         
-        return CreatedAtAction(nameof(GetById), new { id = product.Id}, product);
+        return Ok(product);
     }
 
     [HttpDelete("Delete/{productId}")]

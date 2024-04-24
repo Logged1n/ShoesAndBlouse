@@ -14,8 +14,8 @@ services:
     ports:
       - "5000:5000"
       - "5001:5001"
-    networks: 
-      - postgres-network
+    #networks: 
+    #  - postgres-network
     volumes:
       - ./shoesandblouse-api-data/:/var/lib/api/
         
@@ -26,14 +26,15 @@ services:
       - POSTGRES_DB=ShoesAndBlouse
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=admin
+      - HOS
     ports:
       - "5432:5432"
-    networks:
-      - postgres-network
+    #networks:
+     # - postgres-network
     restart: always
     volumes:
       - ./db-data/:/var/lib/postgresql/data/
 
-networks:
-  postgres-network:
-    driver: bridge
+#networks:
+  #postgres-network:
+    #driver: bridge

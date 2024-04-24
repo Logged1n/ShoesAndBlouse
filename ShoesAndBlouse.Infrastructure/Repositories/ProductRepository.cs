@@ -14,7 +14,7 @@ public class ProductRepository(PostgresDbContext context) : IProductRepository
 
     public async Task<Product?> GetProductById(int productId, CancellationToken cancellationToken = default)
     {
-        var product = await context.Products.FirstOrDefaultAsync(p => p.Id == productId, cancellationToken);
+        var product = await context.Products.FindAsync(productId, cancellationToken);
         return product ; // return first found product with provided Id
     }
 
@@ -32,12 +32,12 @@ public class ProductRepository(PostgresDbContext context) : IProductRepository
         if (product is null)
             return false; //If it was not found
         //else set new Product Props
-        product.Name = toUpdate.Name; 
-        product.Description = toUpdate.Description;
-        product.Price = toUpdate.Price;
-        product.Categories = toUpdate.Categories;
-        product.PhotoPath = toUpdate.PhotoPath;
-
+        //product.Name = toUpdate.Name; 
+        //product.Description = toUpdate.Description;
+        //product.Price = toUpdate.Price;
+        //product.Categories = toUpdate.Categories;
+        //product.PhotoPath = toUpdate.PhotoPath;
+        context.Products.Update(toUpdate);
         await context.SaveChangesAsync(cancellationToken); // save changes to database
         
         return true; // update succeeded!
