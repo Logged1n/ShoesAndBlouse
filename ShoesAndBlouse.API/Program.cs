@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Identity;
-using ShoesAndBlouse.API.Converters;
 using ShoesAndBlouse.API.Extensions;
 using ShoesAndBlouse.Application;
 using ShoesAndBlouse.Infrastructure;
@@ -19,10 +18,10 @@ builder.Services
 
 //Enable Controllers
 builder.Services.AddControllers()
+    //dont wrap response with $id and $values
     .AddJsonOptions(options =>
     {
-        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
-        options.JsonSerializerOptions.Converters.Add(new ProductDtoJsonConverter());
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
     });
 //TODO DI
 builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
@@ -37,7 +36,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    //app.ApplyMigrations(); //TODO handle errors
+    app.ApplyMigrations(); //TODO handle errors
 }
 //Comment out only for docker usage
 //app.UseHttpsRedirection();
