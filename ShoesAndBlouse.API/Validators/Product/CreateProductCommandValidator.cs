@@ -20,8 +20,8 @@ namespace ShoesAndBlouse.API.Validators.Product;
                 .NotNull().WithMessage("Product price is required.")
                 .SetValidator(new MoneyValidator()); // Validation for the Price property using the appropriate validator
 
-            RuleFor(x => x.CategoryNames)
-                .Must(c => c != null && c.Count != 0).WithMessage("Product must be assigned to at least one category.");
+            //RuleFor(x => x.CategoryIds)
+                //.Must(c => c != null && c.Count != 0).WithMessage("Product must be assigned to at least one category.");
 
             RuleFor(x => x.PhotoPath)
                 .NotEmpty().WithMessage("Product photo path is required.");

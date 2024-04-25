@@ -33,11 +33,11 @@ public class UpdateProductCommandValidator : AbstractValidator<UpdateProductComm
                     new MoneyValidator()!); // Validation for the Price property using the appropriate validator
         });
 
-        When(x => x.Category != null && x.Category.Count != 0, () =>
-        {
-            RuleFor(x => x.Category)
-                .Must(c => c != null && c.All(cat => !string.IsNullOrEmpty(cat))).WithMessage("Category names cannot be empty.");
-        });
+        //When(x => x.Category != null && x.Category.Count != 0, () =>
+        //{
+        //    RuleFor(x => x.Category)
+       //         .Must(c => c != null && c.All(cat => !string.IsNullOrEmpty(cat))).WithMessage("Category names cannot be empty.");
+       // });
 
         When(x => !string.IsNullOrEmpty(x.PhotoPath), () =>
         {

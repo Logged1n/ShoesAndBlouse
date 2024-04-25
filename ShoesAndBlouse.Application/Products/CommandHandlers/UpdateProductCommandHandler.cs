@@ -32,8 +32,20 @@ namespace ShoesAndBlouse.Application.Products.CommandHandlers
             if (request.Price is not null)
                 existingProduct.Price = request.Price;
 
-            if (request.Category is not null)
-                existingProduct.Categories = await _categoryRepository.GetCategoriesByNames(request.Category, cancellationToken); // get the categories from categoryRepository
+            if (request.CategoryIds is not null)
+            {
+                existingProduct.Categories.Clear();
+                foreach (var categoryId in request.CategoryIds)
+                {
+                    var category = await _categoryRepository.GetCategoryById(categoryId, cancellationToken);
+                    if (category is not null)
+                    {
+                        existingProduct.Categories.Add(category);
+                        category.Products.Add(existingProduct);
+                    }
+                    
+                }
+            }
 
             if (request.PhotoPath is not null)
                 existingProduct.PhotoPath = request.PhotoPath;

@@ -10,7 +10,7 @@ namespace ShoesAndBlouse.Application.Products.Commands
         public string? Name { get; set; }
         public string? Description { get; set; }
         public Money? Price { get; set; }
-        public List<string>? Category { get; set; }
+        public List<int>? CategoryIds { get; set; }
         public string? PhotoPath { get; set; }
     }
 }

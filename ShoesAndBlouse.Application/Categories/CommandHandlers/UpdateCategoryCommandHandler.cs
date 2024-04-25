@@ -1,6 +1,5 @@
 using MediatR;
 using ShoesAndBlouse.Application.Categories.Commands;
-using ShoesAndBlouse.Application.Categories.Queries;
 using ShoesAndBlouse.Domain.Interfaces;
 using ShoesAndBlouse.Domain.Entities;
 
@@ -24,27 +23,23 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
         if (existingCategory is null)
             return false;
 
-        var category = new Category
+        if (request.Name is not null)
+            existingCategory.Name = request.Name;
+        if (request.Products is not null)
         {
-            Name = request.Name,
-            Products = new List<Product>(),
-        };
-        if (category.Name is not null)
-            existingCategory.Name = category.Name;
-        
-        foreach (var productId in category.Products)
-        {
-            var product = await _productRepository.GetProductById(Convert.ToInt32(productId), cancellationToken);
-            if (product != null)
+            List<Product> newProducts = [];
+            foreach (var prodId in request.Products)
             {
-                category.Products.Add(product);
+                var product = await _productRepository.GetProductById(prodId, cancellationToken);
+                if (product is not null)
+                {
+                    product.Categories.Add(existingCategory);
+                    newProducts.Add(product);
+                }
             }
+            existingCategory.Products = newProducts;
+            return true;
         }
-        if (category.Products is not null)
-            existingCategory.Products = category.Products;
-
-        await _categoryRepository.UpdateCategory(existingCategory, cancellationToken);
-
-        return true;
+        return false;
     }
 }

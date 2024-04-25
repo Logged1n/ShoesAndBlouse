@@ -1,7 +1,7 @@
 import styles from "@/styles/page.module.css";
 import Dropdown from "../components/Dropdown";
 import Image from 'next/image';
-import homepage from ".//../../public/homepage.jpg";
+import homepage from "@/../public/homepage.jpg";
 import {Dancing_Script} from 'next/font/google';
 
 const font = Dancing_Script({
@@ -10,7 +10,7 @@ const font = Dancing_Script({
 })
 export default function Home() {
     return (
-        <div className={"container"}>
+        <div className={`${"container"}`}>
             <div className={styles.dropdown}>
                 <Dropdown category={"New"}>
                     <Dropdown category={"Shoes"}/>

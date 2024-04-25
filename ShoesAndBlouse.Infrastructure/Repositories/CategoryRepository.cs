@@ -1,4 +1,3 @@
-using System.Collections;
 using Microsoft.EntityFrameworkCore;
 using ShoesAndBlouse.Domain.Entities;
 using ShoesAndBlouse.Domain.Interfaces;
@@ -27,10 +26,10 @@ public class CategoryRepository(PostgresDbContext context) : ICategoryRepository
 
     public async Task<Category?> UpdateCategory(Category toUpdate, CancellationToken cancellationToken=default)
     {
-        var category = await context.Categories.FirstOrDefaultAsync(c => c.Id == toUpdate.Id);
+        var category = await context.Categories.FirstOrDefaultAsync(c => c.Id == toUpdate.Id, cancellationToken);
         if (category is null) return category;
 
-        category.Name = toUpdate.Name;
+        context.Categories.Update(toUpdate);
         await context.SaveChangesAsync(cancellationToken);
         
         return category;
@@ -44,7 +43,6 @@ public class CategoryRepository(PostgresDbContext context) : ICategoryRepository
         if (category is null) return false;
         
         context.Categories.Remove(category);
-
         await context.SaveChangesAsync(cancellationToken);
         return true;
     }
