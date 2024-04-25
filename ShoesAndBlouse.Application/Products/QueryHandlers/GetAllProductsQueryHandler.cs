@@ -1,14 +1,20 @@
 ﻿using MediatR;
+using ShoesAndBlouse.Application.DTOs;
+using ShoesAndBlouse.Application.Mappers;
 using ShoesAndBlouse.Application.Products.Queries;
-using ShoesAndBlouse.Domain.Entities;
 using ShoesAndBlouse.Domain.Interfaces;
 
 namespace ShoesAndBlouse.Application.Products.QueryHandlers;
 
-public class GetAllProductsQueryHandler(IProductRepository productRepository) : IRequestHandler<GetAllProductsQuery, IEnumerable<Product>>
+public class GetAllProductsQueryHandler(IProductRepository productRepository, ICategoryRepository categoryRepository) : IRequestHandler<GetAllProductsQuery, List<ProductDto>>
 {
-    public async Task<IEnumerable<Product>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
+    public async Task<List<ProductDto>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
     {
-        return await productRepository.GetAll(cancellationToken);
+        var products = await productRepository.GetAll(cancellationToken);
+        
+        //Map products to productDtos
+        var productDtos = ProductMapper.MapListToDto(products);
+        
+        return productDtos;
     }
 }

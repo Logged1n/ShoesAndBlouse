@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using ShoesAndBlouse.Domain.Entities;
+using ShoesAndBlouse.Application.DTOs;
 
 namespace ShoesAndBlouse.Application.Products.Queries;
 
-public sealed record GetProductByIdQuery : IRequest<Product?>
+public sealed record GetProductByIdQuery : IRequest<ProductDto>
 {
     public int Id { get; set; }
 }

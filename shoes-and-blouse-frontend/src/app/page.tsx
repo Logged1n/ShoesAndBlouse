@@ -1,7 +1,7 @@
 import styles from "@/styles/page.module.css";
 import Dropdown from "../components/Dropdown";
 import Image from 'next/image';
-import homepage from "@/../public/next.svg";
+import homepage from "@/../public/homepage.jpg";
 import {Dancing_Script} from 'next/font/google';
 
 const font = Dancing_Script({

@@ -2,10 +2,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ShoesAndBlouse.API.Validators.Product;
+using ShoesAndBlouse.Application.DTOs;
 using ShoesAndBlouse.Application.Products.Commands;
 using ShoesAndBlouse.Application.Products.Queries;
-using ShoesAndBlouse.Domain.Entities;
-
 
 namespace ShoesAndBlouse.API.Controllers;
 
@@ -21,7 +20,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("GetById/{productId}")]
-    public async Task<ActionResult<Product>> GetById(int productId)
+    public async Task<ActionResult<ProductDto>> GetById(int productId)
     {
         var product = await _mediator.Send(new GetProductByIdQuery { Id = productId });
         if (product is null)
@@ -31,7 +30,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("GetAll")]
-    public async Task<ActionResult<List<Product>>> GetAll()
+    public async Task<ActionResult<List<ProductDto>>> GetAll()
     {
         var products = await _mediator.Send(new GetAllProductsQuery());
         return Ok(products);
@@ -52,10 +51,9 @@ public class ProductController : ControllerBase
     [HttpDelete("Delete/{productId}")]
     public async Task<IActionResult> Delete(int productId)
     {
-        var result = await _mediator.Send(new DeleteProductCommand(productId));
+        await _mediator.Send(new DeleteProductCommand(productId));
 
-        if (result) return Ok();
-        return NotFound();
+        return Ok();
     }
 
     [HttpPatch("Update")]
