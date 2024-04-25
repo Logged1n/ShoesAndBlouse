@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ShoesAndBlouse.API.Validators.Product;
 using ShoesAndBlouse.Application.DTOs;
+using ShoesAndBlouse.Application.Mappers;
 using ShoesAndBlouse.Application.Products.Commands;
 using ShoesAndBlouse.Application.Products.Queries;
 
@@ -44,7 +45,7 @@ public class ProductController : ControllerBase
             return BadRequest(validationResult.Errors);
         
         var product = await _mediator.Send(command);
-        
+       
         return Ok(product);
     }
 
