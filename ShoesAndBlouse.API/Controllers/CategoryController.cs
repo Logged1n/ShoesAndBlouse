@@ -24,19 +24,7 @@ public class CategoryController : ControllerBase
     [HttpGet("GetById/{categoryId}")]
     public async Task<IActionResult> GetById(int categoryId)
     {
-        return Ok(await _mediator.Send(new GetCategoryByIdQuery { categoryId = categoryId }));
-    }
-
-    [HttpGet("GetByName/{categoryName}")]
-    public async Task<IActionResult> GetByName(string categoryName)
-    {
-        return Ok(await _mediator.Send(new GetCategoryByNameQuery { Name = categoryName }));
-    }
-    
-    [HttpGet("GetByNames")]
-    public async Task<IActionResult> GetByNames([FromBody] List<string> categoriesNames)
-    {
-        return Ok(await _mediator.Send(new GetCategoriesByNamesQuery { categoryNames = categoriesNames}));
+        return Ok(await _mediator.Send(new GetCategoryByIdQuery { Id = categoryId }));
     }
     
     [HttpGet("GetAll")]
@@ -60,10 +48,9 @@ public class CategoryController : ControllerBase
     [HttpDelete("Delete/{categoryId}")]
     public async Task<IActionResult> Delete(int categoryId)
     {
-        var result = await _mediator.Send(new DeleteCategoryCommand(categoryId));
+        await _mediator.Send(new DeleteCategoryCommand(categoryId));
 
-        if (result) return Ok();
-        return NotFound();
+        return Ok();
     }
 
     [HttpPatch("Update")]

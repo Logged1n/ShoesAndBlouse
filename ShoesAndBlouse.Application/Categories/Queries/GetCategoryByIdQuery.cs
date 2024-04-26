@@ -1,9 +1,9 @@
 using MediatR;
-using ShoesAndBlouse.Domain.Entities;
+using ShoesAndBlouse.Application.DTOs;
 
 namespace ShoesAndBlouse.Application.Categories.Queries;
 
-public sealed record GetCategoryByIdQuery : IRequest<Category?>
+public sealed record GetCategoryByIdQuery : IRequest<CategoryDto>
 {
-    public int categoryId { get; set; }
+    public int Id { get; set; }
 }

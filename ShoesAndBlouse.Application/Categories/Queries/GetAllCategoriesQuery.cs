@@ -1,5 +1,6 @@
 using MediatR;
-using ShoesAndBlouse.Domain.Entities;
+using ShoesAndBlouse.Application.DTOs;
+
 namespace ShoesAndBlouse.Application.Categories.Queries;
 
-public sealed record GetAllCategoriesQuery : IRequest<IEnumerable<Category>>;
+public sealed record GetAllCategoriesQuery : IRequest<List<CategoryDto>>;

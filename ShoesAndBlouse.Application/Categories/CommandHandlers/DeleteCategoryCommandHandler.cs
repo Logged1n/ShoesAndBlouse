@@ -1,11 +1,10 @@
 using MediatR;
 using ShoesAndBlouse.Application.Categories.Commands;
 using ShoesAndBlouse.Domain.Interfaces;
-using ShoesAndBlouse.Domain.Entities;
 
 namespace ShoesAndBlouse.Application.Categories.CommandHandlers;
 
-public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand, bool>
+public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand>
 {
     private readonly ICategoryRepository _categoryRepository;
 
@@ -14,15 +13,14 @@ public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryComman
         _categoryRepository = categoryRepository;
     }
 
-    public async Task<bool> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
+    public async Task Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
     {
         var categoryToDelete = await _categoryRepository.GetCategoryById(request.categoryId, cancellationToken);
 
         if (categoryToDelete is null)
-            return false;
+            return;
 
         await _categoryRepository.DeleteCategory(categoryToDelete.Id, cancellationToken);
-
-        return true;
+        
     }
 }
