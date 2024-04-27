@@ -10,7 +10,7 @@ public class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCo
               RuleFor(x => x.Name)
                      .NotEmpty().WithMessage("Category name is required.")
                      .MaximumLength(100).WithMessage("Category name cannot exceed 100 characters");
-              RuleFor(x => x.Products)
-                     .Must(p => p != null && p.Count != 0).WithMessage("Category must at least have one product");
+                     //RuleFor(x => x.Products)
+                     //.Must(p => p != null && p.Count != 0).WithMessage("Category must at least have one product");
        }
 }

@@ -25,21 +25,22 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
 
         if (request.Name is not null)
             existingCategory.Name = request.Name;
-        if (request.Products is not null)
+        if (request.ProductsIds is not null)
         {
-            List<Product> newProducts = [];
-            foreach (var prodId in request.Products)
+            existingCategory.Products.Clear();
+            foreach (var productId in request.ProductsIds)
             {
-                var product = await _productRepository.GetProductById(prodId, cancellationToken);
+                var product = await _productRepository.GetProductById(productId, cancellationToken);
                 if (product is not null)
                 {
+                    existingCategory.Products.Add(product);
                     product.Categories.Add(existingCategory);
-                    newProducts.Add(product);
                 }
             }
-            existingCategory.Products = newProducts;
-            return true;
         }
-        return false;
+
+        await _categoryRepository.UpdateCategory(existingCategory, cancellationToken);
+
+        return true;
     }
 }
