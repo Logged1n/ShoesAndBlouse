@@ -6,7 +6,7 @@ using ShoesAndBlouse.Domain.Interfaces;
 
 namespace ShoesAndBlouse.Application.Products.QueryHandlers;
 
-public class GetAllProductsQueryHandler(IProductRepository productRepository, ICategoryRepository categoryRepository) : IRequestHandler<GetAllProductsQuery, List<ProductDto>>
+public class GetAllProductsQueryHandler(IProductRepository productRepository) : IRequestHandler<GetAllProductsQuery, List<ProductDto>>
 {
     public async Task<List<ProductDto>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
     {

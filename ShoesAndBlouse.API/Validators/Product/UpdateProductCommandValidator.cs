@@ -39,10 +39,10 @@ public class UpdateProductCommandValidator : AbstractValidator<UpdateProductComm
        //         .Must(c => c != null && c.All(cat => !string.IsNullOrEmpty(cat))).WithMessage("Category names cannot be empty.");
        // });
 
-        When(x => !string.IsNullOrEmpty(x.PhotoPath), () =>
+        When(x => x.Photo != null, () =>
         {
-            RuleFor(x => x.PhotoPath)
-                .NotEmpty().WithMessage("Product photo path cannot be empty.");
+            RuleFor(x => x.Photo)
+                .NotNull().WithMessage("Product photo path cannot be null.");
         });
     }
 }

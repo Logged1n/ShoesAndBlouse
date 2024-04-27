@@ -47,12 +47,22 @@ namespace ShoesAndBlouse.Application.Products.CommandHandlers
                 }
             }
 
-            if (request.PhotoPath is not null)
-                existingProduct.PhotoPath = request.PhotoPath;
+            if (request.Photo is not null)
+            {
+                // Zakładając, że nazwa pliku obrazu produktu to "[productId].png"
+                var nowaSciezkaObrazu = $"{request.ProductId}.png";
+                // Zapisz nowy obraz na tej samej ścieżce
+                // request.Photo to IFormFile, więc używamy request.Photo.OpenReadStream() do odczytu danych
+                using (var stream = new FileStream(nowaSciezkaObrazu, FileMode.Create))
+                {
+                    await request.Photo.CopyToAsync(stream, cancellationToken);
+                }
+                existingProduct.PhotoPath = nowaSciezkaObrazu;
+            }
 
-            await _productRepository.UpdateProduct(existingProduct, cancellationToken); // Update it in repository
+            await _productRepository.UpdateProduct(existingProduct, cancellationToken); // Zaktualizuj w repozytorium
 
-            return true; // Update succeeded!
+            return true; // Aktualizacja powiodła się!
         }
     }
 }

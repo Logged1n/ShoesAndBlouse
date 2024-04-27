@@ -2,24 +2,35 @@
 using ShoesAndBlouse.Application.Products.Commands;
 using ShoesAndBlouse.Domain.Interfaces;
 
-namespace ShoesAndBlouse.Application.Products.CommandHandlers;
-
-public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand>
+namespace ShoesAndBlouse.Application.Products.CommandHandlers
 {
-    private readonly IProductRepository _productRepository;
-    public DeleteProductCommandHandler(IProductRepository productRepository)
+    public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand>
     {
-        _productRepository = productRepository;
-    }
-    
-    public async Task Handle(DeleteProductCommand request, CancellationToken cancellationToken)
-    {
-        //Find the product in repository
-        var productToDelete = await _productRepository.GetProductById(request.productId, cancellationToken);
+        private readonly IProductRepository _productRepository;
 
-        if (productToDelete is null)
-            return; // product does not exist, so delete failed
-        
-        await _productRepository.DeleteProduct(productToDelete.Id, cancellationToken); // if it was found try to Delete it
+        public DeleteProductCommandHandler(IProductRepository productRepository)
+        {
+            _productRepository = productRepository;
+        }
+
+        public async Task Handle(DeleteProductCommand request, CancellationToken cancellationToken)
+        {
+            // Znajdź produkt w repozytorium
+            var productToDelete = await _productRepository.GetProductById(request.ProductId, cancellationToken);
+
+            if (productToDelete is null)
+                return; // Produkt nie istnieje, więc nie można go usunąć
+
+            // Usuń powiązane zdjęcie produktu
+            var photoPath = productToDelete.PhotoPath;
+            if (!string.IsNullOrEmpty(photoPath))
+            {
+                // Usuń plik zdjęcia
+                File.Delete(photoPath);
+            }
+
+            // Usuń produkt z repozytorium
+            await _productRepository.DeleteProduct(productToDelete.Id, cancellationToken);
+        }
     }
 }

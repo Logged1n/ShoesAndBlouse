@@ -14,10 +14,11 @@ namespace ShoesAndBlouse.API.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly IMediator _mediator;
-
-    public ProductController(IMediator mediator)
+    private readonly IWebHostEnvironment _environment;
+    public ProductController(IMediator mediator, IWebHostEnvironment environment)
     {
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        _environment = environment ?? throw new ArgumentNullException(nameof(environment));
     }
 
     [HttpGet("GetById/{productId}")]
@@ -38,7 +39,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost("Create")]
-    public async Task<IActionResult> Create([FromBody] CreateProductCommand command)
+    public async Task<IActionResult> Create(CreateProductCommand command)
     {
         ValidationResult validationResult = await new CreateProductCommandValidator().ValidateAsync(command);
         if (!validationResult.IsValid)
@@ -58,7 +59,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPatch("Update")]
-    public async Task<IActionResult> Update([FromBody] UpdateProductCommand command)
+    public async Task<IActionResult> Update(UpdateProductCommand command)
     {
         var validationResult = await new UpdateProductCommandValidator().ValidateAsync(command);
         if (!validationResult.IsValid)

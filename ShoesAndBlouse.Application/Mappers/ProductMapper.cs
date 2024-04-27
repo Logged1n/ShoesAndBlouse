@@ -13,8 +13,8 @@ public static class ProductMapper
             Name = product.Name,
             Description = product.Description,
             Price = product.Price,
-            Categories = product.Categories.ToDictionary(c => c.Id, c => c.Name),
-            PhotoPath = product.PhotoPath
+            Categories = product.Categories.ToDictionary(c => c.Id, c => c.Name)
+            //Photo = ? //TODO
         };
     }
 
