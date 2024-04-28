@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using ShoesAndBlouse.Domain.ValueObjects;
+﻿using ShoesAndBlouse.Domain.ValueObjects;
 
 namespace ShoesAndBlouse.Application.DTOs;
 
@@ -10,5 +9,5 @@ public class ProductDto
     public string Description { get; set; }
     public Money Price { get; set; }
     public Dictionary<int, string> Categories { get; set; }
-    public IFormFile Photo { get; set; }
+    public string PhotoUrl { get; set; }
 }

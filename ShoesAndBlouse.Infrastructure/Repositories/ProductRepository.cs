@@ -50,4 +50,19 @@ public class ProductRepository(PostgresDbContext context) : IProductRepository
         context.Products.Remove(product);  // else remove it
         await context.SaveChangesAsync(cancellationToken); // and save changes to databse
     }
+
+    public int GetNextProductId()
+    {
+        int id;
+        try
+        { 
+            id = context.Products.Max(p => p.Id) + 1;
+        }
+        catch
+        {
+            return 0;
+        }
+        
+        return id;
+    }
 }

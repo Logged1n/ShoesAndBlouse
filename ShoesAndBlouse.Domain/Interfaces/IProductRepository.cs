@@ -9,4 +9,5 @@ public interface IProductRepository
     Task CreateProduct(Product toCreate, CancellationToken cancellationToken = default);
     Task UpdateProduct(Product toUpdate, CancellationToken cancellationToken = default);
     Task DeleteProduct(int productId, CancellationToken cancellationToken = default);
+    int GetNextProductId();
 }

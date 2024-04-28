@@ -41,6 +41,7 @@ if (app.Environment.IsDevelopment())
 //Comment out only for docker usage
 //app.UseHttpsRedirection();
 
+app.UseStaticFiles();
 
 //Setup Controllers
 app.MapIdentityApi<IdentityUser>();
