@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using ShoesAndBlouse.Application.DTOs;
 using ShoesAndBlouse.Domain.ValueObjects;
 
@@ -11,5 +10,4 @@ public record CreateProductCommand : IRequest<ProductDto>
     public string Description { get; set; } = string.Empty;
     public Money Price { get; set; } = new("zl", 299.99m);
     public List<int> CategoryIds {get; set;} = [];
-    public IFormFile Photo { get; set;}
 }

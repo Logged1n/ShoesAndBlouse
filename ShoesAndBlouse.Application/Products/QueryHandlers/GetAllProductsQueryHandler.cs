@@ -10,9 +10,9 @@ public class GetAllProductsQueryHandler(IProductRepository productRepository) : 
 {
     public async Task<List<ProductDto>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
     {
-        var products = await productRepository.GetAll(cancellationToken);
+        var products = await productRepository.GetAllAsync(cancellationToken);
         //Map products to productDtos
-        var productDtos = ProductMapper.MapListToDto(products);
+        var productDtos = ProductMapper.MapToDtoList(products);
         
         return productDtos;
     }

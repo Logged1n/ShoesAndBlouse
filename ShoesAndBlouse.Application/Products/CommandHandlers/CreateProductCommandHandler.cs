@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using ShoesAndBlouse.Application.DTOs;
 using ShoesAndBlouse.Application.Mappers;
 using ShoesAndBlouse.Application.Products.Commands;
@@ -12,14 +13,11 @@ namespace ShoesAndBlouse.Application.Products.CommandHandlers
     {
         private readonly IProductRepository _productRepository;
         private readonly ICategoryRepository _categoryRepository;
-        private readonly IWebHostEnvironment _environment;
-
         public CreateProductCommandHandler(IProductRepository productRepository,
-            ICategoryRepository categoryRepository, IWebHostEnvironment environment)
+            ICategoryRepository categoryRepository)
         {
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
-            _environment = environment;
         }
 
         public async Task<ProductDto> Handle(CreateProductCommand request,
@@ -41,7 +39,8 @@ namespace ShoesAndBlouse.Application.Products.CommandHandlers
                     product.Categories.Add(category);
             }
 
-            await _productRepository.CreateProduct(product, cancellationToken);
+            product.PhotoPath = $"Images/Product/0";
+            await _productRepository.CreateProductAsync(product, cancellationToken);
             return ProductMapper.MapToDto(product);
         }
     }

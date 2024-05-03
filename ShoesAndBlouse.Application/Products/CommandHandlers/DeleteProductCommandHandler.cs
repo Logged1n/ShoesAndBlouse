@@ -16,7 +16,7 @@ namespace ShoesAndBlouse.Application.Products.CommandHandlers
         public async Task Handle(DeleteProductCommand request, CancellationToken cancellationToken)
         {
             // Znajdź produkt w repozytorium
-            var productToDelete = await _productRepository.GetProductById(request.ProductId, cancellationToken);
+            var productToDelete = await _productRepository.GetProductByIdAsync(request.ProductId, cancellationToken);
 
             if (productToDelete is null)
                 return; // Produkt nie istnieje, więc nie można go usunąć
@@ -30,7 +30,7 @@ namespace ShoesAndBlouse.Application.Products.CommandHandlers
             }
 
             // Usuń produkt z repozytorium
-            await _productRepository.DeleteProduct(productToDelete.Id, cancellationToken);
+            await _productRepository.DeleteProductAsync(productToDelete.Id, cancellationToken);
         }
     }
 }

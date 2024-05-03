@@ -7,7 +7,7 @@ namespace ShoesAndBlouse.Infrastructure.Repositories;
 
 public class ProductRepository(PostgresDbContext context) : IProductRepository
 {
-    public async Task<List<Product>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<List<Product>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         var products = await context.Products
             .Include(p => p.Categories)
@@ -16,7 +16,7 @@ public class ProductRepository(PostgresDbContext context) : IProductRepository
         return products;
     }
 
-    public async Task<Product> GetProductById(int productId, CancellationToken cancellationToken = default)
+    public async Task<Product> GetProductByIdAsync(int productId, CancellationToken cancellationToken = default)
     {
         var product = await context.Products
             .Include(product => product.Categories)
@@ -24,13 +24,13 @@ public class ProductRepository(PostgresDbContext context) : IProductRepository
         return product ; // return first found product with provided Id
     }
 
-    public async Task CreateProduct(Product toCreate, CancellationToken cancellationToken = default)
+    public async Task<int> CreateProductAsync(Product toCreate, CancellationToken cancellationToken = default)
     {
         context.Products.Add(toCreate); //Add product
-        await context.SaveChangesAsync(cancellationToken); // Save changes to database
+        return await context.SaveChangesAsync(cancellationToken); // Save changes to database
     }
 
-    public async Task UpdateProduct(Product toUpdate, CancellationToken cancellationToken = default)
+    public async Task UpdateProductAsync(Product toUpdate, CancellationToken cancellationToken = default)
     {
         var product = await context.Products.FirstOrDefaultAsync(p => p.Id == toUpdate.Id, cancellationToken); // Find product to update
 
@@ -41,7 +41,7 @@ public class ProductRepository(PostgresDbContext context) : IProductRepository
         await context.SaveChangesAsync(cancellationToken); // save changes to database
     }
 
-    public async Task DeleteProduct(int productId, CancellationToken cancellationToken = default)
+    public async Task DeleteProductAsync(int productId, CancellationToken cancellationToken = default)
     {
         var product = context.Products.FirstOrDefault(p => p.Id == productId); // find the product
 

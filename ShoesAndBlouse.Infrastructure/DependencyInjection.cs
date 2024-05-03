@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ShoesAndBlouse.Domain.Entities;
 using ShoesAndBlouse.Domain.Interfaces;
 using ShoesAndBlouse.Infrastructure.Data;
 using ShoesAndBlouse.Infrastructure.Repositories;
@@ -14,15 +15,28 @@ namespace ShoesAndBlouse.Infrastructure
             //Add Repositories Scopes
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            
             //Mediator Pattern Setup
             services.AddMediatR(cfg => 
                 cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
+            
             //Add DbContext
             services.AddDbContext<PostgresDbContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("Postgres")));
             
-            //Setup Session Management
-            services.AddDistributedMemoryCache();
+            //Setup Session and Caching Management
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = configuration.GetConnectionString("Redis");
+                options.InstanceName = "RedisInstance";
+            });
+            //services.AddDistributedMemoryCache();
+            
+            //Setup Identity
+            //services.AddIdentityCore<User>(options =>
+            //        options.SignIn.RequireConfirmedAccount = true)
+            //    .AddEntityFrameworkStores<PostgresDbContext>();
+            
             return services;
         }
     }

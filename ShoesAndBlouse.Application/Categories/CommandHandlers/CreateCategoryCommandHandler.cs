@@ -18,7 +18,7 @@ public class CreateCategoryCommandHandler(ICategoryRepository categoryRepository
         };
         foreach (var productId in request.ProductsIds)
         {
-            var product = await productRepository.GetProductById(productId, cancellationToken);
+            var product = await productRepository.GetProductByIdAsync(productId, cancellationToken);
             if (product is not null)
                 category.Products.Add(product);
         }

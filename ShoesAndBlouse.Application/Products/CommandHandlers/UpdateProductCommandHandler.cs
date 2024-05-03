@@ -17,7 +17,7 @@ namespace ShoesAndBlouse.Application.Products.CommandHandlers
 
         public async Task<bool> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
-            var existingProduct = await _productRepository.GetProductById(request.ProductId, cancellationToken);
+            var existingProduct = await _productRepository.GetProductByIdAsync(request.ProductId, cancellationToken);
 
             if (existingProduct is null)
                 return false; // Product does not exist - return false, there is nothing to update
@@ -52,15 +52,14 @@ namespace ShoesAndBlouse.Application.Products.CommandHandlers
                 // Zakładając, że nazwa pliku obrazu produktu to "[productId].png"
                 var nowaSciezkaObrazu = $"{request.ProductId}.png";
                 // Zapisz nowy obraz na tej samej ścieżce
-                // request.Photo to IFormFile, więc używamy request.Photo.OpenReadStream() do odczytu danych
-                using (var stream = new FileStream(nowaSciezkaObrazu, FileMode.Create))
+                await using (var stream = new FileStream(nowaSciezkaObrazu, FileMode.Create))
                 {
                     await request.Photo.CopyToAsync(stream, cancellationToken);
                 }
                 existingProduct.PhotoPath = nowaSciezkaObrazu;
             }
 
-            await _productRepository.UpdateProduct(existingProduct, cancellationToken); // Zaktualizuj w repozytorium
+            await _productRepository.UpdateProductAsync(existingProduct, cancellationToken); // Zaktualizuj w repozytorium
 
             return true; // Aktualizacja powiodła się!
         }

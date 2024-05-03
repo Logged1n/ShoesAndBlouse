@@ -5,11 +5,11 @@ using ShoesAndBlouse.Domain.Entities;
 
 namespace ShoesAndBlouse.Infrastructure.Data;
 
-public class PostgresDbContext : IdentityDbContext<IdentityUser>
+public class PostgresDbContext : IdentityDbContext<User, IdentityRole<int>, int>
 {
     public PostgresDbContext(DbContextOptions<PostgresDbContext> options) : base(options)
     { }
-    
+
     public DbSet<Product> Products { get; set; }
     public DbSet<Review> Reviews { get; set; }
     public new DbSet<User> Users { get; set; }

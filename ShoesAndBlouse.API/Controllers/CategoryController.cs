@@ -1,12 +1,9 @@
-using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ShoesAndBlouse.API.Validators.Category;
 using ShoesAndBlouse.Application.Categories.Commands;
 using ShoesAndBlouse.Application.Categories.Queries;
-using ShoesAndBlouse.Domain.Entities;
 
 namespace ShoesAndBlouse.API.Controllers;
 
