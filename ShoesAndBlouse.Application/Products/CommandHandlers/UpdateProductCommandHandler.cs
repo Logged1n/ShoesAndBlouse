@@ -17,7 +17,7 @@ namespace ShoesAndBlouse.Application.Products.CommandHandlers
 
         public async Task<bool> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
-            var existingProduct = await _productRepository.GetProductById(request.ProductId, cancellationToken);
+            var existingProduct = await _productRepository.GetProductByIdAsync(request.ProductId, cancellationToken);
 
             if (existingProduct is null)
                 return false; // Product does not exist - return false, there is nothing to update
@@ -47,12 +47,21 @@ namespace ShoesAndBlouse.Application.Products.CommandHandlers
                 }
             }
 
-            if (request.PhotoPath is not null)
-                existingProduct.PhotoPath = request.PhotoPath;
+            if (request.Photo is not null)
+            {
+                // Zakładając, że nazwa pliku obrazu produktu to "[productId].png"
+                var nowaSciezkaObrazu = $"{request.ProductId}.png";
+                // Zapisz nowy obraz na tej samej ścieżce
+                await using (var stream = new FileStream(nowaSciezkaObrazu, FileMode.Create))
+                {
+                    await request.Photo.CopyToAsync(stream, cancellationToken);
+                }
+                existingProduct.PhotoPath = nowaSciezkaObrazu;
+            }
 
-            await _productRepository.UpdateProduct(existingProduct, cancellationToken); // Update it in repository
+            await _productRepository.UpdateProductAsync(existingProduct, cancellationToken); // Zaktualizuj w repozytorium
 
-            return true; // Update succeeded!
+            return true; // Aktualizacja powiodła się!
         }
     }
 }

@@ -4,9 +4,10 @@ namespace ShoesAndBlouse.Domain.Interfaces;
 
 public interface IProductRepository
 {
-    Task<List<Product>> GetAll(CancellationToken cancellationToken = default);
-    Task<Product> GetProductById(int productId, CancellationToken cancellationToken = default);
-    Task CreateProduct(Product toCreate, CancellationToken cancellationToken = default);
-    Task UpdateProduct(Product toUpdate, CancellationToken cancellationToken = default);
-    Task DeleteProduct(int productId, CancellationToken cancellationToken = default);
+    Task<List<Product>> GetAllAsync(CancellationToken cancellationToken = default);
+    Task<Product> GetProductByIdAsync(int productId, CancellationToken cancellationToken = default);
+    Task<int> CreateProductAsync(Product toCreate, CancellationToken cancellationToken = default);
+    Task UpdateProductAsync(Product toUpdate, CancellationToken cancellationToken = default);
+    Task DeleteProductAsync(int productId, CancellationToken cancellationToken = default);
+    int GetNextProductId();
 }

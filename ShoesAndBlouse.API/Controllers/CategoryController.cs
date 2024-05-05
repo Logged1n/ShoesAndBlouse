@@ -1,16 +1,15 @@
-using FluentValidation;
+using Asp.Versioning;
 using FluentValidation.Results;
 using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ShoesAndBlouse.API.Validators.Category;
 using ShoesAndBlouse.Application.Categories.Commands;
 using ShoesAndBlouse.Application.Categories.Queries;
-using ShoesAndBlouse.Domain.Entities;
 
 namespace ShoesAndBlouse.API.Controllers;
 
-[Route("api/v1/[controller]")]
+[ApiVersion(1)]
+[Route("api/v{v:apiVersion}/[controller]")]
 [ApiController]
 public class CategoryController : ControllerBase
 {
@@ -21,6 +20,7 @@ public class CategoryController : ControllerBase
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
     }
 
+    [MapToApiVersion(1)]
     [HttpGet("GetById/{categoryId}")]
     public async Task<IActionResult> GetById(int categoryId)
     {
@@ -42,7 +42,7 @@ public class CategoryController : ControllerBase
             return BadRequest(validationResult.Errors);
 
         var category = await _mediator.Send(command);
-        return CreatedAtAction(nameof(GetById), new { Id = category.Id }, category);
+        return CreatedAtAction(nameof(GetById), new { category.Id }, category);
     }
 
     [HttpDelete("Delete/{categoryId}")]

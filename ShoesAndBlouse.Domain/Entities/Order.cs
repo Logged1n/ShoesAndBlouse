@@ -10,7 +10,7 @@ public sealed class Order
     public int Id { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime ModifiedAt { get; set; }
-    public OrderStatus Status { get; set; }
+    public OrderStatus Status { get; set; } = 0;
     public User User { get; set; }
     public Address? ShippingAddress { get; set; }
     public Address BillingAddress { get; set; }

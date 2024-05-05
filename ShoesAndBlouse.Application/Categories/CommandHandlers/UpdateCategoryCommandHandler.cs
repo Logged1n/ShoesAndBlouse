@@ -30,7 +30,7 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
             existingCategory.Products.Clear();
             foreach (var productId in request.ProductsIds)
             {
-                var product = await _productRepository.GetProductById(productId, cancellationToken);
+                var product = await _productRepository.GetProductByIdAsync(productId, cancellationToken);
                 if (product is not null)
                 {
                     existingCategory.Products.Add(product);

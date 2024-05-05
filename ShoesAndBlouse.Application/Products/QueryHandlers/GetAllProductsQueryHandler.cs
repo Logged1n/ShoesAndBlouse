@@ -6,13 +6,13 @@ using ShoesAndBlouse.Domain.Interfaces;
 
 namespace ShoesAndBlouse.Application.Products.QueryHandlers;
 
-public class GetAllProductsQueryHandler(IProductRepository productRepository, ICategoryRepository categoryRepository) : IRequestHandler<GetAllProductsQuery, List<ProductDto>>
+public class GetAllProductsQueryHandler(IProductRepository productRepository) : IRequestHandler<GetAllProductsQuery, List<ProductDto>>
 {
     public async Task<List<ProductDto>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
     {
-        var products = await productRepository.GetAll(cancellationToken);
+        var products = await productRepository.GetAllAsync(cancellationToken);
         //Map products to productDtos
-        var productDtos = ProductMapper.MapListToDto(products);
+        var productDtos = ProductMapper.MapToDtoList(products);
         
         return productDtos;
     }

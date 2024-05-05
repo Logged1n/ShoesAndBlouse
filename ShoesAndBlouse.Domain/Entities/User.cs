@@ -1,17 +1,17 @@
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
 namespace ShoesAndBlouse.Domain.Entities;
 
-public sealed class  User
+public sealed class  User : IdentityUser<int>
 {
-    [Key]
-    public int Id { get; set; }
+    [PersonalData]
     public string Name { get; set; } = string.Empty;
+    [PersonalData]
     public string Surname { get; set; } = string.Empty;
-    public string Email { get; set; } = string.Empty;
-    public IdentityUser UserCredentials { get; set; }
+    [PersonalData]
     public Address? Address { get; set; }
+    [PersonalData]
     public List<Order> Orders { get; set; } = [];
+    [PersonalData]
     public List<Review> Reviews { get; set; } = [];
 }

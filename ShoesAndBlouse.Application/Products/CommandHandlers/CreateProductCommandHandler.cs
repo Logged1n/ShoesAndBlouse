@@ -1,33 +1,47 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using ShoesAndBlouse.Application.DTOs;
 using ShoesAndBlouse.Application.Mappers;
 using ShoesAndBlouse.Application.Products.Commands;
 using ShoesAndBlouse.Domain.Entities;
 using ShoesAndBlouse.Domain.Interfaces;
 
-namespace ShoesAndBlouse.Application.Products.CommandHandlers;
-
-public class CreateProductCommandHandler(IProductRepository productRepository, ICategoryRepository categoryRepository) : IRequestHandler<CreateProductCommand, ProductDto>
+namespace ShoesAndBlouse.Application.Products.CommandHandlers
 {
-    public async Task<ProductDto> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, ProductDto>
     {
-        var product = new Product
+        private readonly IProductRepository _productRepository;
+        private readonly ICategoryRepository _categoryRepository;
+        public CreateProductCommandHandler(IProductRepository productRepository,
+            ICategoryRepository categoryRepository)
         {
-            Name = request.Name,
-            Description = request.Description,
-            Price = request.Price,
-            PhotoPath = request.PhotoPath,
-            Categories = []
-        };
-
-        foreach (var categoryId in request.CategoryIds)
-        {
-            var category = await categoryRepository.GetCategoryById(categoryId, cancellationToken);
-            if (category is not null)
-                product.Categories.Add(category);
+            _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
         }
 
-        await productRepository.CreateProduct(product, cancellationToken);
-        return ProductMapper.MapToDto(product);
+        public async Task<ProductDto> Handle(CreateProductCommand request,
+            CancellationToken cancellationToken)
+        {
+            var product = new Product
+            {
+                Name = request.Name,
+                Description = request.Description,
+                Price = request.Price,
+                Categories = []
+            };
+
+            foreach (var categoryId in request.CategoryIds)
+            {
+                var category = await _categoryRepository.GetCategoryById(categoryId,
+                    cancellationToken);
+                if (category is not null)
+                    product.Categories.Add(category);
+            }
+
+            product.PhotoPath = $"Images/Product/0";
+            await _productRepository.CreateProductAsync(product, cancellationToken);
+            return ProductMapper.MapToDto(product);
+        }
     }
 }

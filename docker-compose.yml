@@ -34,7 +34,11 @@ services:
     restart: always
     volumes:
       - ./db-data/:/var/lib/postgresql/data/
-
+  shoesandblouse.cache:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    restart: always
 #networks:
   #postgres-network:
     #driver: bridge

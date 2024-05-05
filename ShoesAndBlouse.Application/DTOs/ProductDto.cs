@@ -9,5 +9,5 @@ public class ProductDto
     public string Description { get; set; }
     public Money Price { get; set; }
     public Dictionary<int, string> Categories { get; set; }
-    public string PhotoPath { get; set; }
+    public string PhotoUrl { get; set; }
 }

@@ -2,4 +2,4 @@
 
 namespace ShoesAndBlouse.Application.Products.Commands;
 
-public sealed record DeleteProductCommand(int productId) : IRequest;
+public sealed record DeleteProductCommand(int ProductId) : IRequest;

@@ -23,7 +23,7 @@ namespace ShoesAndBlouse.API.Validators.Product;
             //RuleFor(x => x.CategoryIds)
                 //.Must(c => c != null && c.Count != 0).WithMessage("Product must be assigned to at least one category.");
 
-            RuleFor(x => x.PhotoPath)
-                .NotEmpty().WithMessage("Product photo path is required.");
+            //RuleFor(x => x.Photo)
+               // .NotEmpty().WithMessage("Product photo is required.");
         }
     }
