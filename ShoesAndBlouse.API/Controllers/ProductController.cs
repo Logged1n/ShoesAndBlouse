@@ -10,7 +10,7 @@ using ShoesAndBlouse.Application.Products.Queries;
 
 namespace ShoesAndBlouse.API.Controllers;
 
-[Route("api/v1/[controller]")]
+[Route("api/v{v:apiVersion}/[controller]")]
 [ApiController]
 [ApiVersion(1)]
 //[Authorize("Admin")]

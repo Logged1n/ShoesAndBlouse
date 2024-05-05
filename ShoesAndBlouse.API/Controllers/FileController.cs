@@ -5,7 +5,7 @@ using ShoesAndBlouse.Application.Files.Commands;
 
 namespace ShoesAndBlouse.API.Controllers;
 
-[Route("api/v1/[controller]")]
+[Route("api/v{v:apiVersion}/[controller]")]
 [ApiController]
 [ApiVersion(1)]
 public class FileController : ControllerBase
@@ -17,6 +17,7 @@ public class FileController : ControllerBase
         _mediator = mediator;
     }
     //[Authorize("Admin")]
+    [MapToApiVersion(1)]
     [HttpPut("UploadProductImage")]
     public async Task<IActionResult> UploadProductImage(UploadProductPhotoCommand command)
     {
