@@ -1,53 +1,56 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 using ShoesAndBlouse.Application.Files.Commands;
 using ShoesAndBlouse.Domain.Interfaces;
 
-namespace ShoesAndBlouse.Application.Files.CommandHandlers;
 
-public class UploadProductPhotoCommandHandler : IRequestHandler<UploadProductPhotoCommand>
+namespace ShoesAndBlouse.Application.Files.CommandHandlers
 {
-    private readonly IProductRepository _productRepository;
-    private readonly IWebHostEnvironment _environment;
-
-    public UploadProductPhotoCommandHandler(IProductRepository productRepository,
-        IWebHostEnvironment environment)
+    public class UploadPhotoCommandHandler : IRequestHandler<UploadProductPhotoCommand>
     {
-        _productRepository = productRepository;
-        _environment = environment;
-    }
-    private string GetProductPhotoPath(int productId)
-    {
-        // unique file name based on sent id
-        var uniqueFileName = $"{productId}.png";
+        private readonly IProductRepository _productRepository;
+        private readonly IHostEnvironment _webHostEnvironment;
 
-        // path to update file
-        var uploadsFolder = Path.Combine("Images", "Product");
-
-        // check if it exists/create it
-        if (!Directory.Exists(uploadsFolder))
-            Directory.CreateDirectory(uploadsFolder);
-
-        // Combine path with file name
-        var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-        //Return it
-        return filePath;
-    }
-    
-    public async Task Handle(UploadProductPhotoCommand request, CancellationToken cancellationToken)
-    {
-        // Save file locally
-        if (request.File is not null)
+        public UploadPhotoCommandHandler(IProductRepository productRepository, IHostEnvironment webHostEnvironment)
         {
-            // get the path
-            var photoPath = GetProductPhotoPath(request.ProductId);
-            //save it
-            await using var stream = new FileStream(Path.Combine(_environment.WebRootPath, photoPath), FileMode.Create);
-            await request.File.CopyToAsync(stream, cancellationToken);
-            //update the product record
+            _productRepository = productRepository;
+            _webHostEnvironment = webHostEnvironment;
+        }
+
+        public async Task Handle(UploadProductPhotoCommand request, CancellationToken cancellationToken)
+        {
+            if (request.PhotoFile == null || request.PhotoFile.Length == 0)
+                throw new ArgumentException("Photo file is empty.");
+
+            // Save photo to local storage
+            var photoPath = await SavePhotoAsync(request.PhotoFile, request.ProductId);
+
+            // Update product record with photo path
             var productToUpdate = await _productRepository.GetProductByIdAsync(request.ProductId, cancellationToken);
             productToUpdate.PhotoPath = photoPath;
             await _productRepository.UpdateProductAsync(productToUpdate, cancellationToken);
+            
         }
+
+        async private Task<string> SavePhotoAsync(IFormFile photoFile, int productId)
+        {
+            var uploadsFolder = Path.Combine(_webHostEnvironment.ContentRootPath, "wwwroot", "Images/Product");
+
+
+            if (!Directory.Exists(uploadsFolder))
+                Directory.CreateDirectory(uploadsFolder);
+
+            var fileName = $"{productId}{Path.GetExtension(photoFile.FileName)}";
+            var filePath = Path.Combine(uploadsFolder, fileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await photoFile.CopyToAsync(fileStream);
+            }
+
+            return Path.Combine("Images/Product", fileName);
+        }
+            
     }
 }

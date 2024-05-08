@@ -1,6 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using ShoesAndBlouse.Application.DTOs;
 using ShoesAndBlouse.Application.Mappers;
 using ShoesAndBlouse.Application.Products.Commands;

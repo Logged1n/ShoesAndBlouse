@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using ShoesAndBlouse.Domain.ValueObjects;
 
-namespace ShoesAndBlouse.API.Validators.ValueObjects;
+namespace ShoesAndBlouse.Application.Validators.ValueObjects;
 
 public class MoneyValidator : AbstractValidator<Money>
 {

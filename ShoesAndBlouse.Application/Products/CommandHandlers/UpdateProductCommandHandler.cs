@@ -47,18 +47,6 @@ namespace ShoesAndBlouse.Application.Products.CommandHandlers
                 }
             }
 
-            if (request.Photo is not null)
-            {
-                // Zakładając, że nazwa pliku obrazu produktu to "[productId].png"
-                var nowaSciezkaObrazu = $"{request.ProductId}.png";
-                // Zapisz nowy obraz na tej samej ścieżce
-                await using (var stream = new FileStream(nowaSciezkaObrazu, FileMode.Create))
-                {
-                    await request.Photo.CopyToAsync(stream, cancellationToken);
-                }
-                existingProduct.PhotoPath = nowaSciezkaObrazu;
-            }
-
             await _productRepository.UpdateProductAsync(existingProduct, cancellationToken); // Zaktualizuj w repozytorium
 
             return true; // Aktualizacja powiodła się!

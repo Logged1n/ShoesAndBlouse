@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
-using ShoesAndBlouse.API.Validators.ValueObjects;
 using ShoesAndBlouse.Application.Products.Commands;
+using ShoesAndBlouse.Application.Validators.ValueObjects;
 
 namespace ShoesAndBlouse.API.Validators.Product;
 
@@ -38,11 +38,5 @@ public class UpdateProductCommandValidator : AbstractValidator<UpdateProductComm
         //    RuleFor(x => x.Category)
        //         .Must(c => c != null && c.All(cat => !string.IsNullOrEmpty(cat))).WithMessage("Category names cannot be empty.");
        // });
-
-        When(x => x.Photo is not null, () =>
-        {
-            RuleFor(x => x.Photo)
-                .NotNull().WithMessage("Product photo path cannot be null.");
-        });
     }
 }

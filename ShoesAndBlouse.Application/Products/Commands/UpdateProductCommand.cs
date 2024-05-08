@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using ShoesAndBlouse.Domain.ValueObjects;
 
 namespace ShoesAndBlouse.Application.Products.Commands
@@ -11,6 +10,6 @@ namespace ShoesAndBlouse.Application.Products.Commands
         public string? Description { get; set; }
         public Money? Price { get; set; }
         public List<int>? CategoryIds { get; set; }
-        public IFormFile? Photo { get; set; }
+        
     }
 }
