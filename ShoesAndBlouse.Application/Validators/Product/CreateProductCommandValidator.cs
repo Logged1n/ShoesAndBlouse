@@ -1,6 +1,6 @@
 ﻿using ShoesAndBlouse.Application.Products.Commands;
 using FluentValidation;
-using ShoesAndBlouse.API.Validators.ValueObjects;
+using ShoesAndBlouse.Application.Validators.ValueObjects;
 
 namespace ShoesAndBlouse.API.Validators.Product;
 

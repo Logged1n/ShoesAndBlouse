@@ -9,13 +9,14 @@
     <ItemGroup>
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
       <PackageReference Include="MediatR" Version="12.2.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
       <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\ShoesAndBlouse.Domain\ShoesAndBlouse.Domain.csproj" />
     </ItemGroup>
-
+    
     <ItemGroup>
       <Reference Include="Microsoft.AspNetCore.Hosting.Abstractions">
         <HintPath>..\..\..\.dotnet\packs\Microsoft.AspNetCore.App.Ref\8.0.3\ref\net8.0\Microsoft.AspNetCore.Hosting.Abstractions.dll</HintPath>

@@ -22,4 +22,8 @@
       <ProjectReference Include="..\ShoesAndBlouse.Domain\ShoesAndBlouse.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Services\" />
+    </ItemGroup>
+
 </Project>
