@@ -1,0 +1,38 @@
+.content{
+    display: flex;
+}
+.login{
+    margin-left:700px;
+    width: 500px;
+    height: 500px;
+}
+.loginbutton{
+    width:250px;
+    font-size:25px;
+    background-color: #6f6fff;
+    color:white;
+    border-radius: 20px;
+    border-style: hidden;
+}
+.registerContainer{
+    border-width: 5rem;
+    margin-left:300px;
+    width:500px;
+    height:500px;
+    align-content: center;
+}
+.button{
+    width:250px;
+    font-size:25px;
+    background-color: #6f6fff;
+    color:white;
+    border-radius: 20px;
+    border-style: hidden;
+}
+.button:hover{
+    text-decoration: none;
+}
+.link{
+    text-decoration: none;
+    color:inherit;
+}

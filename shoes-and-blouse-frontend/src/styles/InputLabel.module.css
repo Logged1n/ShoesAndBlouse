@@ -1,0 +1,56 @@
+.formInput {
+    display: block;
+    border: 3px solid var(--clr-primary-400-semi-transparent);
+    border-radius: 0.65rem;
+    width: 100%;
+    height: calc(var(--fs-500)*2.75);
+    padding: var(--size-200);
+    background: var(--clr-neutral-100);
+    box-shadow:  0 0 var(--size-900) rgba(0, 0, 0, 0.1);
+    font-size: var(--fs-400);
+}
+
+.formInput::placeholder {
+    color: var(--clr-primary-400-semi-transparent);
+}
+
+.formInput:not(:focus):not(:placeholder-shown):invalid,
+.formInput:not(:focus):not(:placeholder-shown):invalid ~ .errorMessage {
+    display: block;
+    border-color: hsla(7, 46%, 56%, 1);
+}
+
+.formInput:focus::placeholder {
+    color: transparent;
+}
+
+.errorMessage {
+    margin: 0;
+    display: none;
+    font-weight: bold;
+    color: hsla(7, 46%, 56%, 1);
+}
+
+.blueLabel {
+    display: block;
+    color: var(--clr-accent-400);
+    font-weight: var(--fw-semi-bold);
+    margin-bottom: var(--size-100);
+}
+
+.formGroup {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: var(--size-400);
+}
+
+@media screen and (min-width: 60rem) {
+    .formInput {
+        font-size: var(--fs-500);
+    }
+
+    .formGroup {
+        margin-right: var(--size-300);
+        margin-bottom: var(--size-800);
+    }
+}
