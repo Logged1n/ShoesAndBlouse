@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ShoesAndBlouse.Domain.Entities;
@@ -30,13 +31,12 @@ namespace ShoesAndBlouse.Infrastructure
                 options.Configuration = configuration.GetConnectionString("Redis");
                 options.InstanceName = "RedisInstance";
             });
-            //services.AddDistributedMemoryCache();
             
             //Setup Identity
-            //services.AddIdentityCore<User>(options =>
-            //        options.SignIn.RequireConfirmedAccount = true)
-            //    .AddEntityFrameworkStores<PostgresDbContext>();
-            
+            services
+                .AddIdentityCore<User>()
+                .AddRoles<IdentityRole<int>>()
+                .AddEntityFrameworkStores<PostgresDbContext>();
             return services;
         }
     }
