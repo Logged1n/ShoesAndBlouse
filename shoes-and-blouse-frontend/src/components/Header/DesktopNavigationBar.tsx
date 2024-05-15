@@ -1,5 +1,6 @@
 import styles from '@/styles/Header/DesktopNavigationBar.module.css';
 import Link from "next/link";
+import Dropdown from "@/components/Dropdown";
 
 type updateMobileState = () => void;
 
@@ -29,21 +30,32 @@ const DesktopNavigationBar = ({
                 </Link>
             </div>
             <ul role={"list"} className={styles.navList}>
-                <li>
-                    <Link href={"#"}>
-                        Placeholder 1
-                    </Link>
-                </li>
-                <li>
-                    <Link href={"#"}>
-                        Placeholder 2
-                    </Link>
-                </li>
-                <li>
-                    <Link href={"#"}>
-                        Placeholder 1
-                    </Link>
-                </li>
+                <div className={styles.dropdown}>
+                    <Dropdown category={"New"}>
+                        <Dropdown category={"Shoes"}/>
+                        <Dropdown category={"Clothes"}/>
+                        <Dropdown category={"Accessories"}/>
+                    </Dropdown>
+                    <Dropdown category={"Men"}>
+                        <Dropdown category={"Shoes"}/>
+                        <Dropdown category={"Clothes"}/>
+                        <Dropdown category={"Accessories"}/>
+                    </Dropdown>
+                    <Dropdown category={"Women"}>
+                        <Dropdown category={"Shoes"}/>
+                        <Dropdown category={"Clothes"}/>
+                        <Dropdown category={"Accessories"}/>
+                    </Dropdown>
+                    <Dropdown category={"Kids"}>
+                        <Dropdown category={"Shoes"}/>
+                        <Dropdown category={"Clothes"}/>
+                        <Dropdown category={"Accessories"}/>
+                    </Dropdown>
+                    <Dropdown category={"More"}>
+                        <Dropdown category={"Your Account"}/>
+                        <Dropdown category={"About Us"}/>
+                    </Dropdown>
+                </div>
             </ul>
             <div className={styles.hamburgerWrapper} onClick={handleHamburgClick}>
                 <span className={styles.upperHamburger} id={"upperHam"}></span>

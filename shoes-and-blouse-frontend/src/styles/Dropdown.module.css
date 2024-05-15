@@ -2,12 +2,12 @@
     /* TODO COLORS */
     padding:10px 15px;
     cursor:pointer;
-    width: 230px;
+    width: 180px;
     border:none;
-    background-color: #d3ffc1;
+    background-color: #ffffff;
 }
 .container button:hover{
-    background-color: #ade899;
+    background-color: #b0a8a8;
 }
 .contents{
     display: block;

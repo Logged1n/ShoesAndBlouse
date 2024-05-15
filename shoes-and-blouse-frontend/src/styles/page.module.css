@@ -53,9 +53,6 @@
           background 200ms,
           border 200ms;
 }
-.dropdown{
-  display:flex;
-}
 .card span {
   display: inline-block;
   transition: transform 200ms;
@@ -74,8 +71,9 @@
   max-width: 30ch;
 }
 .text{
-  margin: auto;
-  background-color: #f6ffc3;
+  margin-top: 3rem;
+  margin-left: 2rem;
+  background-color: #fcffbc;
   width: 500px;
   height: 500px;
   text-align: center;
