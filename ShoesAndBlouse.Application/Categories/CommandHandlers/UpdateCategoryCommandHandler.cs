@@ -18,7 +18,7 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
 
     public async Task<bool> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
     {
-        var existingCategory = await _categoryRepository.GetCategoryById(request.CategoryId, cancellationToken);
+        var existingCategory = await _categoryRepository.GetCategoryByIdAsync(request.CategoryId, cancellationToken);
         
         if (existingCategory is null)
             return false;
@@ -39,7 +39,7 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
             }
         }
 
-        await _categoryRepository.UpdateCategory(existingCategory, cancellationToken);
+        await _categoryRepository.UpdateCategoryAsync(existingCategory, cancellationToken);
 
         return true;
     }

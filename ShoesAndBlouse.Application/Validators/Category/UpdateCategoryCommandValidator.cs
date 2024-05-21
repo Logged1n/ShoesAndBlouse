@@ -1,7 +1,7 @@
 using FluentValidation;
 using ShoesAndBlouse.Application.Categories.Commands;
 
-namespace ShoesAndBlouse.API.Validators.Category;
+namespace ShoesAndBlouse.Application.Validators.Category;
 
 public class UpdateCategoryCommandValidator : AbstractValidator<UpdateCategoryCommand>
 {

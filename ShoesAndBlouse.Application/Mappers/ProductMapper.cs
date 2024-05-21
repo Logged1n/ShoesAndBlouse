@@ -23,7 +23,7 @@ namespace ShoesAndBlouse.Application.Mappers
             throw new Exception("Product is null!");
         }
 
-        public static List<ProductDto> MapToDtoList(IEnumerable<Product> products)
+        public static List<ProductDto> MapToDtoList(ICollection<Product> products)
         {
             return products.Select(MapToDto).ToList();
         }

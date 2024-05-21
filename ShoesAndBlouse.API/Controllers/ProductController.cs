@@ -3,10 +3,11 @@ using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ShoesAndBlouse.API.Validators.Product;
+
 using ShoesAndBlouse.Application.DTOs;
 using ShoesAndBlouse.Application.Products.Commands;
 using ShoesAndBlouse.Application.Products.Queries;
+using ShoesAndBlouse.Application.Validators.Product;
 
 namespace ShoesAndBlouse.API.Controllers;
 
@@ -17,7 +18,7 @@ namespace ShoesAndBlouse.API.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly IMediator _mediator;
-    private static string _hostUrl = string.Empty;
+    static private string _hostUrl = string.Empty;
     public ProductController(IMediator mediator)
     {
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));

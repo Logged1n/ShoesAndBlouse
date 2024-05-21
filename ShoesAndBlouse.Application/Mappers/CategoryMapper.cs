@@ -14,7 +14,7 @@ public static class CategoryMapper
             Products = category.Products.ToDictionary(p => p.Id, p => p.Name)
         };
     }
-    public static List<CategoryDto> MapListToDto(List<Category> categories)
+    public static List<CategoryDto> MapListToDto(ICollection<Category> categories)
     {
         return categories.Select(MapToDto).ToList();
     }

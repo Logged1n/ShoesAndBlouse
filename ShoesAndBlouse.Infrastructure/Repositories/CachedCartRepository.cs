@@ -1,49 +1,80 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
 using ShoesAndBlouse.Domain.Entities;
 using ShoesAndBlouse.Domain.Interfaces;
+using ShoesAndBlouse.Infrastructure.Constants;
 
 namespace ShoesAndBlouse.Infrastructure.Repositories;
 
-public class CachedCartRepository : ICartRepository
+public class CachedCartRepository(IDistributedCache distributedCache,
+    IUserRepository userRepository) : ICartRepository
 {
-    private readonly IDistributedCache _distributedCache;
-
-    public CachedCartRepository(IDistributedCache distributedCache)
-    {
-        _distributedCache = distributedCache;
-    }
-    
     public async Task AddItemToCartAsync(int userId, OrderDetail item, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var cartToUpdate = await GetCartAsync(userId, cancellationToken);
+        if (cartToUpdate is not null)
+        {
+            string key = CacheKeys.CartByUserId(userId);
+
+            if (cartToUpdate.CartItems.Contains(item))
+                throw new Exception("No changes to the cart!");
+            cartToUpdate.CartItems.Add(item);
+            
+            string cacheValue = JsonConvert.SerializeObject(cartToUpdate);
+            await distributedCache.SetStringAsync(key, cacheValue, cancellationToken);
+        }
+       
     }
 
-    public Task RemoveItemFromCartAsync(int userId, OrderDetail item, CancellationToken cancellationToken = default)
+    public async Task RemoveItemFromCartAsync(int userId, OrderDetail item, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var cartToUpdate = await GetCartAsync(userId, cancellationToken);
+        if (cartToUpdate is not null)
+        {
+            string key = CacheKeys.CartByUserId(userId);
+
+            if (!cartToUpdate.CartItems.Contains(item))
+                throw new Exception("No changes to the cart!");
+            cartToUpdate.CartItems.Remove(item);
+            
+            string cacheValue = JsonConvert.SerializeObject(cartToUpdate);
+            await distributedCache.SetStringAsync(key, cacheValue, cancellationToken);
+        }
     }
 
-    public Task EditItemInCartAsync(int userId, OrderDetail item, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<Cart> GetCartAsync(int userId, CancellationToken cancellationToken = default)
+    public async Task<Cart?> GetCartAsync(int userId, CancellationToken cancellationToken = default)
     {
         string key = $"cart-{userId}";
-        string? cachedCart = await _distributedCache.GetStringAsync(
+        //Get the cached value using the key
+        string? cachedCart = await distributedCache.GetStringAsync(
             key,
             cancellationToken);
-
-        //if (string.IsNullOrEmpty(cachedCart))
-        //{
+        Cart? cart;
+        //if got cache-miss
+        if (string.IsNullOrEmpty(cachedCart))
+        {
+            //register a new cart in cache
+            await distributedCache.SetStringAsync(
+                key,
+                JsonConvert.SerializeObject(cachedCart),
+                cancellationToken);
             
-        //}
-        return new Cart();
+            return new Cart(await userRepository.GetUserByIdAsync(userId, cancellationToken));
+        }
+        //if cache-hit, deserialize it and return
+        cart = JsonConvert.DeserializeObject<Cart>(
+            cachedCart, 
+            new JsonSerializerSettings
+        {
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
+        });
+        
+        return cart;
     }
 
     public Task MakeOrderAsync(Cart userCart, CancellationToken cancellationToken = default)
     {
+        //TODO shouldn't it be UserRepository responsibility?
         throw new NotImplementedException();
     }
 }

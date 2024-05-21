@@ -10,7 +10,7 @@ public class GetAllCategoriesQueryHandler(ICategoryRepository categoryRepository
 {
     public async Task<List<CategoryDto>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
     {
-        var categories = await categoryRepository.GetAll(cancellationToken);
+        var categories = await categoryRepository.GetAllAsync(cancellationToken);
         var categoryDtos = CategoryMapper.MapListToDto(categories);
 
         return categoryDtos;

@@ -26,12 +26,12 @@ namespace ShoesAndBlouse.Application.Products.CommandHandlers
                 Name = request.Name,
                 Description = request.Description,
                 Price = request.Price,
-                Categories = []
+                Categories = [],
             };
 
             foreach (var categoryId in request.CategoryIds)
             {
-                var category = await _categoryRepository.GetCategoryById(categoryId,
+                var category = await _categoryRepository.GetCategoryByIdAsync(categoryId,
                     cancellationToken);
                 if (category is not null)
                     product.Categories.Add(category);

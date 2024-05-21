@@ -23,7 +23,7 @@ public class CreateCategoryCommandHandler(ICategoryRepository categoryRepository
                 category.Products.Add(product);
         }
         
-        await categoryRepository.CreateCategory(category, cancellationToken);
+        await categoryRepository.CreateCategoryAsync(category, cancellationToken);
         return CategoryMapper.MapToDto(category);
     }
 }

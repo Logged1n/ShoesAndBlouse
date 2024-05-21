@@ -1,6 +1,4 @@
 ﻿namespace ShoesAndBlouse.Domain;
 
-public class AssemblyReference
-{
-    
-}
+//This class exists only to reference Domain Assembly in Unit Tests
+public class AssemblyReference;
