@@ -2,7 +2,7 @@
 using ShoesAndBlouse.Application.Products.Commands;
 using ShoesAndBlouse.Application.Validators.ValueObjects;
 
-namespace ShoesAndBlouse.API.Validators.Product;
+namespace ShoesAndBlouse.Application.Validators.Product;
 
 public class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
 {

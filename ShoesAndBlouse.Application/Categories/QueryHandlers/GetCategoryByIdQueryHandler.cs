@@ -10,7 +10,7 @@ public class GetCategoryByIdQueryHandler(ICategoryRepository categoryRepository)
 {
     public async Task<CategoryDto> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
     {
-        var category = await categoryRepository.GetCategoryById(request.Id, cancellationToken);
+        var category = await categoryRepository.GetCategoryByIdAsync(request.Id, cancellationToken);
         var categoryDto = CategoryMapper.MapToDto(category);
 
         return categoryDto;

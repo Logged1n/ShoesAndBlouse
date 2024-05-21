@@ -7,7 +7,7 @@ namespace ShoesAndBlouse.Infrastructure.Repositories;
 
 public class CategoryRepository(PostgresDbContext context) : ICategoryRepository
 {
-    public async Task<List<Category>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<ICollection<Category>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         var categories = await context.Categories
             .Include(c => c.Products)
@@ -16,7 +16,7 @@ public class CategoryRepository(PostgresDbContext context) : ICategoryRepository
         return categories;
     }
 
-    public async Task<Category> GetCategoryById(int categoryId, CancellationToken cancellationToken)
+    public async Task<Category?> GetCategoryByIdAsync(int categoryId, CancellationToken cancellationToken)
     {
         var category = await context.Categories
             .Include(category => category.Products)
@@ -24,13 +24,13 @@ public class CategoryRepository(PostgresDbContext context) : ICategoryRepository
         return category;
     }
 
-    public async Task CreateCategory(Category toCreate, CancellationToken cancellationToken=default)
+    public async Task CreateCategoryAsync(Category toCreate, CancellationToken cancellationToken=default)
     {
         context.Categories.Add(toCreate);
         await context.SaveChangesAsync(cancellationToken);
     }
     
-    public async Task DeleteCategory(int categoryId, CancellationToken cancellationToken=default)
+    public async Task DeleteCategoryAsync(int categoryId, CancellationToken cancellationToken=default)
     {
         var category = context.Categories.FirstOrDefault(c => c.Id == categoryId);
 
@@ -40,7 +40,7 @@ public class CategoryRepository(PostgresDbContext context) : ICategoryRepository
         await context.SaveChangesAsync(cancellationToken);
     }
     
-    public async Task UpdateCategory(Category toUpdate, CancellationToken cancellationToken=default)
+    public async Task UpdateCategoryAsync(Category toUpdate, CancellationToken cancellationToken=default)
     {
         var category = await context.Categories.FirstOrDefaultAsync(c => c.Id == toUpdate.Id, cancellationToken);
         

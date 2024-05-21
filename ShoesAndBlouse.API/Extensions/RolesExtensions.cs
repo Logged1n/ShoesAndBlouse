@@ -4,7 +4,7 @@ namespace ShoesAndBlouse.API.Extensions;
 
 public static class RolesExtensions
 {
-    public static async Task InitRolesAsync(this IApplicationBuilder app)
+    public async static Task InitRolesAsync(this IApplicationBuilder app)
     {
         using var scope = app.ApplicationServices.CreateScope();
         var roleManager = scope.ServiceProvider

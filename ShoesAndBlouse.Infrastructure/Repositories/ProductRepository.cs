@@ -7,7 +7,7 @@ namespace ShoesAndBlouse.Infrastructure.Repositories;
 
 public class ProductRepository(PostgresDbContext context) : IProductRepository
 {
-    public async Task<List<Product>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<ICollection<Product>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         var products = await context.Products
             .Include(p => p.Categories)
@@ -16,7 +16,7 @@ public class ProductRepository(PostgresDbContext context) : IProductRepository
         return products;
     }
 
-    public async Task<Product> GetProductByIdAsync(int productId, CancellationToken cancellationToken = default)
+    public async Task<Product?> GetProductByIdAsync(int productId, CancellationToken cancellationToken = default)
     {
         var product = await context.Products
             .Include(product => product.Categories)

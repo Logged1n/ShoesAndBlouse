@@ -1,10 +1,9 @@
 using Asp.Versioning;
-using Microsoft.AspNetCore.Identity;
 using ShoesAndBlouse.API.Extensions;
 using ShoesAndBlouse.Application;
 using ShoesAndBlouse.Domain.Entities;
 using ShoesAndBlouse.Infrastructure;
-using ShoesAndBlouse.Infrastructure.Data;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,24 +39,21 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
     });
 
-//Identity Core Setup TODO DI Infrastructure
+//Identity Core Setup
 builder.Services.AddAuthorization();
-builder.Services.AddAuthentication()
-    .AddCookie(IdentityConstants.ApplicationScheme)
-    .AddBearerToken(IdentityConstants.BearerScheme);
+//builder.Services.AddAuthentication()
+//    .AddCookie(IdentityConstants.ApplicationScheme)
+//    .AddBearerToken(IdentityConstants.BearerScheme);
 builder.Services
-    .AddIdentityCore<User>()
-    .AddRoles<IdentityRole<int>>()
-    .AddEntityFrameworkStores<PostgresDbContext>()
-    .AddApiEndpoints();
+    .AddIdentityApiEndpoints<User>();
 
 //Session Management TODO DI Infrastructure
-/*builder.Services.AddSession(options =>
+builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromDays(7);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
-});*/
+});
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -69,7 +65,7 @@ if (app.Environment.IsDevelopment())
 //Comment out only for docker usage
 //app.UseHttpsRedirection();
 
-//app.UseSession();
+app.UseSession();
 
 //Allow to access static files from wwwroot folder
 app.UseStaticFiles();

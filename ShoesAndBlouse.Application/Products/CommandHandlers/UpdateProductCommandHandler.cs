@@ -37,7 +37,7 @@ namespace ShoesAndBlouse.Application.Products.CommandHandlers
                 existingProduct.Categories.Clear();
                 foreach (var categoryId in request.CategoryIds)
                 {
-                    var category = await _categoryRepository.GetCategoryById(categoryId, cancellationToken);
+                    var category = await _categoryRepository.GetCategoryByIdAsync(categoryId, cancellationToken);
                     if (category is not null)
                     {
                         existingProduct.Categories.Add(category);

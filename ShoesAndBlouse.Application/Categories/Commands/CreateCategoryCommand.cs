@@ -1,6 +1,5 @@
 using MediatR;
 using ShoesAndBlouse.Application.DTOs;
-using ShoesAndBlouse.Domain.Entities;
 
 namespace ShoesAndBlouse.Application.Categories.Commands;
 
