@@ -3,16 +3,20 @@ using ShoesAndBlouse.Application;
 using ShoesAndBlouse.Domain.Entities;
 using ShoesAndBlouse.Infrastructure;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 //Swagger setup
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//Identity Core Setup
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication();
+
 //Clean Architecture Setup
-builder.Services.AddApplication();
-await builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services
+    .AddApplication()
+    .AddInfrastructure(builder.Configuration);
 
 //Setup ApiVersioning
 builder.Services.AddApiVersioning(options =>
@@ -37,11 +41,7 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
     });
 
-//Identity Core Setup
-builder.Services.AddAuthorization();
-//builder.Services.AddAuthentication()
-//    .AddCookie(IdentityConstants.ApplicationScheme)
-//    .AddBearerToken(IdentityConstants.BearerScheme);
+//Add Identity Api Endpoints
 builder.Services
     .AddIdentityApiEndpoints<User>();
 

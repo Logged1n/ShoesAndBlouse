@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 using ShoesAndBlouse.Domain.Entities;
 using ShoesAndBlouse.Domain.Interfaces;
 using ShoesAndBlouse.Infrastructure.Data;
@@ -12,7 +13,7 @@ namespace ShoesAndBlouse.Infrastructure
 {
     public static class DependencyInjection
     {
-        public async static Task<IServiceCollection> AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+        public  static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             //Add Repositories Scopes
             services.AddScoped<IProductRepository, ProductRepository>();
@@ -41,7 +42,6 @@ namespace ShoesAndBlouse.Infrastructure
             
             //Extension Methods initializing database and roles
             services.ApplyMigrations();
-            await services.InitRolesAsync();
             
             return services;
         }

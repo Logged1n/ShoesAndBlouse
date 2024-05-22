@@ -37,7 +37,7 @@ namespace ShoesAndBlouse.Application.Products.CommandHandlers
                     product.Categories.Add(category);
             }
 
-            product.PhotoPath = $"Images/Product/0";
+            product.PhotoPath = $"Images/Product/0.png";
             await _productRepository.CreateProductAsync(product, cancellationToken);
             return ProductMapper.MapToDto(product);
         }

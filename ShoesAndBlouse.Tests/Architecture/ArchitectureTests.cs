@@ -60,7 +60,6 @@ public class ArchitectureTests
     {
         //Arrange
         var assembly = typeof(Infrastructure.DependencyInjection).Assembly;
-
         
         //Act
         var result = Types
