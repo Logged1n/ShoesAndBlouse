@@ -16,7 +16,7 @@ namespace ShoesAndBlouse.Tests.Domain.Entities
                 Name = "Test Product",
                 Description = "Test Description",
                 Price = new Money("zl", 299.99m),
-                Categories = new List<Category> { new Category { Id = 1, Name = "Test Category" } },
+                Categories = [new Category { Id = 1, Name = "Test Category" }],
                 PhotoPath = "/path/to/photo.jpg"
             };
 
@@ -43,7 +43,7 @@ namespace ShoesAndBlouse.Tests.Domain.Entities
                 Name = invalidName,
                 Description = "Test Description",
                 Price = new Money("zl", 299.99m),
-                Categories = new List<Category> { new Category { Id = 1, Name = "Test Category" } },
+                Categories = [new Category { Id = 1, Name = "Test Category" }],
                 PhotoPath = "/path/to/photo.jpg"
             };
 

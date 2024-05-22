@@ -6,7 +6,7 @@ namespace ShoesAndBlouse.Domain.Entities;
 public sealed class Cart
 {
     public User? User { get; set; }
-    public List<OrderDetail> CartItems { get; set; } = [];
+    public HashSet<OrderDetail> CartItems { get; set; } //OrderDetails in a single cart should be unique, so HashSet is the best option to store them since Add/Remove are O(1)
 
     public Cart(User? user)
     {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
+
 using ShoesAndBlouse.Domain.Entities;
 using ShoesAndBlouse.Domain.Interfaces;
 using ShoesAndBlouse.Infrastructure.Constants;
@@ -15,11 +16,7 @@ public class CachedCartRepository(IDistributedCache distributedCache,
         if (cartToUpdate is not null)
         {
             string key = CacheKeys.CartByUserId(userId);
-
-            if (cartToUpdate.CartItems.Contains(item))
-                throw new Exception("No changes to the cart!");
             cartToUpdate.CartItems.Add(item);
-            
             string cacheValue = JsonConvert.SerializeObject(cartToUpdate);
             await distributedCache.SetStringAsync(key, cacheValue, cancellationToken);
         }
@@ -70,11 +67,5 @@ public class CachedCartRepository(IDistributedCache distributedCache,
         });
         
         return cart;
-    }
-
-    public Task MakeOrderAsync(Cart userCart, CancellationToken cancellationToken = default)
-    {
-        //TODO shouldn't it be UserRepository responsibility?
-        throw new NotImplementedException();
     }
 }
