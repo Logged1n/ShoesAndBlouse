@@ -10,6 +10,6 @@ public sealed class Product
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public Money Price { get; set; } = new("PLN", 299.99m);
-    public List<Category> Categories { get; set; } = [];
+    public HashSet<Category> Categories { get; set; } = [];
     public string PhotoPath { get; set; } = string.Empty;
 }

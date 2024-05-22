@@ -11,7 +11,7 @@ public sealed class  User : IdentityUser<int>
     [PersonalData]
     public Address? Address { get; set; }
     [PersonalData]
-    public List<Order> Orders { get; set; } = [];
+    public HashSet<Order> Orders { get; set; } = [];
     [PersonalData]
-    public List<Review> Reviews { get; set; } = [];
+    public HashSet<Review> Reviews { get; set; } = [];
 }

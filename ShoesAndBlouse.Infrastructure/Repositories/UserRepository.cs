@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+
 using ShoesAndBlouse.Domain.Entities;
 using ShoesAndBlouse.Domain.Interfaces;
 using ShoesAndBlouse.Infrastructure.Data;
@@ -23,7 +24,7 @@ public class UserRepository(PostgresDbContext context) : IUserRepository
         return toCreate;
     }
 
-    public async Task<User?> UpdateUserAsync(User toUpdate, CancellationToken cancellationToken=default)
+    public async Task<User?> UpdateUserAsync(User toUpdate, CancellationToken cancellationToken = default)
     {
         var user = await context.Users.FirstOrDefaultAsync(u => u.Id == toUpdate.Id, cancellationToken);
         if (user is null)
@@ -39,7 +40,7 @@ public class UserRepository(PostgresDbContext context) : IUserRepository
         return user;
     }
 
-    public async Task<bool> DeleteUserAsync(int userId, CancellationToken cancellationToken=default)
+    public async Task<bool> DeleteUserAsync(int userId, CancellationToken cancellationToken = default)
     {
         var user = context.Users
             .FirstOrDefault(u => u.Id == userId);
@@ -50,5 +51,10 @@ public class UserRepository(PostgresDbContext context) : IUserRepository
 
         await context.SaveChangesAsync(cancellationToken);
         return true;
+    }
+
+    public async Task<Order> MakeOrderAsync(Cart userCart, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
     }
 }

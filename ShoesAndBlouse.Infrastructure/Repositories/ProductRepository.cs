@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 using ShoesAndBlouse.Domain.Entities;
 using ShoesAndBlouse.Domain.Interfaces;
 using ShoesAndBlouse.Infrastructure.Data;
@@ -48,7 +49,7 @@ public class ProductRepository(PostgresDbContext context) : IProductRepository
         if (product is null) return; // if it was not found delete failed
         
         context.Products.Remove(product);  // else remove it
-        await context.SaveChangesAsync(cancellationToken); // and save changes to databse
+        await context.SaveChangesAsync(cancellationToken); // and save changes to database
     }
 
     public int GetNextProductId()

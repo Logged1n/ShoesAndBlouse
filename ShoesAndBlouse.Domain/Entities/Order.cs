@@ -14,6 +14,6 @@ public sealed class Order
     public User User { get; set; }
     public Address? ShippingAddress { get; set; }
     public Address BillingAddress { get; set; }
-    public List<OrderDetail> ProductsQty { get; set; }
+    public HashSet<OrderDetail> ProductsQty { get; set; }
     public Money Total { get; set; }
 }

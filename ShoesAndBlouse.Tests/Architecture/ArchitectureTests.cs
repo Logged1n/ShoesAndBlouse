@@ -9,7 +9,7 @@ public class ArchitectureTests
     private const string ApplicationNamespace = "ShoesAndBlouse.Application";
     private const string InfrastructureNamespace = "ShoesAndBlouse.Infrastructure";
     private const string PresentationNamespace = "ShoesAndBlouse.API";
-
+    
     [Fact]
     public void Domain_Should_Not_HaveDependencyOnOtherProjects()
     {
@@ -56,11 +56,10 @@ public class ArchitectureTests
     }
     
     [Fact]
-    public void Infrastructure_Should_Not_HaveDependencyOnOtherProjects()
+    public void Infrastructure_Should_Not_HaveDependencyOnPresentation()
     {
         //Arrange
         var assembly = typeof(Infrastructure.DependencyInjection).Assembly;
-
         
         //Act
         var result = Types
@@ -79,14 +78,15 @@ public class ArchitectureTests
         //Arrange
         var assembly = typeof(API.AssemblyReference).Assembly;
         
-        //Act
-        var result = Types
-            .InAssembly(assembly)
+        // Act
+        var result = Types.InAssembly(assembly)
+            .That()
+            .DoNotHaveName("Program") //Exclude the AddInfrastructure Method in Program.cs from checking
             .ShouldNot()
             .HaveDependencyOn(InfrastructureNamespace)
             .GetResult();
-        
-        //Assert
+
+        // Assert
         result.IsSuccessful.Should().BeTrue();
     }
 }

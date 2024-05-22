@@ -2,16 +2,18 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 using ShoesAndBlouse.Domain.Entities;
 using ShoesAndBlouse.Domain.Interfaces;
 using ShoesAndBlouse.Infrastructure.Data;
+using ShoesAndBlouse.Infrastructure.Extensions;
 using ShoesAndBlouse.Infrastructure.Repositories;
 
 namespace ShoesAndBlouse.Infrastructure
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+        public  static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             //Add Repositories Scopes
             services.AddScoped<IProductRepository, ProductRepository>();
@@ -37,6 +39,10 @@ namespace ShoesAndBlouse.Infrastructure
                 .AddIdentityCore<User>()
                 .AddRoles<IdentityRole<int>>()
                 .AddEntityFrameworkStores<PostgresDbContext>();
+            
+            //Extension Methods initializing database and roles
+            services.ApplyMigrations();
+            
             return services;
         }
     }
