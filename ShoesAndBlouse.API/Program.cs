@@ -45,6 +45,14 @@ builder.Services.AddControllers()
 builder.Services
     .AddIdentityApiEndpoints<User>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", b =>
+        b.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
+
 //Session Management TODO DI Infrastructure
 /*builder.Services.AddSession(options =>
 {
@@ -73,5 +81,8 @@ app.UseAuthentication();
 
 app.MapIdentityApi<User>();
 app.MapControllers();
+//Not secure for production!
+app.UseCors("AllowAll");
+app.UseRouting();
 
 app.Run();
