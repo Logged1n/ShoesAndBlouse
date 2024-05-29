@@ -1,4 +1,5 @@
 import styles from "@/styles/page.module.css";
+import Dropdown from "../components/Dropdown";
 import Image from 'next/image';
 import homepage from "@/../public/homepage.jpg";
 import {Dancing_Script} from 'next/font/google';
@@ -9,7 +10,31 @@ const font = Dancing_Script({
 })
 export default function Home() {
     return (
-        <div className={`${"container"}`}>
+        <div className={styles.container}>
+            <div className={styles.dropdown}>
+                <Dropdown category={"New"}>
+                    <Dropdown category={"Shoes"}/>
+                    <Dropdown category={"Clothes"}/>
+                    <Dropdown category={"Accessories"}/>
+                </Dropdown>
+                <Dropdown category={"Men"}>
+                    <Dropdown category={"Shoes"}/>
+                    <Dropdown category={"Clothes"}/>
+                    <Dropdown category={"Accessories"}/>
+                </Dropdown>
+                <Dropdown category={"Women"}>
+                    <Dropdown category={"Shoes"}/>
+                    <Dropdown category={"Clothes"}/>
+                    <Dropdown category={"Accessories"}/>
+                </Dropdown>
+                <Dropdown category={"Kids"}>
+                    <Dropdown category={"Shoes"}/>
+                    <Dropdown category={"Clothes"}/>
+                    <Dropdown category={"Accessories"}/>
+                </Dropdown>
+                <Dropdown category={"About Us"}/>
+                <Dropdown category={"More"}/>
+            </div>
             <div style={{ display: 'flex'}}>
                 <div>
                     <Image
