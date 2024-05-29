@@ -2,25 +2,12 @@
 
 import axios from "axios";
 import {useState} from "react";
-
-interface Price {
-    currency: string;
-    amount: number;
-}
-
-interface Product {
-    id: number;
-    name: string;
-    description: string;
-    price: Price;
-    categories: Record<string, string>;
-    photoUrl: string;
-}
+import {Product} from "@/app/_types/api_interfaces";
 
 export default function Dummy() {
     const [products, setProducts] = useState<Product[]>([]);
     const makeApiCall = async (): Promise<string> => {
-         const data = await axios.get<Product[]>(`backendAPI/v1/Product/GetALL`);
+         const data = await axios.get<Product[]>(`/backendAPI/v1/Product/GetAll`);
          console.log(data);
          setProducts(data.data);
         return JSON.stringify(data);
@@ -40,11 +27,11 @@ export default function Dummy() {
                     
                     { products.length > 0 ?
                         products.map((product) => (
-                            <tr>
+                            <tr key={product.id}>
                                 <td key={product.id}>
                                     {product.id}
                                 </td>
-                                <td key={product.id}>
+                                <td key={product.name}>
                                     {product.name}
                                 </td>
                             </tr>

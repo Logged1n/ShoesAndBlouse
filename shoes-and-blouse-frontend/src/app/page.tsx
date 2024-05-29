@@ -10,7 +10,7 @@ const font = Dancing_Script({
 })
 export default function Home() {
     return (
-        <div className={`${"container"}`}>
+        <div className={styles.container}>
             <div className={styles.dropdown}>
                 <Dropdown category={"New"}>
                     <Dropdown category={"Shoes"}/>

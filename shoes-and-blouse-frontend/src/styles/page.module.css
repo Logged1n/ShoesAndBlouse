@@ -235,3 +235,21 @@
     transform: rotate(0deg);
   }
 }
+
+.container {
+  max-width: 100rem;
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 60rem) {
+  .container {
+    padding-inline: 3rem;
+  }
+
+  .mainContent {
+    padding-top: 6rem;
+    display: grid;
+    gap: 7.25rem;
+    padding-bottom: 6rem;
+  }
+}
