@@ -11,3 +11,9 @@ export interface Product {
     categories: Record<number, string>;
     photoUrl: string;
 }
+
+export interface Category {
+    id: number;
+    name: string;
+    products: Record<number, string>;
+}

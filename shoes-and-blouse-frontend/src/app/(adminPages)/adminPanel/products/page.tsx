@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import {useEffect, useState} from "react";
-import ToolBar from "@/components/ToolBar";
+
 import {Product} from "@/app/_types/api_interfaces";
 
 export default function ProductsPanel() {
@@ -18,7 +18,7 @@ export default function ProductsPanel() {
 
     return (
         <div>
-            <ToolBar />
+            
         </div>
     );
 }
