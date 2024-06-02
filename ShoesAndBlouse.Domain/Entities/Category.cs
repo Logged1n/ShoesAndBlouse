@@ -7,6 +7,6 @@ public sealed class Category
     [Key]
     public int Id { get; init; }
     public string Name { get; set; } = string.Empty;
-    public HashSet<Product> Products { get; init; } = [];
+    public List<Product> Products { get; init; } = [];
 
 }

@@ -77,19 +77,6 @@
   font: inherit;
 }
 
-input:focus,
-select:focus,
-textarea:focus,
-button:focus {
-  outline: none;
-}
-
-/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
-ul[role='list'],
-ol[role='list'] {
-  list-style: none;
-}
-
 /* Set core root defaults */
 html:focus-within {
   scroll-behavior: smooth;
@@ -146,7 +133,6 @@ h1 {
 
 body {
   background-color: var(--clr-accent-100);
-  font-family: var(--ff-body);
   font-size: var(--fs-body);
 }
 
@@ -164,89 +150,6 @@ p {
   font-size: var(--fs-body);
 }
 
-h2 {
-  font-family: var(--ff-primary);
-}
-
-h3 {
-  font-family: var(--ff-common);
-  font-size: var(--fs-body);
-}
-
-button {
-  /* TODO style buttons correctly
-  width: 100%;
-  max-width: 25rem;
-  height: 3.5rem;
-  border-radius: 0.65rem;
-  font-weight: var(--fw-semi-bold);
-  background: transparent;
-  position: relative;
-  cursor: pointer;
-  */
-}
-
-.primary-button {
-  /* TODO
-  border: 2.5px solid var(--clr-neutral-400);
-  transition: 0.3s ease-in-out;
-  color: var(--clr-primary-400);
-   */
-}
-
-.primary-button:before {
-  /* TODO
-  content: ' ';
-  position: absolute;
-  z-index: -1;
-  top: 5px;
-  left: -0.5rem;
-  right: -0.5rem;
-  bottom: 5px;
-  border-radius: 0.65rem;
-  transition: 0.3s ease-in-out;
-  border: 2.5px solid var(--clr-accent-400-semi-transparent-2);
-  */
-}
-
-.primary-button:hover {
-  /* TODO
-  border: 2.5px solid var(--clr-neutral-400-semi-transparent);
-  transition: 0.3s ease-in-out;
-  */
-}
-
-.primary-button:hover:before {
-  /* TODO
-  border: 2.5px solid var(--clr-accent-400);
-  transition: 0.3s ease-in-out;
-  z-index: 100;
-  */
-}
-
-.secondary-button {
-  /* TODO
-  border: 2.5px solid var(--clr-accent-400-semi-transparent);
-  color: var(--clr-accent-400);
-  transition: 0.3s ease-in-out;
-  */
-}
-
-.secondary-button:hover {
-  /* TODO
-  border: 2.5px solid var(--clr-accent-400);
-  transition: 0.3s ease-in-out;
-  */
-}
-
-@media screen and (min-width: 60rem) {
-  button {
-    /* TODO
-    max-width: 16rem;
-    height: 4.21rem;
-    */
-  }
-}
 
 .mainLayout {
   min-height: 100vh;
@@ -263,40 +166,14 @@ button {
   gap: 3.25rem;
 }
 
-/* Utility classes */
-.flex {
-  display: flex;
-  gap: 2.5rem;
-}
-
-.flex-column {
-  flex-direction: column;
-}
-
 .container {
   max-width: 100rem;
   margin: 0 auto;
 }
 
-.evenColumns {
-  --column-count: 1;
-  display: grid;
-  grid-template-columns: repeat(var(--column-count), 1fr);
-  gap: 3.25rem;
-}
-
 @media screen and (min-width: 60rem) {
   .container {
     padding-inline: 3rem;
-  }
-
-  .evenColumns {
-    --column-count: 2;
-    gap: 7.25rem;
-  }
-
-  .flex {
-    gap: 4rem;
   }
 
   .mainContent {

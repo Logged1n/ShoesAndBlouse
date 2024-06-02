@@ -1,17 +1,12 @@
-.content{
-    display: flex;
+.content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
 }
 .create{
-    margin-left:700px;
-    width: 500px;
-    height: 500px;
+   max-width: 700px;
 }
 
 .loginContainer{
-    border-width: 5rem;
-    margin-left:300px;
-    width:500px;
-    height:500px;
     align-content: center;
 }
 .button{
