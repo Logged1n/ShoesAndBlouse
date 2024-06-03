@@ -22,14 +22,5 @@ export interface AddCategoryFormProps {
     products: Product[];
 }
 export interface AddProductFormProps {
-    name: string;
-    description: string;
-    price: Price;
-    categories: number[];
-    photoUrl: string;
-}
-
-export interface LoginDetails{
-    email:string;
-    password:string;
+    onSubmit: (product: any) => void;
 }
