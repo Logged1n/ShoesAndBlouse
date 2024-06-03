@@ -17,3 +17,10 @@ export interface Category {
     name: string;
     products: Record<number, string>;
 }
+
+export interface AddCategoryFormProps {
+    products: Product[];
+}
+export interface AddProductFormProps {
+    onSubmit: (product: any) => void;
+}
