@@ -4,6 +4,7 @@ import InputLabel from "@/components/InputLabel";
 import styles from "@/styles/login.module.css";
 import Link from "next/link";
 import {useForm} from "react-hook-form";
+import axios from "axios";
 
 interface LoginDetails{
     "email": string,
@@ -19,8 +20,13 @@ export default function Login() {
     } = useForm<LoginDetails>({});
     const onSubmit = async (data: LoginDetails) => {
         try {
-            //await schema.validate(data);
-            console.log(data);
+           await axios.post("/backendAPI/login?useCookies=true", data, {
+               headers: {
+                   "Content-Type": "application/json",
+                   "Accept": "application/json"
+               }
+           })
+               .then(res => console.log(res.data))
         } catch (error) {
             console.error('Błąd walidacji:', (error as Error).message);
         }

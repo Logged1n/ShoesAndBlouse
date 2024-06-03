@@ -4,6 +4,7 @@ import InputLabel from "@/components/InputLabel";
 import styles from "@/styles/register.module.css"
 import Link from "next/link";
 import {useForm} from "react-hook-form";
+import axios from "axios";
 
 interface RegisterDetails{
     "email": string,
@@ -20,8 +21,13 @@ export default function Register()
     } = useForm<RegisterDetails>({});
     const onSubmit = async (data: RegisterDetails) => {
         try {
-            //await schema.validate(data);
-            console.log(data);
+            await axios.post("/backendAPI/register", data, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "*/*",
+                }
+            })
+                .then(res => console.log(res.data))
         } catch (error) {
             console.error('Błąd walidacji:', (error as Error).message);
         }

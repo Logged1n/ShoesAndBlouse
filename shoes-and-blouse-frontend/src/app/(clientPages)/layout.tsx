@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-//import "../styles/globals.css";
+import "@/styles/globals.css";
 import React from "react";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
+import Header from "@/components/Header/Header";
 
 export const metadata: Metadata = {
   title: "Shoes And Blouse",
@@ -18,6 +19,7 @@ export default function RootLayout({
       <body>
       <AppRouterCacheProvider options={{enableCssLayer: true}}>
         <div className="mainLayout">
+            <Header />
             <main className="mainContent">
                 {children}
             </main>
