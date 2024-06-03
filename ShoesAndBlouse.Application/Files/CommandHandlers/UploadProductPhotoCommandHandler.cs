@@ -28,9 +28,11 @@ namespace ShoesAndBlouse.Application.Files.CommandHandlers
 
             // Update product record with photo path
             var productToUpdate = await _productRepository.GetProductByIdAsync(request.ProductId, cancellationToken);
-            productToUpdate.PhotoPath = photoPath;
-            await _productRepository.UpdateProductAsync(productToUpdate, cancellationToken);
-            
+            if (productToUpdate is not null)
+            {
+                productToUpdate.PhotoPath = photoPath;
+                await _productRepository.UpdateProductAsync(productToUpdate, cancellationToken);
+            }
         }
 
         async private Task<string> SavePhotoAsync(IFormFile photoFile, int productId)
@@ -44,7 +46,7 @@ namespace ShoesAndBlouse.Application.Files.CommandHandlers
             var fileName = $"{productId}{Path.GetExtension(photoFile.FileName)}";
             var filePath = Path.Combine(uploadsFolder, fileName);
 
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            await using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
                 await photoFile.CopyToAsync(fileStream);
             }
