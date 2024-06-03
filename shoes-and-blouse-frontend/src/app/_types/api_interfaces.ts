@@ -11,3 +11,8 @@ export interface Product {
     categories: Record<number, string>;
     photoUrl: string;
 }
+
+export interface LoginDetails{
+    "email": string,
+    "password": string,
+}

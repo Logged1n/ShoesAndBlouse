@@ -5,21 +5,15 @@ import styles from "@/styles/register.module.css"
 import Link from "next/link";
 import {useForm} from "react-hook-form";
 import axios from "axios";
-
-interface RegisterDetails{
-    "email": string,
-    "password": string,
-    "twoFactorCode"?: number,
-    "twoFactorRecoveryCode"?: string
-}
+import {LoginDetails} from "@/app/_types/api_interfaces";
 export default function Register()
 {
     const {
         register,
         handleSubmit,
         formState: { errors},
-    } = useForm<RegisterDetails>({});
-    const onSubmit = async (data: RegisterDetails) => {
+    } = useForm<LoginDetails>({});
+    const onSubmit = async (data: LoginDetails) => {
         try {
             await axios.post("/backendAPI/register", data, {
                 headers: {

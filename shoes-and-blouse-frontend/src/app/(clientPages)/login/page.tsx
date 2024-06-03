@@ -5,13 +5,9 @@ import styles from "@/styles/login.module.css";
 import Link from "next/link";
 import {useForm} from "react-hook-form";
 import axios from "axios";
+import {LoginDetails} from "@/app/_types/api_interfaces";
 
-interface LoginDetails{
-    "email": string,
-    "password": string,
-    "twoFactorCode"?: number,
-    "twoFactorRecoveryCode"?: string
-}
+
 export default function Login() {
     const {
         register,
@@ -65,7 +61,7 @@ export default function Login() {
             </form>
                 <div className={styles.registerContainer}>
                     <h2 style={{marginLeft: -150, marginBottom: 15, fontSize: 50}}>
-                        You don't have an account?
+                        You don&apos;t have an account?
                     </h2>
                     <button className={styles.button}>
                         <Link className={styles.link} href={"/register"}>
