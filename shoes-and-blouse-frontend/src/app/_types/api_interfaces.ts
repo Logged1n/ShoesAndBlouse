@@ -22,5 +22,9 @@ export interface AddCategoryFormProps {
     products: Product[];
 }
 export interface AddProductFormProps {
-    onSubmit: (product: any) => void;
+    name: string;
+    description: string;
+    currency: string;
+    amount: number;
+    categories: number[]; // Dodajemy kategorie jako tablicę numerów
 }
