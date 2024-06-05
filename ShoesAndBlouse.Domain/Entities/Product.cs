@@ -11,5 +11,6 @@ public sealed class Product
     public string Description { get; set; } = string.Empty;
     public Money Price { get; set; } = new("PLN", 299.99m);
     public List<Category> Categories { get; init; } = [];
+    public List<Review> Reviews { get; init; } = [];
     public string PhotoPath { get; set; } = string.Empty;
 }

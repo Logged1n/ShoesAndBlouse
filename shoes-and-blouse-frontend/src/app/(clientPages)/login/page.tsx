@@ -7,7 +7,6 @@ import {useForm} from "react-hook-form";
 import axios from "axios";
 import {LoginDetails} from "@/app/_types/api_interfaces";
 
-
 export default function Login() {
     const {
         register,
@@ -16,7 +15,8 @@ export default function Login() {
     } = useForm<LoginDetails>({});
     const onSubmit = async (data: LoginDetails) => {
         try {
-           await axios.post("/backendAPI/login?useCookies=true", data, {
+           await axios.post("/backendAPI/login?useCookies=true",
+               data, {
                headers: {
                    "Content-Type": "application/json",
                    "Accept": "application/json"

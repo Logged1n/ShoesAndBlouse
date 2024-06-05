@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
+
 using ShoesAndBlouse.Application.Files.Commands;
 using ShoesAndBlouse.Domain.Interfaces;
 
@@ -28,23 +29,24 @@ namespace ShoesAndBlouse.Application.Files.CommandHandlers
 
             // Update product record with photo path
             var productToUpdate = await _productRepository.GetProductByIdAsync(request.ProductId, cancellationToken);
-            productToUpdate.PhotoPath = photoPath;
-            await _productRepository.UpdateProductAsync(productToUpdate, cancellationToken);
-            
+            if (productToUpdate is not null)
+            {
+                productToUpdate.PhotoPath = photoPath;
+                await _productRepository.UpdateProductAsync(productToUpdate, cancellationToken);
+            }
         }
 
         async private Task<string> SavePhotoAsync(IFormFile photoFile, int productId)
         {
             var uploadsFolder = Path.Combine(_webHostEnvironment.ContentRootPath, "wwwroot", "Images/Product");
-
-
+            
             if (!Directory.Exists(uploadsFolder))
                 Directory.CreateDirectory(uploadsFolder);
 
             var fileName = $"{productId}{Path.GetExtension(photoFile.FileName)}";
             var filePath = Path.Combine(uploadsFolder, fileName);
 
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            await using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
                 await photoFile.CopyToAsync(fileStream);
             }

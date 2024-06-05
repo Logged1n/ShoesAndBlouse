@@ -27,6 +27,8 @@ namespace ShoesAndBlouse.Application.Products.CommandHandlers
                 Description = request.Description,
                 Price = request.Price,
                 Categories = [],
+                Reviews = [],
+                PhotoPath = string.Empty
             };
 
             foreach (var categoryId in request.CategoryIds)

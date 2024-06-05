@@ -12,7 +12,13 @@ export interface Product {
     photoUrl: string;
 }
 
-export interface LoginDetails{
+export interface LoginDetails {
     "email": string,
     "password": string,
+}
+
+export interface Category {
+    id: number,
+    name: string,
+    products: Record<number, string>
 }

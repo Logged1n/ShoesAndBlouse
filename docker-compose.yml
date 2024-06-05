@@ -11,6 +11,7 @@ services:
       dockerfile: ShoesAndBlouse.API/Dockerfile
     depends_on: 
       - shoesandblouse.database
+      - shoesandblouse.cache
     ports:
       - "5000:5000"
       - "5001:5001"
@@ -36,6 +37,7 @@ services:
       - ./db-data/:/var/lib/postgresql/data/
   shoesandblouse.cache:
     image: redis:latest
+    container_name: redis
     ports:
       - "6379:6379"
     restart: always
