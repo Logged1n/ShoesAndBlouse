@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using FluentValidation.Results;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using ShoesAndBlouse.Application.Categories.Commands;
@@ -12,6 +13,7 @@ namespace ShoesAndBlouse.API.Controllers;
 [ApiVersion(1)]
 [Route("api/v{v:apiVersion}/[controller]")]
 [ApiController]
+[Authorize(Roles = "Admin")]
 public class CategoryController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -22,12 +24,15 @@ public class CategoryController : ControllerBase
     }
 
     [MapToApiVersion(1)]
+    [AllowAnonymous]
     [HttpGet("GetById/{categoryId}")]
     public async Task<IActionResult> GetById(int categoryId)
     {
         return Ok(await _mediator.Send(new GetCategoryByIdQuery { Id = categoryId }));
     }
     
+    [MapToApiVersion(1)]
+    [AllowAnonymous]
     [HttpGet("GetAll")]
     public async Task<IActionResult> GetAll()
     {
@@ -35,6 +40,7 @@ public class CategoryController : ControllerBase
         return Ok(categories);
     }
     
+    [MapToApiVersion(1)]
     [HttpPost("Create")]
     public async Task<IActionResult> Create([FromBody] CreateCategoryCommand command)
     {
@@ -43,9 +49,10 @@ public class CategoryController : ControllerBase
             return BadRequest(validationResult.Errors);
 
         var category = await _mediator.Send(command);
-        return CreatedAtAction(nameof(GetById), new { category.Id }, category);
+        return Ok(category);
     }
 
+    [MapToApiVersion(1)]
     [HttpDelete("Delete/{categoryId}")]
     public async Task<IActionResult> Delete(int categoryId)
     {
@@ -54,6 +61,7 @@ public class CategoryController : ControllerBase
         return Ok();
     }
 
+    [MapToApiVersion(1)]
     [HttpPatch("Update")]
     public async Task<IActionResult> Update([FromBody] UpdateCategoryCommand command)
     {

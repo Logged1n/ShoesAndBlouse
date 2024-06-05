@@ -18,6 +18,8 @@ namespace ShoesAndBlouse.Infrastructure
             //Add Repositories Scopes
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICartRepository, CachedCartRepository>();
             
             //Mediator Pattern Setup
             services.AddMediatR(cfg => 

@@ -14,7 +14,7 @@ namespace ShoesAndBlouse.API.Controllers;
 [Route("api/v{v:apiVersion}/[controller]")]
 [ApiController]
 [ApiVersion(1)]
-//[Authorize("Admin")]
+[Authorize(Roles = "Admin")]
 public class ProductController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -30,8 +30,8 @@ public class ProductController : ControllerBase
     public async Task<ActionResult<ProductDto>> GetById(int productId)
     {
         var product = await _mediator.Send(new GetProductByIdQuery { Id = productId });
-        if (product is null)
-            return NotFound();
+        if (product.Id == 0)
+            return NotFound(product);
 
         _hostUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
         product.PhotoUrl = $"{_hostUrl}/{product.PhotoUrl}";

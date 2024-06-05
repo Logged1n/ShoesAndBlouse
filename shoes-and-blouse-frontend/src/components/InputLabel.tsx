@@ -15,10 +15,16 @@ type InputLabelProps = {
 const InputLabel = ({ name, register, ...rest }: InputLabelProps) => {
     return (
         <div className={styles.formGroup}>
-            <label htmlFor={name} className={styles.blueLabel}>{rest.labelText}</label>
-            <input type={rest.inputType} name={rest.inputId} id={rest.inputId} className={styles.formInput}
-                   pattern={rest.pattern} aria-invalid={rest.errors[name] ? "true" : "false"}
-                   placeholder={rest.placeholderText} {...register(name)}
+            <label htmlFor={name}
+                   className={styles.blueLabel}>{rest.labelText}</label>
+            <input type={rest.inputType}
+                   name={rest.inputId}
+                   id={rest.inputId}
+                   className={styles.formInput}
+                   pattern={rest.pattern}
+                   aria-invalid={rest.errors[name] ? "true" : "false"}
+                   placeholder={rest.placeholderText}
+                   {...register(name)}
                    required={rest.required != null ? rest.required : false} />
 
             {rest.errorMessage !=null ? <span className={styles.errorMessage}>{rest.errorMessage}</span> : null}

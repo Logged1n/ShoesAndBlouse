@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
+
 using ShoesAndBlouse.Application.Files.Commands;
 using ShoesAndBlouse.Domain.Interfaces;
 
@@ -38,8 +39,7 @@ namespace ShoesAndBlouse.Application.Files.CommandHandlers
         async private Task<string> SavePhotoAsync(IFormFile photoFile, int productId)
         {
             var uploadsFolder = Path.Combine(_webHostEnvironment.ContentRootPath, "wwwroot", "Images/Product");
-
-
+            
             if (!Directory.Exists(uploadsFolder))
                 Directory.CreateDirectory(uploadsFolder);
 

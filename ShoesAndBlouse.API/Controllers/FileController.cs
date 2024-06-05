@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using ShoesAndBlouse.Application.Files.Commands;
@@ -17,13 +18,12 @@ public class FileController : ControllerBase
     {
         _mediator = mediator;
     }
-    //[Authorize("Admin")]
+    [Authorize(Roles = "Admin")]
     [MapToApiVersion(1)]
     [HttpPut("UploadProductImage")]
     public async Task<IActionResult> UploadProductImage(UploadProductPhotoCommand command)
     {
         await _mediator.Send(command);
-
         return Ok();
     }
 }

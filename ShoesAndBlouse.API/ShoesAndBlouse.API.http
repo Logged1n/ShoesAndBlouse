@@ -1,6 +1,0 @@
-@ShoesAndBlouse.API_HostAddress = http://localhost:5022
-
-GET {{ShoesAndBlouse.API_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
