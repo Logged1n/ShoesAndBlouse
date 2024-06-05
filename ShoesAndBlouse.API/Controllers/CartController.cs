@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using ShoesAndBlouse.Application.Carts.Commands;
@@ -9,6 +10,7 @@ namespace ShoesAndBlouse.API.Controllers;
 
 [ApiVersion(1)]
 [Route("api/v{v:apiVersion}/[controller]")]
+[Authorize(Roles = "Client, Manager, Admin")]
 [ApiController]
 public class CartController : ControllerBase
 {

@@ -3,7 +3,7 @@ using ShoesAndBlouse.Domain.ValueObjects;
 
 namespace ShoesAndBlouse.Application.Products.Commands
 {
-    public class UpdateProductCommand : IRequest<bool>
+    public record UpdateProductCommand : IRequest<bool>
     {
         public int ProductId { get; set; }
         public string? Name { get; set; }

@@ -26,6 +26,7 @@ public class GetProductByIdQueryHandler(IProductRepository productRepository) : 
                 Price = new Money("NOT", 0m),
                 Description = exception.Message,
                 Categories = [],
+                Reviews = [],
                 PhotoUrl = "Images/Product/0.png"
             };
         }

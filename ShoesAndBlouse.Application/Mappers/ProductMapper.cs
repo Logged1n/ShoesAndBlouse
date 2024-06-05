@@ -16,6 +16,7 @@ namespace ShoesAndBlouse.Application.Mappers
                     Description = product.Description,
                     Price = product.Price,
                     Categories = product.Categories.ToDictionary(c => c.Id, c => c.Name),
+                    Reviews = ReviewMapper.MapListToDto(product.Reviews),
                     PhotoUrl = product.PhotoPath
                 };
             }

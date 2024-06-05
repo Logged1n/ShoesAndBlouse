@@ -21,6 +21,7 @@ public class ProductRepository(PostgresDbContext context) : IProductRepository
     {
         var product = await context.Products
             .Include(product => product.Categories)
+            .Include(product => product.Reviews)
             .FirstOrDefaultAsync(p => p.Id == productId, cancellationToken);
         return product ; // return first found product with provided Id
     }
