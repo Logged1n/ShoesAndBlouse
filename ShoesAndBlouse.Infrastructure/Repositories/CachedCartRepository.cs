@@ -16,12 +16,10 @@ public class CachedCartRepository(IDistributedCache distributedCache) : ICartRep
         if (cartToUpdate is not null)
         {
             string key = CacheKeys.CartByUserId(userId);
-            if (!cartToUpdate.CartItems.Contains(item))
-            {
-                cartToUpdate.CartItems.Add(item);
-                string cacheValue = JsonConvert.SerializeObject(cartToUpdate);
-                await distributedCache.SetStringAsync(key, cacheValue, cancellationToken);
-            }
+            
+            cartToUpdate.CartItems.Add(item);
+            string cacheValue = JsonConvert.SerializeObject(cartToUpdate);
+            await distributedCache.SetStringAsync(key, cacheValue, cancellationToken);
         }
        
     }
