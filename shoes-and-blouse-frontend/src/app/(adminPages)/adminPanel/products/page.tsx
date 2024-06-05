@@ -1,22 +1,20 @@
 ﻿"use client"
 
-import axios from "axios";
-import {useEffect, useState} from "react";
-import {Product} from "@/app/_types/api_interfaces";
+import React from 'react';
+import { Container, Typography } from '@mui/material';
+import AddProductForm from '@/components/AddProductForm';
+import { Product } from '@/app/_types/api_interfaces';
 
-export default function ProductsPanel() {
-    const [products, setProducts] = useState<Product[]>([]);
-    const makeApiCall = async (): Promise<void> => {
-        const data = await axios.get<Product[]>(`/backendAPI/api/v1/Product/GetAll`);
-        setProducts(data.data)
-    }
-
-    useEffect(() => {
-        makeApiCall();
-    }, []);
+const AddProduct: React.FC = () => {
 
     return (
-        <div>
-        </div>
+        <Container>
+            <Typography variant="h4" align="center" gutterBottom>
+                Dodaj Produkt
+            </Typography>
+            <AddProductForm />
+        </Container>
     );
-}
+};
+
+export default AddProduct;
