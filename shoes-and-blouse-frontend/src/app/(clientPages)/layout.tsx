@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
 import React from "react";
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import Header from "@/components/Header/Header";
 
 export const metadata: Metadata = {

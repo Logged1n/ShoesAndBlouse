@@ -8,7 +8,9 @@ import { GetCategories } from "@/app/actions/actions";
 import { TextField, Checkbox, FormControlLabel, Button, Box, FormGroup, FormControl, FormLabel } from "@mui/material";
 
 export default function AddProductForm() {
-    const { register, handleSubmit, formState: { errors } } = useForm<AddProductFormProps>({});
+    const { register,
+        handleSubmit,
+        formState: { errors } } = useForm<AddProductFormProps>({});
     const [categories, setCategories] = useState<Category[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
 
