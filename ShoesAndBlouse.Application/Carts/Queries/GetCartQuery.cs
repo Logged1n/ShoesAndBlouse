@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using ShoesAndBlouse.Application.DTOs;
+using ShoesAndBlouse.Domain.Entities;
 
 namespace ShoesAndBlouse.Application.Carts.Queries;
 
-public class GetCartQuery : IRequest<CartDto>
+public class GetCartQuery : IRequest<Cart>
 {
     public int userId { get; set; }
 }

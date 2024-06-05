@@ -102,7 +102,7 @@ if (app.Environment.IsDevelopment())
 //Comment out only for docker usage
 //app.UseHttpsRedirection();
 
-app.UseSession();
+
 
 //Allow to access static files from wwwroot folder
 app.UseStaticFiles();
@@ -110,8 +110,11 @@ app.UseStaticFiles();
 //Not secure for production!
 app.UseCors("AllowAll");
 app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapIdentityApi<User>();
 app.MapControllers();
