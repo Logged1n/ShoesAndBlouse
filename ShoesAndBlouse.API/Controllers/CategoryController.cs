@@ -43,7 +43,7 @@ public class CategoryController : ControllerBase
             return BadRequest(validationResult.Errors);
 
         var category = await _mediator.Send(command);
-        return CreatedAtAction(nameof(GetById), new { category.Id }, category);
+        return Ok(category);
     }
 
     [HttpDelete("Delete/{categoryId}")]

@@ -24,7 +24,12 @@ export interface AddCategoryFormProps {
 export interface AddProductFormProps {
     name: string;
     description: string;
-    currency: string;
-    amount: number;
-    categories: number[]; // Dodajemy kategorie jako tablicę numerów
+    price: Price;
+    categories: number[];
+    photoUrl: string;
+}
+
+export interface LoginDetails{
+    email:string;
+    password:string;
 }

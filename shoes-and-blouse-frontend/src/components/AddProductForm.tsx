@@ -1,26 +1,20 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { AddProductFormProps, Category } from "@/app/_types/api_interfaces";
 import { GetCategories } from "@/app/actions/actions";
-import { TextField, Checkbox, FormControlLabel, Button, Typography, Box, FormGroup } from "@mui/material";
+import { TextField, Checkbox, FormControlLabel, Button, Box, FormGroup, FormControl, FormLabel } from "@mui/material";
 
 export default function AddProductForm() {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors }
-    } = useForm<AddProductFormProps>({});
-
+    const { register, handleSubmit, formState: { errors } } = useForm<AddProductFormProps>({});
     const [categories, setCategories] = useState<Category[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
 
     useEffect(() => {
         async function fetchCategories() {
             const categories = await GetCategories();
-            console.log(categories);
             setCategories(categories);
         }
         fetchCategories();
@@ -35,17 +29,24 @@ export default function AddProductForm() {
         );
     };
 
-    const onSubmit = async (data: any) => {
+    const onSubmit = async (data: AddProductFormProps) => {
+        const productData = { ...data, categories: selectedCategories };
+        // Logging for debugging
+        console.log('Form data:', data);
+        console.log('Selected categories:', selectedCategories);
+        console.log('Product data to be submitted:', productData);
+
         try {
-            const productData = { ...data, categories: selectedCategories };
-            await axios.post("/backendAPI/api/v1/Product/Create", productData, {
+            const response = await axios.post("/backendAPI/api/v1/Product/Create", productData, {
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "*/*",
                 }
-            }).then(res => console.log(res.data));
+            })
+                .then(response => console.log(response.data));
+
         } catch (error) {
-            console.error('Błąd przy tworzeniu produktu: ', (error as Error).message);
+            console.error('Error creating product:', (error as Error).message);
         }
     };
 
@@ -57,10 +58,10 @@ export default function AddProductForm() {
                     variant="outlined"
                     fullWidth
                     margin="normal"
-                    {...register("name", { required: "Wrong name" })}
-                    error={!!errors.name}
-                    helperText={errors.name ? errors.name.message : ""}
+                    {...register("name", { required: "Name is required" })}
                     placeholder="Name of a product"
+                    error={!!errors.name}
+                    helperText={errors.name ? errors.name.message : ''}
                 />
 
                 <TextField
@@ -68,10 +69,10 @@ export default function AddProductForm() {
                     variant="outlined"
                     fullWidth
                     margin="normal"
-                    {...register("description", { required: "Wrong description" })}
-                    error={!!errors.description}
-                    helperText={errors.description ? errors.description.message : ""}
+                    {...register("description", { required: "Description is required" })}
                     placeholder="Description of the product"
+                    error={!!errors.description}
+                    helperText={errors.description ? errors.description.message : ''}
                 />
 
                 <TextField
@@ -79,10 +80,10 @@ export default function AddProductForm() {
                     variant="outlined"
                     fullWidth
                     margin="normal"
-                    {...register("currency", { required: "Wrong currency" })}
-                    error={!!errors.currency}
-                    helperText={errors.currency ? errors.currency.message : ""}
+                    {...register("price.currency", { required: "Currency is required" })}
                     placeholder="PLN"
+                    error={!!errors.price?.currency}
+                    helperText={errors.price?.currency ? errors.price.currency.message : ''}
                 />
 
                 <TextField
@@ -90,29 +91,34 @@ export default function AddProductForm() {
                     variant="outlined"
                     fullWidth
                     margin="normal"
-                    {...register("amount", { required: "Wrong amount" })}
-                    error={!!errors.amount}
-                    helperText={errors.amount ? errors.amount.message : ""}
+                    type="number"
+                    {...register("price.amount", { required: "Amount is required" })}
                     placeholder="100"
+                    error={!!errors.price?.amount}
+                    helperText={errors.price?.amount ? errors.price.amount.message : ''}
                 />
 
-                <Typography variant="h6" component="h3" gutterBottom>
-                    Categories
-                </Typography>
-                <FormGroup>
-                    {categories.map(category => (
-                        <FormControlLabel
-                            key={category.id}
-                            control={
-                                <Checkbox
-                                    value={category.id}
-                                    onChange={handleCheckboxChange}
+                <Box sx={{ display: 'flex' }}>
+                    <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
+                        <FormLabel component="legend">Select Categories</FormLabel>
+                        <FormGroup>
+                            {categories.map(category => (
+                                <FormControlLabel
+                                    key={category.id}
+                                    control={
+                                        <Checkbox
+                                            value={category.id.toString()}
+                                            checked={selectedCategories.includes(category.id)}
+                                            onChange={handleCheckboxChange}
+                                            name={category.name}
+                                        />
+                                    }
+                                    label={category.name}
                                 />
-                            }
-                            label={category.name}
-                        />
-                    ))}
-                </FormGroup>
+                            ))}
+                        </FormGroup>
+                    </FormControl>
+                </Box>
                 <Button type="submit" variant="contained" color="primary" fullWidth>
                     Submit
                 </Button>
