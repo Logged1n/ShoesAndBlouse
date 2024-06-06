@@ -1,18 +1,35 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray, useWatch } from "react-hook-form";
 import axios from "axios";
-import { AddProductFormProps, Category } from "@/app/_types/api_interfaces";
+import { Category, Price} from "@/app/_types/api_interfaces";
 import { GetCategories } from "@/app/actions/actions";
 import { TextField, Checkbox, FormControlLabel, Button, Box, FormGroup, FormControl, FormLabel } from "@mui/material";
+
+type CategoryIdField = {
+    id: string;
+}
+
+interface AddProductFormProps {
+    name: string;
+    description: string;
+    price: Price;
+    categoryIds: CategoryIdField[];
+}
 
 export default function AddProductForm() {
     const { register,
         handleSubmit,
-        formState: { errors } } = useForm<AddProductFormProps>({});
+        formState: { errors },
+        control } = useForm<AddProductFormProps>({});
+    const { fields,
+        append,
+        remove } = useFieldArray({
+        control,
+        name: "categoryIds"
+    });
     const [categories, setCategories] = useState<Category[]>([]);
-    const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
 
     useEffect(() => {
         async function fetchCategories() {
@@ -22,20 +39,30 @@ export default function AddProductForm() {
         fetchCategories();
     }, []);
 
+    const categoryIds = useWatch({
+        control,
+        name: "categoryIds"
+    });
+
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const categoryId = parseInt(event.target.value, 10);
-        setSelectedCategories(prevSelected =>
-            event.target.checked
-                ? [...prevSelected, categoryId]
-                : prevSelected.filter(id => id !== categoryId)
-        );
+        const categoryId = event.target.value;
+        const isChecked = event.target.checked;
+
+        if (isChecked) {
+            if (!categoryIds.some(field => field.id === categoryId)) {
+                append({ id: categoryId });
+            }
+        } else {
+            const index = categoryIds.findIndex(field => field.id === categoryId);
+            if (index !== -1) {
+                remove(index);
+            }
+        }
     };
 
     const onSubmit = async (data: AddProductFormProps) => {
-        const productData = { ...data, categories: selectedCategories };
-        // Logging for debugging
+        const productData = { ...data, categoryIds: data.categoryIds.map(category => category.id) };
         console.log('Form data:', data);
-        console.log('Selected categories:', selectedCategories);
         console.log('Product data to be submitted:', productData);
 
         try {
@@ -44,8 +71,8 @@ export default function AddProductForm() {
                     "Content-Type": "application/json",
                     "Accept": "*/*",
                 }
-            })
-                .then(response => console.log(response.data));
+            });
+            console.log('Response:', response.data);
 
         } catch (error) {
             console.error('Error creating product:', (error as Error).message);
@@ -110,7 +137,7 @@ export default function AddProductForm() {
                                     control={
                                         <Checkbox
                                             value={category.id.toString()}
-                                            checked={selectedCategories.includes(category.id)}
+                                            checked={categoryIds.some(field => field.id === category.id.toString())}
                                             onChange={handleCheckboxChange}
                                             name={category.name}
                                         />

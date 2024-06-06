@@ -9,7 +9,7 @@ public static class CategoryMapper
     {
         return new CategoryDto
         {
-            Id = category.Id,
+            Id = category.Id.ToString(),
             Name = category.Name,
             Products = category.Products.ToDictionary(p => p.Id, p => p.Name)
         };

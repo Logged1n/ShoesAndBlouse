@@ -30,7 +30,7 @@ public class ProductController : ControllerBase
     public async Task<ActionResult<ProductDto>> GetById(int productId)
     {
         var product = await _mediator.Send(new GetProductByIdQuery { Id = productId });
-        if (product.Id == 0)
+        if (Convert.ToInt32(productId) == 0)
             return NotFound(product);
 
         _hostUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";

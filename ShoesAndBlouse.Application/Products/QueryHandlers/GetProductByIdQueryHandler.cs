@@ -21,7 +21,7 @@ public class GetProductByIdQueryHandler(IProductRepository productRepository) : 
         {
             return new ProductDto
             {
-                Id = 0,
+                Id = "0",
                 Name = "This Product does not Exists!",
                 Price = new Money("NOT", 0m),
                 Description = exception.Message,

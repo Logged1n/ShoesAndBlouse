@@ -11,7 +11,7 @@ namespace ShoesAndBlouse.Application.Mappers
             {
                 return new ProductDto
                 {
-                    Id = product.Id,
+                    Id = product.Id.ToString(),
                     Name = product.Name,
                     Description = product.Description,
                     Price = product.Price,

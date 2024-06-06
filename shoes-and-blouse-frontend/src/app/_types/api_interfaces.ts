@@ -4,23 +4,20 @@ export interface Price {
 }
 
 export interface Product {
-    id: number;
+    id: string;
     name: string;
     description: string;
     price: Price;
-    categories: Record<number, string>;
+    categories: Record<string, string>;
     photoUrl: string;
 }
 
 export interface Category {
-    id: number;
+    id: string;
     name: string;
-    products: Record<number, string>;
+    products: Record<string, string>;
 }
 
 export interface AddCategoryFormProps {
     products: Product[];
-}
-export interface AddProductFormProps {
-    onSubmit: (product: any) => void;
 }

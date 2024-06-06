@@ -25,14 +25,12 @@ public class CartController : ControllerBase
     private int GetUserId()
     {
         // Pobierz lub stwórz identyfikator użytkownika w sesji
-        if (!HttpContext.Session.TryGetValue(SessionUserIdKey, out var userIdBytes))
-        {
-            var userId = new Random().Next(1000, 9999); // Przykładowe generowanie userId
-            HttpContext.Session.SetInt32(SessionUserIdKey, userId);
-            return userId;
-        }
+        if (HttpContext.Session.TryGetValue(SessionUserIdKey, out var userIdBytes))
+            return HttpContext.Session.GetInt32(SessionUserIdKey) ?? 0;
+        var userId = new Random().Next(1000, 9999); // Przykładowe generowanie userId
+        HttpContext.Session.SetInt32(SessionUserIdKey, userId);
+        return userId;
 
-        return HttpContext.Session.GetInt32(SessionUserIdKey) ?? 0;
     }
 
     [MapToApiVersion(1)]

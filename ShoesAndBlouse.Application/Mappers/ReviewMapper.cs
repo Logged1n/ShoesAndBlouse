@@ -9,7 +9,7 @@ public static class ReviewMapper
     {
         return new ReviewDto
         {
-            Id = review.Id,
+            Id = review.Id.ToString(),
             Score = review.Score,
             ProductId = review.Product.Id,
             UserId = review.User.Id,
