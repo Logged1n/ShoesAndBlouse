@@ -44,6 +44,7 @@ export default function AddProductForm() {
                 const categories = await GetCategories();
                 setCategories(categories);
             }
+
             fetchCategories();
         },
         []);

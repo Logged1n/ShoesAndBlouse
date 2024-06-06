@@ -20,9 +20,10 @@ public class FileController : ControllerBase
     }
     [Authorize(Roles = "Admin")]
     [MapToApiVersion(1)]
-    [HttpPut("UploadProductImage")]
-    public async Task<IActionResult> UploadProductImage(UploadProductPhotoCommand command)
+    [HttpPut("UploadProductImage/{productId}")]
+    public async Task<IActionResult> UploadProductImage(int productId, IFormFile file)
     {
+        var command = new UploadProductPhotoCommand { ProductId = productId, PhotoFile = file };
         await _mediator.Send(command);
         return Ok();
     }
