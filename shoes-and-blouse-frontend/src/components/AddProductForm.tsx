@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useForm, useFieldArray, useWatch } from "react-hook-form";
+import React, { useEffect, useState } from "react";
+import {useForm, useFieldArray, useWatch} from "react-hook-form";
 import axios from "axios";
 import { Category, Price} from "@/app/_types/api_interfaces";
 import { GetCategories } from "@/app/actions/actions";
@@ -22,26 +22,36 @@ export default function AddProductForm() {
     const { register,
         handleSubmit,
         formState: { errors },
-        control } = useForm<AddProductFormProps>({});
-    const { fields,
+        control } = useForm<AddProductFormProps>({
+        defaultValues: {
+            categoryIds: []
+        }
+    });
+    const {
         append,
         remove } = useFieldArray({
         control,
         name: "categoryIds"
-    });
+    }) as {
+        fields: CategoryIdField[];
+        append: (value: { id: string }) => void;
+        remove: (index: number) => void;
+    };
     const [categories, setCategories] = useState<Category[]>([]);
 
     useEffect(() => {
-        async function fetchCategories() {
-            const categories = await GetCategories();
-            setCategories(categories);
-        }
-        fetchCategories();
-    }, []);
+            async function fetchCategories() {
+                const categories = await GetCategories();
+                setCategories(categories);
+            }
+            fetchCategories();
+        },
+        []);
 
     const categoryIds = useWatch({
         control,
-        name: "categoryIds"
+        name: "categoryIds",
+        defaultValue: []
     });
 
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,11 +59,11 @@ export default function AddProductForm() {
         const isChecked = event.target.checked;
 
         if (isChecked) {
-            if (!categoryIds.some(field => field.id === categoryId)) {
+            if (!categoryIds.some((field: CategoryIdField)  => field.id === categoryId)) {
                 append({ id: categoryId });
             }
         } else {
-            const index = categoryIds.findIndex(field => field.id === categoryId);
+            const index = categoryIds.findIndex((field: CategoryIdField) => field.id === categoryId);
             if (index !== -1) {
                 remove(index);
             }
