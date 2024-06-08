@@ -1,49 +1,132 @@
-import React, { useState, FormEvent } from 'react';
-import { TextField, Button } from '@mui/material';
-import { AddCategoryFormProps, Category } from '@/app/_types/api_interfaces';
+"use client"
 
-const AddCategoryForm: React.FC<AddCategoryFormProps> = ({ products }) => {
-    const [name, setName] = useState('');
-    const [productNames, setProductNames] = useState<string>('');
+import React, {useEffect, useState} from "react";
+import {useForm, useFieldArray, useWatch} from "react-hook-form";
+import axios from "axios";
+import {Category, Product} from "@/app/_types/api_interfaces";
+import {GetProducts} from "@/app/actions/actions";
+import Box from "@mui/material/Box";
+import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, TextField} from "@mui/material";
 
-    const handleSubmit = (e: FormEvent) => {
-        e.preventDefault();
-        const productArray = productNames.split(',').map(name => name.trim());
-        const selectedProducts: Record<number, string> = {};
+type ProductIdField = {
+    id: string;
+}
+interface AddCategoryFormProps {
+    name:string;
+    description: string;
+    productIds: ProductIdField[];
+}
 
-        productArray.forEach(name => {
-            const product = products.find(p => p.name.toLowerCase() === name.toLowerCase());
-            if (product) {
-                selectedProducts[product.id] = product.name;
-            }
-        });
-
-        const category: Category = { id: Date.now(), name, products: selectedProducts };
-        console.log(category);
-        // Możesz tutaj dodać zapisywanie kategorii do bazy danych lub wysyłanie do API
+export default function AddCategoryForm(){
+    const {register,
+        handleSubmit,
+        formState: {errors},
+        control } = useForm<AddCategoryFormProps>({
+        defaultValues: {
+            productIds: []
+        }
+    });
+    const {
+        append,
+        remove } = useFieldArray({
+        control,
+        name: "productIds"
+    }) as {
+        fields: ProductIdField[];
+        append: (value: {id: string}) => void;
+        remove: (index: number) => void;
     };
+    const [products, setProducts] = useState<Product[]>([]);
+    useEffect(() => {
+        async function fetchProducts(){
+            const products = await GetProducts();
+            setProducts(products);
+        }
+        fetchProducts();
+    },
+        []);
+    const productIds = useWatch({
+        control,
+        name: "productIds",
+        defaultValue: []
+    });
+    const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const productId = event.target.value;
+        const isChecked = event.target.checked;
 
+        if (isChecked){
+            if (!productIds.some((field: ProductIdField) => field.id === productId)){
+                append({ id: productId});
+            }
+        }
+        else {
+            const index = productIds.findIndex((field: ProductIdField) => field.id === productId);
+            if (index !== -1) {
+                remove(index);
+            }
+        }
+    }
+    const onSubmit = (data: AddCategoryFormProps) => {
+        const categoryData = {...data, productIds: data.productIds.map(product => product.id)};
+        console.log('Form data: ', data);
+        console.log('Category data to be submitted: ', categoryData);
+
+        axios.post("/backendAPI/api/v1/Category/Create", categoryData, {
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+            }
+        })
+    }
     return (
-        <form onSubmit={handleSubmit}>
-            <TextField
-                label="Nazwa"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                fullWidth
-                margin="normal"
-            />
-            <TextField
-                label="Produkty (oddzielone przecinkami)"
-                value={productNames}
-                onChange={(e) => setProductNames(e.target.value)}
-                fullWidth
-                margin="normal"
-            />
-            <Button type="submit" variant="contained" color="primary" fullWidth>
-                Dodaj Kategorię
-            </Button>
-        </form>
+        <Box component="div" sx={{maxWidth:400, mx: "auto", mt: 4}}>
+            <form onSubmit={handleSubmit(onSubmit)} noValidate>
+                <TextField
+                    label="Name"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    {...register("name", { required: "Name is required" })}
+                    placeholder="Name of a category"
+                    error={!!errors.name}
+                    helperText={errors.name ? errors.name.message : ''}
+                />
+                <TextField
+                    label="Description"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    {...register("description", { required: "Description is required" })}
+                    placeholder="Descritpion of a category"
+                    error={!!errors.description}
+                    helperText={errors.description ? errors.description.message : ''}
+                />
+                <Box sx={{ display: 'flex' }}>
+                    <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
+                        <FormLabel component="legend">Select Products</FormLabel>
+                        <FormGroup>
+                            {products.map(product => (
+                                <FormControlLabel
+                                    key={product.id}
+                                    control={
+                                        <Checkbox
+                                            value={product.id.toString()}
+                                            checked={productIds.some(field => field.id === product.id.toString())}
+                                            onChange={handleCheckboxChange}
+                                            name={product.name}
+                                        />
+                                    }
+                                    label={product.name}
+                                />
+                            ))}
+                        </FormGroup>
+                    </FormControl>
+                </Box>
+                <Button type="submit" variant="contained" color="primary" fullWidth>
+                    Submit
+                </Button>
+            </form>
+        </Box>
     );
-};
+}
 
-export default AddCategoryForm;
