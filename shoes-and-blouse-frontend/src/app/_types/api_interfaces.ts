@@ -22,3 +22,8 @@ export interface Category {
 export interface AddCategoryFormProps {
     products: Product[];
 }
+
+export interface LoginDetails {
+    email: string;
+    password: string;
+}

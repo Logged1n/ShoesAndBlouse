@@ -23,7 +23,7 @@ namespace ShoesAndBlouse.Application.Products.CommandHandlers
 
             // Usuń powiązane zdjęcie produktu
             var photoPath = productToDelete.PhotoPath;
-            if (!string.IsNullOrEmpty(photoPath))
+            if (!string.IsNullOrEmpty(photoPath) && File.Exists(photoPath))
             {
                 // Usuń plik zdjęcia
                 File.Delete(photoPath);
