@@ -23,7 +23,7 @@ export async function GetProducts(): Promise<ProductForm[]> {
 }
 export async function GetCategoryById(categoryId: string): Promise<Category | undefined> {
     try {
-        const { data } = await axios.get<Category>(`${process.env.API_URL}/api/v1/Category/GetCategoryById/${categoryId}`);
+        const { data } = await axios.get<Category>(`${process.env.API_URL}/api/v1/Category/GetById/${categoryId}`);
         return data;
     } catch (error) {
         console.error('Błąd przy pobieraniu kategorii: ', error);
@@ -32,7 +32,7 @@ export async function GetCategoryById(categoryId: string): Promise<Category | un
 }
 export async function GetProductById(productId: string): Promise<Product | undefined> {
     try{
-        const {data} = await axios.get<Product>(`${process.env.API_URL}/api/v1/Product/GetProductById/${productId}`);
+        const {data} = await axios.get<Product>(`${process.env.API_URL}/api/v1/Product/GetById/${productId}`);
         return data;
     }
     catch (error) {
