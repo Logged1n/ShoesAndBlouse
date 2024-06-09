@@ -7,10 +7,10 @@ import { Box, IconButton, List, ListItem, ListItemText, Typography } from "@mui/
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
-import { Product } from "@/app/_types/api_interfaces";
+import { ProductForm } from "@/app/_types/api_interfaces";
 
 const ProductList = () => {
-    const [products, setProducts] = useState<Product[]>([]);
+    const [products, setProducts] = useState<ProductForm[]>([]);
 
     useEffect(() => {
         fetchProducts();

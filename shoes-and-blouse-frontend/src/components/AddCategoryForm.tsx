@@ -3,7 +3,7 @@
 import React, {useEffect, useState} from "react";
 import {useForm, useFieldArray, useWatch} from "react-hook-form";
 import axios from "axios";
-import {Product} from "@/app/_types/api_interfaces";
+import {ProductForm} from "@/app/_types/api_interfaces";
 import {GetProducts} from "@/app/actions/actions";
 import Box from "@mui/material/Box";
 import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, TextField} from "@mui/material";
@@ -35,7 +35,7 @@ export default function AddCategoryForm(){
         append: (value: {id: string}) => void;
         remove: (index: number) => void;
     };
-    const [products, setProducts] = useState<Product[]>([]);
+    const [products, setProducts] = useState<ProductForm[]>([]);
     useEffect(() => {
         async function fetchProducts(){
             const products = await GetProducts();

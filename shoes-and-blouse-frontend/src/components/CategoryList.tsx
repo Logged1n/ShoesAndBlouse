@@ -59,7 +59,6 @@ const CategoryList = () => {
                     <ListItem key={category.id} sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <ListItemText
                             primary={category.name}
-                            secondary={category.description}
                         />
                         <Box>
                             <Link href={`/adminPanel/categories/update/${category.id}`} passHref>
