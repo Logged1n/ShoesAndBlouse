@@ -75,36 +75,37 @@ export default function AddProductForm() {
             setValue('image', event.target.files[0]);
         }
     };
-    const onSubmit = (data: AddProductFormProps) => {
-        const productData = { ...data, categoryIds: data.categoryIds.map(category => category.id) };
-        console.log('Form data:', data);
-        console.log('Product data to be submitted:', productData);
+    const onSubmit = async (data: AddProductFormProps) => {
+        try {
+            const productData = { ...data, categoryIds: data.categoryIds.map(category => category.id) };
+            console.log('Form data:', data);
+            console.log('Product data to be submitted:', productData);
 
-        axios.post("/backendAPI/api/v1/Product/Create", productData, {
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "*/*",
-            }
-        })
-            .then(response => {
-                console.log('Response:', response.data);
+            const response = await axios.post("/backendAPI/api/v1/Product/Create", productData, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "*/*",
+                }
+            });
 
-                const productId = response.data.id;
+            console.log('Response:', response.data);
 
-                const imageData = new FormData();
-                imageData.append('file', data.PhotoUrl);
+            const productId = response.data.id;
 
-                return axios.put(`/backendAPI/api/v1/File/UploadProductImage/${productId}`, imageData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                        "Accept": "*/*",
-                    }
-                });
-            })
-            .then(imageResponse => {
-                console.log('Image upload response:', imageResponse.data);
-            })
-            .catch(error => {
+            const imageData = new FormData();
+            imageData.append('file', data.PhotoUrl);
+
+            const imageResponse = await axios.put(`/backendAPI/api/v1/File/UploadProductImage/${productId}`, imageData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    "Accept": "*/*",
+                }
+            });
+
+            console.log('Image upload response:', imageResponse.data);
+
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
                 if (error.response) {
                     console.error('Error response data:', error.response.data);
                     console.error('Error response status:', error.response.status);
@@ -115,8 +116,12 @@ export default function AddProductForm() {
                     console.error('Error message:', error.message);
                 }
                 console.error('Error config:', error.config);
-            });
+            } else {
+                console.error('Unexpected error:', error);
+            }
+        }
     };
+
 
 
 

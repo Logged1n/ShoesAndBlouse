@@ -3,7 +3,7 @@
 import React, {useEffect, useState} from "react";
 import {useForm, useFieldArray, useWatch} from "react-hook-form";
 import axios from "axios";
-import {Category, Product} from "@/app/_types/api_interfaces";
+import {Product} from "@/app/_types/api_interfaces";
 import {GetProducts} from "@/app/actions/actions";
 import Box from "@mui/material/Box";
 import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, TextField} from "@mui/material";
@@ -13,7 +13,6 @@ type ProductIdField = {
 }
 interface AddCategoryFormProps {
     name:string;
-    description: string;
     productIds: ProductIdField[];
 }
 
@@ -66,18 +65,38 @@ export default function AddCategoryForm(){
             }
         }
     }
-    const onSubmit = (data: AddCategoryFormProps) => {
-        const categoryData = {...data, productIds: data.productIds.map(product => product.id)};
-        console.log('Form data: ', data);
-        console.log('Category data to be submitted: ', categoryData);
+    const onSubmit = async (data: AddCategoryFormProps) => {
+        try {
+            const categoryData = { ...data, productIds: data.productIds.map(product => product.id) };
+            console.log('Form data:', data);
+            console.log('Category data to be submitted:', categoryData);
 
-        axios.post("/backendAPI/api/v1/Category/Create", categoryData, {
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "*/*",
+            await axios.post("/backendAPI/api/v1/Category/Create", categoryData, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "*/*",
+                }
+            });
+
+            console.log("Category successfully created");
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                if (error.response) {
+                    console.error('Error response data:', error.response.data);
+                    console.error('Error response status:', error.response.status);
+                    console.error('Error response headers:', error.response.headers);
+                } else if (error.request) {
+                    console.error('Error request:', error.request);
+                } else {
+                    console.error('Error message:', error.message);
+                }
+                console.error('Error config:', error.config);
+            } else {
+                console.error('Unexpected error:', error);
             }
-        })
-    }
+        }
+    };
+
     return (
         <Box component="div" sx={{maxWidth:400, mx: "auto", mt: 4}}>
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -90,16 +109,6 @@ export default function AddCategoryForm(){
                     placeholder="Name of a category"
                     error={!!errors.name}
                     helperText={errors.name ? errors.name.message : ''}
-                />
-                <TextField
-                    label="Description"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    {...register("description", { required: "Description is required" })}
-                    placeholder="Descritpion of a category"
-                    error={!!errors.description}
-                    helperText={errors.description ? errors.description.message : ''}
                 />
                 <Box sx={{ display: 'flex' }}>
                     <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">

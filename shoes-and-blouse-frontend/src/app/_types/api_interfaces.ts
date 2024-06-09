@@ -15,12 +15,8 @@ export interface Product {
 export interface Category {
     id: number;
     name: string;
-    description: string;
     products: Record<number, string>;
-}
-
-export interface AddCategoryFormProps {
-    products: Product[];
+    productIds: string[];
 }
 
 export interface LoginDetails {

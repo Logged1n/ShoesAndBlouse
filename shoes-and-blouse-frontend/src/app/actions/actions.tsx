@@ -21,3 +21,22 @@ export async function GetProducts(): Promise<Product[]> {
         return [];
     }
 }
+export async function GetCategoryById(categoryId: string): Promise<Category | null> {
+    try {
+        const { data } = await axios.get<Category>(`${process.env.API_URL}/api/v1/Category/GetCategoryById/${categoryId}`);
+        return data;
+    } catch (error) {
+        console.error('Błąd przy pobieraniu kategorii: ', error);
+        return null;
+    }
+}
+export async function GetProductById(productId: string): Promise<Product | null> {
+    try{
+        const {data} = await axios.get<Product>(`${process.env.API_URL}/api/v1/Product/GetProductById/${productId}`);
+        return data;
+    }
+    catch (error) {
+        console.error('Błąd przy pobieraniu produktu: ', error);
+        return null;
+    }
+}
