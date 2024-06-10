@@ -38,7 +38,7 @@ export default function AddProductForm() {
         remove: (index: number) => void;
     };
     const [categories, setCategories] = useState<Category[]>([]);
-    const { setValue } = useForm();
+    const [image, setImage]  = useState<File>();
     useEffect(() => {
             async function fetchCategories() {
                 const categories = await GetCategories();
@@ -72,7 +72,7 @@ export default function AddProductForm() {
     };
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
-            setValue('image', event.target.files[0]);
+            setImage(event.target.files[0]);
         }
     };
     const onSubmit = async (data: AddProductFormProps) => {
@@ -91,11 +91,12 @@ export default function AddProductForm() {
             console.log('Response:', response.data);
 
             const productId = response.data.id;
+            const formData = new FormData();
+            // @ts-ignore
+            const blob = new Blob([image], { type: "application/octet-stream" });
+            formData.append("file", blob);
 
-            const imageData = new FormData();
-            imageData.append('file', data.PhotoUrl);
-
-            const imageResponse = await axios.put(`/backendAPI/api/v1/File/UploadProductImage/${productId}`, imageData, {
+            const imageResponse = await axios.put(`/backendAPI/api/v1/File/UploadProductImage/${productId}`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     "Accept": "*/*",
