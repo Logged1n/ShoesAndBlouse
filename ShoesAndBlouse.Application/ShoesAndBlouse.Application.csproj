@@ -34,5 +34,11 @@
     <ItemGroup>
         <FrameWorkReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>
+    
+    <ItemGroup>
+      <Compile Remove="Users\CommandHandlers\CreateUserCommandHandler.cs" />
+      <Compile Remove="Users\Commands\CreateUserCommand.cs" />
+      <Compile Remove="Validators\User\CreateUserCommandValidator.cs" />
+    </ItemGroup>
 
 </Project>
