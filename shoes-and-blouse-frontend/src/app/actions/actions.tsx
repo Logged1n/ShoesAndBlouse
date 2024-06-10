@@ -1,7 +1,7 @@
 "use server"
 
 import axios from "axios";
-import {Category, Product} from "@/app/_types/api_interfaces";
+import {Category, Product, User} from "@/app/_types/api_interfaces";
 
 export async function GetCategories(): Promise<Category[]> {
     try {
@@ -37,6 +37,16 @@ export async function GetProductById(productId: string): Promise<Product | null>
     }
     catch (error) {
         console.error('Błąd przy pobieraniu produktu: ', error);
+        return null;
+    }
+}
+export async function GetUserById(userId: string): Promise<User | null> {
+    try{
+        const {data} = await axios.get<User>(`${process.env.API_URL}/api/v1/User/GetUserById/${userId}`);
+        return data;
+    }
+    catch (error) {
+        console.error('Błąd przy pobieraniu uzytkownika: ', error);
         return null;
     }
 }
