@@ -1,16 +1,18 @@
 "use client"
 
 import {Container, Typography} from "@mui/material";
-import EditProductForm from "@/components/EditProductForm";
+import EditCategoryForm from "@/components/AddCategoryForm";
 import React from "react";
 
-export default function EditProduct({params}: {params: {id: string}}){
+export default function EditCategory({params}: {params: {id: string}}){
     return(
         <Container>
             <Typography variant="h4" align="center" gutterBottom>
-                Edit Product
+                Edit Category
             </Typography>
-            <EditProductForm params={params}/>
+            <EditCategoryForm params={params}>
+
+            </EditCategoryForm>
         </Container>
     )
 }
