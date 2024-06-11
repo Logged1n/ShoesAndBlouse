@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Link from 'next/link';
-import { Box, IconButton, List, ListItem, ListItemText, Typography } from "@mui/material";
+import {Avatar, Box, IconButton, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
@@ -57,12 +57,19 @@ const ProductList = () => {
             <List>
                 {products.map(product => (
                     <ListItem key={product.id} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <ListItemAvatar>
+                            <Avatar
+                                src={product.photoUrl}
+                                alt={product.name}
+                                sx={{ width: 150, height: 150 }}
+                            />
+                        </ListItemAvatar>
                         <ListItemText
                             primary={product.name}
                             secondary={product.description}
                         />
                         <Box>
-                            <Link href={`/adminPanel/products/update/${product.id}`} passHref>
+                            <Link href={`/adminPanel/products/edit/${product.id}`} passHref>
                                 <IconButton color="primary">
                                     <EditIcon />
                                 </IconButton>
