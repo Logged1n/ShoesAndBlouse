@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 using ShoesAndBlouse.API.Helpers;
 using ShoesAndBlouse.Application.DTOs;
-using ShoesAndBlouse.Application.Orders.CommandHandlers;
 using ShoesAndBlouse.Application.Orders.Commands;
 using ShoesAndBlouse.Application.Orders.Queries;
 
