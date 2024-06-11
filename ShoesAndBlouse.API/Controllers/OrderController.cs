@@ -3,8 +3,10 @@ using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using ShoesAndBlouse.API.Helpers;
 using ShoesAndBlouse.Application.DTOs;
+using ShoesAndBlouse.Application.Orders.CommandHandlers;
 using ShoesAndBlouse.Application.Orders.Commands;
 using ShoesAndBlouse.Application.Orders.Queries;
 
@@ -24,6 +26,7 @@ public class OrderController : ControllerBase
 
     [MapToApiVersion(1)]
     [HttpGet("GetAll")]
+    [Authorize(Roles = "Admin, Manager")]
     public async Task<ActionResult<List<OrderDto>>> GetAll()
     {
         var orders = await _mediator.Send(new GetAllOrdersQuery());
@@ -58,6 +61,7 @@ public class OrderController : ControllerBase
 
     [MapToApiVersion(1)]
     [HttpGet("GetAllNotCompleted")]
+    [Authorize(Roles = "Admin, Manager")]
     public async Task<ActionResult<List<OrderDto>>> GetAllNotCompleted()
     {
         var orders = await _mediator.Send(new GetAllNotCompletedOrdersQuery());
@@ -81,6 +85,35 @@ public class OrderController : ControllerBase
 
          await _mediator.Send(command);
          return Ok();
+    }
+
+    [MapToApiVersion(1)]
+    [HttpPatch("UpdateStatus")]
+    [Authorize(Roles = "Admin, Manager")]
+    public async Task<IActionResult> UpdateStatus(UpdateOrderStatusCommand command)
+    {
+         await _mediator.Send(command);
+         return NoContent();
+    }
+    
+    [MapToApiVersion(1)]
+    [HttpPatch("Update")]
+    [Authorize(Roles = "Admin, Manager")]
+    public async Task<ActionResult<OrderDto>> Update(UpdateOrderCommand command)
+    {
+        var orderDto = await _mediator.Send(command);
+        if (orderDto is not null)
+            return Ok(orderDto);
+        return BadRequest();
+    }
+
+    [MapToApiVersion(1)]
+    [HttpDelete("Delete")]
+    [Authorize(Roles = "Admin, Manager")]
+    public async Task<IActionResult> Delete(DeleteOrderCommand command)
+    {
+        await _mediator.Send(command);
+        return NoContent();
     }
     
 }

@@ -7,7 +7,7 @@ namespace ShoesAndBlouse.Application.Mappers;
 
 public static class OrderMapper
 {
-    private static OrderDetailDto MapDetailToDto(OrderDetail? orderDetail)
+    static private OrderDetailDto MapDetailToDto(OrderDetail? orderDetail)
     {
         if (orderDetail is null)
         {
@@ -22,7 +22,7 @@ public static class OrderMapper
         );
     }
 
-    private static List<OrderDetailDto> MapDetailsToDtos(ICollection<OrderDetail> orderDetails)
+    static private List<OrderDetailDto> MapDetailsToDtos(ICollection<OrderDetail> orderDetails)
     {
         return orderDetails.Select(MapDetailToDto).ToList();
     }

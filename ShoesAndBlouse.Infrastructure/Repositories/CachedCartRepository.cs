@@ -16,6 +16,15 @@ public class CachedCartRepository(IDistributedCache distributedCache, IProductRe
         if (cartToUpdate is not null)
         {
             string key = CacheKeys.CartByUserId(userId);
+            //remove product if it is the same as added item
+            foreach (var cartItem in cartToUpdate.CartItems)
+            {
+                if (cartItem.ProductId == item.ProductId)
+                {
+                    cartToUpdate.CartItems.Remove(cartItem);
+                    break;
+                }
+            }
             
             cartToUpdate.CartItems.Add(item);
             var productData = await productRepository.GetProductByIdAsync(item.ProductId, cancellationToken);
