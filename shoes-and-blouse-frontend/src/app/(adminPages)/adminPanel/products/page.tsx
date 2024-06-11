@@ -1,20 +1,15 @@
-﻿"use client"
-
 import React from 'react';
-import { Container, Typography } from '@mui/material';
-import AddProductForm from '@/components/AddProductForm';
-import { Product } from '@/app/_types/api_interfaces';
+import ProductList from '@/components/ProductList';
+import {Container, Typography} from "@mui/material";
 
-const AddProduct: React.FC = () => {
 
+export default function App() {
     return (
         <Container>
             <Typography variant="h4" align="center" gutterBottom>
-                Dodaj Produkt
+                Product Managment
             </Typography>
-            <AddProductForm />
+            <ProductList/>
         </Container>
     );
-};
-
-export default AddProduct;
+}

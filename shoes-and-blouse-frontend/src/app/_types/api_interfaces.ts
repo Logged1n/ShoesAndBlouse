@@ -3,21 +3,32 @@ export interface Price {
     amount: number;
 }
 
-export interface Product {
-    id: string;
+export interface ProductForm {
+    id: number;
     name: string;
     description: string;
     price: Price;
-    categories: Record<string, string>;
+    categories: Record<number, string>;
+    photoUrl: File;
+}
+
+export interface Product {
+    id: number;
+    name: string;
+    description: string;
+    price: Price;
+    categories: Record<number, string>;
     photoUrl: string;
 }
 
 export interface Category {
-    id: string;
+    id: number;
     name: string;
-    products: Record<string, string>;
+    products: Record<number, string>;
+    productIds: string[];
 }
 
-export interface AddCategoryFormProps {
-    products: Product[];
+export interface LoginDetails {
+    email: string;
+    password: string;
 }

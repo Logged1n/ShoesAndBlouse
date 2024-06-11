@@ -1,4 +1,5 @@
-﻿using Asp.Versioning;
+﻿using System.Security.Claims;
+using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,6 @@ namespace ShoesAndBlouse.API.Controllers;
 public class CartController : ControllerBase
 {
     private readonly IMediator _mediator;
-    private const string SessionUserIdKey = "UserId";
     public CartController(IMediator mediator)
     {
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
@@ -24,13 +24,8 @@ public class CartController : ControllerBase
     
     private int GetUserId()
     {
-        // Pobierz lub stwórz identyfikator użytkownika w sesji
-        if (HttpContext.Session.TryGetValue(SessionUserIdKey, out var userIdBytes))
-            return HttpContext.Session.GetInt32(SessionUserIdKey) ?? 0;
-        var userId = new Random().Next(1000, 9999); // Przykładowe generowanie userId
-        HttpContext.Session.SetInt32(SessionUserIdKey, userId);
-        return userId;
-
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        return Convert.ToInt32(userId);
     }
 
     [MapToApiVersion(1)]

@@ -1,6 +1,7 @@
 import axios from "axios";
 import {Product} from "@/app/_types/api_interfaces";
 
+
 //calls the .NET api for a specific product data
 async function GetProduct(id: string) {
     try {

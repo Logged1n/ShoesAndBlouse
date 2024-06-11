@@ -8,7 +8,7 @@ using ShoesAndBlouse.Infrastructure.Constants;
 
 namespace ShoesAndBlouse.Infrastructure.Repositories;
 
-public class CachedCartRepository(IDistributedCache distributedCache) : ICartRepository
+public class CachedCartRepository(IDistributedCache distributedCache, IProductRepository productRepository) : ICartRepository
 {
     public async Task AddItemToCartAsync(int userId, CartItem item, CancellationToken cancellationToken = default)
     {
@@ -16,8 +16,20 @@ public class CachedCartRepository(IDistributedCache distributedCache) : ICartRep
         if (cartToUpdate is not null)
         {
             string key = CacheKeys.CartByUserId(userId);
+            //remove product if it is the same as added item
+            foreach (var cartItem in cartToUpdate.CartItems)
+            {
+                if (cartItem.ProductId == item.ProductId)
+                {
+                    cartToUpdate.CartItems.Remove(cartItem);
+                    break;
+                }
+            }
             
             cartToUpdate.CartItems.Add(item);
+            var productData = await productRepository.GetProductByIdAsync(item.ProductId, cancellationToken);
+            if(productData is not null)
+                cartToUpdate.Total.Amount += productData.Price.Amount * item.Qty;
             string cacheValue = JsonConvert.SerializeObject(cartToUpdate);
             await distributedCache.SetStringAsync(key, cacheValue, cancellationToken);
         }
@@ -30,6 +42,9 @@ public class CachedCartRepository(IDistributedCache distributedCache) : ICartRep
         if (cartToUpdate is not null)
         {
             string key = CacheKeys.CartByUserId(userId);
+            var productData = await productRepository.GetProductByIdAsync(item.ProductId, cancellationToken);
+            if (productData is not null)
+                cartToUpdate.Total.Amount -= productData.Price.Amount * item.Qty;
             
             cartToUpdate.CartItems.Remove(item);
             

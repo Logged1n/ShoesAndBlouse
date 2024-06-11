@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import React, { useEffect, useState } from "react";
 import {useForm, useFieldArray, useWatch} from "react-hook-form";
@@ -10,12 +10,12 @@ import { TextField, Checkbox, FormControlLabel, Button, Box, FormGroup, FormCont
 type CategoryIdField = {
     id: string;
 }
-
 interface AddProductFormProps {
     name: string;
     description: string;
     price: Price;
     categoryIds: CategoryIdField[];
+    PhotoUrl: string;
 }
 
 export default function AddProductForm() {
@@ -38,7 +38,7 @@ export default function AddProductForm() {
         remove: (index: number) => void;
     };
     const [categories, setCategories] = useState<Category[]>([]);
-
+    const [image, setImage]  = useState<File>();
     useEffect(() => {
             async function fetchCategories() {
                 const categories = await GetCategories();
@@ -70,25 +70,61 @@ export default function AddProductForm() {
             }
         }
     };
-
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files[0]) {
+            setImage(event.target.files[0]);
+        }
+    };
     const onSubmit = async (data: AddProductFormProps) => {
-        const productData = { ...data, categoryIds: data.categoryIds.map(category => category.id) };
-        console.log('Form data:', data);
-        console.log('Product data to be submitted:', productData);
-
         try {
+            const productData = { ...data, categoryIds: data.categoryIds.map(category => category.id) };
+            console.log('Form data:', data);
+            console.log('Product data to be submitted:', productData);
+
             const response = await axios.post("/backendAPI/api/v1/Product/Create", productData, {
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "*/*",
                 }
             });
+
             console.log('Response:', response.data);
 
+            const productId = response.data.id;
+            const formData = new FormData();
+            // @ts-ignore
+            const blob = new Blob([image], { type: "application/octet-stream" });
+            formData.append("file", blob);
+
+            const imageResponse = await axios.put(`/backendAPI/api/v1/File/UploadProductImage/${productId}`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    "Accept": "*/*",
+                }
+            });
+
+            console.log('Image upload response:', imageResponse.data);
+
         } catch (error) {
-            console.error('Error creating product:', (error as Error).message);
+            if (axios.isAxiosError(error)) {
+                if (error.response) {
+                    console.error('Error response data:', error.response.data);
+                    console.error('Error response status:', error.response.status);
+                    console.error('Error response headers:', error.response.headers);
+                } else if (error.request) {
+                    console.error('Error request:', error.request);
+                } else {
+                    console.error('Error message:', error.message);
+                }
+                console.error('Error config:', error.config);
+            } else {
+                console.error('Unexpected error:', error);
+            }
         }
     };
+
+
+
 
     return (
         <Box component="div" sx={{ maxWidth: 400, mx: "auto", mt: 4 }}>
@@ -158,6 +194,13 @@ export default function AddProductForm() {
                             ))}
                         </FormGroup>
                     </FormControl>
+                </Box>
+                <Box sx={{ my: 2 }}>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                    />
                 </Box>
                 <Button type="submit" variant="contained" color="primary" fullWidth>
                     Submit

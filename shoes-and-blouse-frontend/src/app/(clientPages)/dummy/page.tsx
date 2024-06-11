@@ -2,12 +2,12 @@
 
 import axios from "axios";
 import {useState} from "react";
-import {Product} from "@/app/_types/api_interfaces";
+import {ProductForm} from "@/app/_types/api_interfaces";
 
 export default function Dummy() {
-    const [products, setProducts] = useState<Product[]>([]);
+    const [products, setProducts] = useState<ProductForm[]>([]);
     const makeApiCall = async (): Promise<string> => {
-         const data = await axios.get<Product[]>(`/backendAPI/api/v1/Product/GetAll`);
+         const data = await axios.get<ProductForm[]>(`/backendAPI/api/v1/Product/GetAll`);
          console.log(data);
          setProducts(data.data);
         return JSON.stringify(data);

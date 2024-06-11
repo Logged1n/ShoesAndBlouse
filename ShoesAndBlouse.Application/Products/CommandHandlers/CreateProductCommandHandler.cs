@@ -7,16 +7,11 @@ using ShoesAndBlouse.Domain.Interfaces;
 
 namespace ShoesAndBlouse.Application.Products.CommandHandlers
 {
-    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, ProductDto>
+    public class CreateProductCommandHandler(
+        IProductRepository productRepository,
+        ICategoryRepository categoryRepository)
+        : IRequestHandler<CreateProductCommand, ProductDto>
     {
-        private readonly IProductRepository _productRepository;
-        private readonly ICategoryRepository _categoryRepository;
-        public CreateProductCommandHandler(IProductRepository productRepository,
-            ICategoryRepository categoryRepository)
-        {
-            _productRepository = productRepository;
-            _categoryRepository = categoryRepository;
-        }
 
         public async Task<ProductDto> Handle(CreateProductCommand request,
             CancellationToken cancellationToken)
@@ -33,14 +28,14 @@ namespace ShoesAndBlouse.Application.Products.CommandHandlers
 
             foreach (var categoryId in request.CategoryIds)
             {
-                var category = await _categoryRepository.GetCategoryByIdAsync(categoryId,
+                var category = await categoryRepository.GetCategoryByIdAsync(categoryId,
                     cancellationToken);
                 if (category is not null)
                     product.Categories.Add(category);
             }
 
-            product.PhotoPath = $"Images/Product/0.png";
-            await _productRepository.CreateProductAsync(product, cancellationToken);
+            product.PhotoPath = "Images/Product/0.png";
+            await productRepository.CreateProductAsync(product, cancellationToken);
             return ProductMapper.MapToDto(product);
         }
     }

@@ -20,6 +20,9 @@ namespace ShoesAndBlouse.Infrastructure
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICartRepository, CachedCartRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+            services.AddScoped<IAddressRepository, AddressRepository>();
             
             //Mediator Pattern Setup
             services.AddMediatR(cfg => 
@@ -28,7 +31,8 @@ namespace ShoesAndBlouse.Infrastructure
             //Add DbContext
             services.AddDbContext<PostgresDbContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("Postgres")));
-            
+            //Allow DateTime mapping in Postgres
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             //Setup Session and Caching Management
             services.AddStackExchangeRedisCache(options =>
             {
@@ -42,7 +46,7 @@ namespace ShoesAndBlouse.Infrastructure
                 .AddRoles<IdentityRole<int>>()
                 .AddEntityFrameworkStores<PostgresDbContext>();
             
-            //Extension Methods initializing database and roles
+            //Extension Methods initializing database
             services.ApplyMigrations();
             
             return services;

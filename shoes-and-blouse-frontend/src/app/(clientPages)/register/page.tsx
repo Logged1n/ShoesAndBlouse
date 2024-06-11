@@ -15,7 +15,7 @@ export default function Register()
     } = useForm<LoginDetails>({});
     const onSubmit = async (data: LoginDetails) => {
         try {
-            await axios.post("/backendAPI/register", data, {
+            await axios.post("/backendAPI/api/v1/Account/register", data, {
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "*/*",

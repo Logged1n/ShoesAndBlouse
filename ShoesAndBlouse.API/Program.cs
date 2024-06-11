@@ -102,8 +102,6 @@ if (app.Environment.IsDevelopment())
 //Comment out only for docker usage
 //app.UseHttpsRedirection();
 
-
-
 //Allow to access static files from wwwroot folder
 app.UseStaticFiles();
 

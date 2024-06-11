@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using ShoesAndBlouse.Application.Carts.Commands;
-using ShoesAndBlouse.Domain.Entities;
 using ShoesAndBlouse.Domain.Interfaces;
+using ShoesAndBlouse.Domain.ValueObjects;
 
 namespace ShoesAndBlouse.Application.Carts.CommandHandlers;
 
