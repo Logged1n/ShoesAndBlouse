@@ -13,12 +13,13 @@ type ProductIdField = {
     id: string;
 }
 interface EditCategoryFormProps {
+
     categoryId: number;
     name?: string;
     productIds?: ProductIdField[];
 }
 
-export default function EditCategoryForm({ params }: { params: { id: string } }) {
+ const EditCategoryForm : React.FC<ProductIdField> = ({id}) =>  {
     const {
         register,
         handleSubmit,
@@ -53,12 +54,12 @@ export default function EditCategoryForm({ params }: { params: { id: string } })
 
     useEffect(() => {
         async function fetchCategory() {
-            const fetchedCategory = await GetCategoryById(params.id);
+            const fetchedCategory = await GetCategoryById(id);
             setCategory(fetchedCategory);
         }
 
         fetchCategory();
-    }, [params.id]);
+    }, [id]);
     const productIds = useWatch({
         control,
         name: "productIds",
@@ -69,20 +70,22 @@ export default function EditCategoryForm({ params }: { params: { id: string } })
         const isChecked = event.target.checked;
 
         if (isChecked){
-            if (!productIds.some((field: ProductIdField) => field.id === productId)){
+            if (!productIds?.some((field: ProductIdField) => field.id === productId)){
                 append({id: productId});
             }
         }
         else{
-            const index = productIds.findIndex((field: ProductIdField) => field.id === productId);
-            if (index !== -1){
+            const index = productIds?.findIndex((field: ProductIdField) => field.id === productId);
+            if (index !== -1 && index !== undefined){
                 remove(index);
             }
         }
     };
     const onSubmit = async (data: EditCategoryFormProps) => {
         try{
-            const categoryData = {...data,categoryId: params.id, productIds: data.productIds.map(product => product.id)};
+            const categoryData = {...data,
+                categoryId: id,
+                productIds: data?.productIds!==undefined ? data.productIds.map(product => product.id) : undefined};
             console.log('Form data: ', data);
             console.log('Category data to be submitted: ', categoryData);
 
@@ -125,6 +128,7 @@ export default function EditCategoryForm({ params }: { params: { id: string } })
                         {...register("name", { required: "Name is required" })}
                         error={!!errors.name}
                         helperText={errors.name ? errors.name.message : ''}
+                        value={category.name}
                     />
                     <Box sx={{ display: 'flex' }}>
                         <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
@@ -136,7 +140,7 @@ export default function EditCategoryForm({ params }: { params: { id: string } })
                                         control={
                                             <Checkbox
                                                 value={product.id.toString()}
-                                                checked={productIds.some(field => field.id === product.id.toString())}
+                                                checked={productIds?.some(field => field.id === product.id.toString())}
                                                 onChange={handleCheckboxChange}
                                                 name={product.name}
                                             />
@@ -156,3 +160,5 @@ export default function EditCategoryForm({ params }: { params: { id: string } })
         </Box>
     );
 }
+
+export default EditCategoryForm;
