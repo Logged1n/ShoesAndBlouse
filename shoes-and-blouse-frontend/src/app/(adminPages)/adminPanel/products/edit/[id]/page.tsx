@@ -10,7 +10,7 @@ export default function EditProduct({params}: {params: {id: string}}){
             <Typography variant="h4" align="center" gutterBottom>
                 Edit Product
             </Typography>
-            <EditProductForm params={params}/>
+            <EditProductForm id={params.id as string}/>
         </Container>
     )
 }

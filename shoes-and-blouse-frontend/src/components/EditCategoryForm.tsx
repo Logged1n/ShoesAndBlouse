@@ -6,7 +6,7 @@ import { Category, Product } from "@/app/_types/api_interfaces";
 import Box from "@mui/material/Box";
 import {useFieldArray, useForm, useWatch} from "react-hook-form";
 import axios from "axios";
-import { Button, Checkbox, FormControlLabel, FormGroup, FormLabel, TextField, Typography } from "@mui/material";
+import { Button, Checkbox, FormControlLabel, FormGroup, FormLabel, TextField} from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 
 type ProductIdField = {
@@ -125,10 +125,9 @@ interface EditCategoryFormProps {
                         variant="outlined"
                         fullWidth
                         margin="normal"
-                        {...register("name", { required: "Name is required" })}
+                        {...register("name", { required: false })}
                         error={!!errors.name}
                         helperText={errors.name ? errors.name.message : ''}
-                        value={category.name}
                     />
                     <Box sx={{ display: 'flex' }}>
                         <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">

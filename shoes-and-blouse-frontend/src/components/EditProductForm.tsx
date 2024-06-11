@@ -6,25 +6,26 @@ import {Category, Price, Product} from "@/app/_types/api_interfaces";
 import Box from "@mui/material/Box";
 import {useFieldArray, useForm, useWatch} from "react-hook-form";
 import axios from "axios";
-import {Button, Checkbox, FormControlLabel, FormGroup, FormLabel, TextField, Typography} from "@mui/material";
+import {Avatar, Button, Checkbox, FormControlLabel, FormGroup, FormLabel, TextField} from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 
 type CategoryIdField = {
     id: string;
 }
 interface EditProductFormProps {
-    name: string;
-    description: string;
-    price: Price;
-    categoryIds: CategoryIdField[];
+    name?: string;
+    description?: string;
+    price?: Price;
+    categoryIds?: CategoryIdField[];
     PhotoUrl: string;
 }
 
-export default function EditProductForm ({ params }: { params: { id: string } }) {
+const EditProductForm : React.FC<CategoryIdField> = ({id}) => {
     const { register,
         handleSubmit,
         formState: { errors },
-        control } = useForm<EditProductFormProps>({
+        control
+    } = useForm<EditProductFormProps>({
         defaultValues: {
             categoryIds: []
         }
@@ -45,12 +46,12 @@ export default function EditProductForm ({ params }: { params: { id: string } })
     useEffect(() => {
 
             async function fetchProduct(){
-                const fetchedProduct = await GetProductById(params.id);
+                const fetchedProduct = await GetProductById(id);
                 setProduct(fetchedProduct);
             }
             fetchProduct();
         },
-        [params.id]);
+        [id]);
     useEffect(()=> {
             async function fetchCategories() {
                 const categories = await GetCategories();
@@ -69,12 +70,12 @@ export default function EditProductForm ({ params }: { params: { id: string } })
         const isChecked = event.target.checked;
 
         if (isChecked) {
-            if (!categoryIds.some((field: CategoryIdField)  => field.id === categoryId)) {
+            if (!categoryIds?.some((field: CategoryIdField)  => field.id === categoryId)) {
                 append({ id: categoryId });
             }
         } else {
-            const index = categoryIds.findIndex((field: CategoryIdField) => field.id === categoryId);
-            if (index !== -1) {
+            const index = categoryIds?.findIndex((field: CategoryIdField) => field.id === categoryId);
+            if (index !== -1 && index !== undefined) {
                 remove(index);
             }
         }
@@ -86,13 +87,28 @@ export default function EditProductForm ({ params }: { params: { id: string } })
     };
     const onSubmit = async (data: EditProductFormProps) => {
         try{
-            const productData = {...data, categoryIds: data.categoryIds.map(category => category.id)};
+            const productData = {...data,
+                productId: id,
+                categoryIds: data?.categoryIds!==undefined ?data.categoryIds.map(category => category.id):undefined};
             console.log('Form data: ',data);
             console.log('Product data to be submitted: ', productData);
 
-            const response = await axios.patch(`/backendAPI/api/v1/Product/Update${params.id}`, productData, {
+            const response = await axios.patch(`/backendAPI/api/v1/Product/Update`, productData, {
                 headers: {
                     "Content-Type": "application/json",
+                    "Accept": "*/*",
+                }
+            });
+            console.log('Response', response.data);
+
+            const formData = new FormData();
+            // @ts-ignore
+            const blob = new Blob([image], {type: "application/octet-stream"});
+            formData.append("file", blob);
+
+            const imageResponse = await axios.put(`/backendAPI/api/v1/File/UploadProductImage/${id}`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
                     "Accept": "*/*",
                 }
             });
@@ -124,27 +140,30 @@ export default function EditProductForm ({ params }: { params: { id: string } })
                         variant="outlined"
                         fullWidth
                         margin="normal"
-                        {...register("name", { required: "Name is required" })}
+                        {...register("name", { required: false })}
                         error={!!errors.name}
                         helperText={errors.name ? errors.name.message : ''}
+
                     />
                     <TextField
                         label="Description"
                         variant="outlined"
                         fullWidth
                         margin="normal"
-                        {...register("description", { required: "Description is required" })}
+                        {...register("description", { required: false })}
                         error={!!errors.description}
                         helperText={errors.description ? errors.description.message : ''}
+
                     />
                     <TextField
                         label="Currency"
                         variant="outlined"
                         fullWidth
                         margin="normal"
-                        {...register("price.currency", { required: "Currency is required" })}
+                        {...register("price.currency", { required: false })}
                         error={!!errors.price?.currency}
                         helperText={errors.price?.currency ? errors.price.currency.message : ''}
+
                     />
                     <TextField
                         label="Amount"
@@ -152,9 +171,10 @@ export default function EditProductForm ({ params }: { params: { id: string } })
                         fullWidth
                         margin="normal"
                         type="number"
-                        {...register("price.amount", { required: "Amount is required" })}
+                        {...register("price.amount", { required: false })}
                         error={!!errors.price?.amount}
                         helperText={errors.price?.amount ? errors.price.amount.message : ''}
+
                     />
                     <Box sx={{ display: 'flex' }}>
                         <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
@@ -166,7 +186,7 @@ export default function EditProductForm ({ params }: { params: { id: string } })
                                         control={
                                             <Checkbox
                                                 value={category.id.toString()}
-                                                checked={categoryIds.some(field => field.id === category.id.toString())}
+                                                checked={categoryIds?.some(field => field.id === category.id.toString())}
                                                 onChange={handleCheckboxChange}
                                                 name={category.name}
                                             />
@@ -193,3 +213,4 @@ export default function EditProductForm ({ params }: { params: { id: string } })
     );
 
 }
+export default EditProductForm;
