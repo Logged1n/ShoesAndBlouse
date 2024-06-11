@@ -251,3 +251,40 @@
     padding-bottom: 6rem;
   }
 }
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.productGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.productItem {
+  border: 1px solid #ddd;
+  padding: 10px;
+  width: 23%;
+  box-sizing: border-box;
+}
+
+.productItem img {
+  max-width: 100%;
+  height: auto;
+}
+
+.productItem h3 {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.productItem p {
+  font-size: 14px;
+  color: #555;
+}
+
+.price {
+  font-size: 16px;
+  color: #333;
+}
