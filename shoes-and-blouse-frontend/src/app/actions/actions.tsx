@@ -2,6 +2,8 @@
 
 import axios from "axios";
 import {Category, Product, ProductForm} from "@/app/_types/api_interfaces";
+import {Property} from "csstype";
+import Order = Property.Order;
 
 export async function GetCategories(): Promise<Category[]> {
     try {
@@ -37,6 +39,16 @@ export async function GetProductById(productId: string): Promise<Product | undef
     }
     catch (error) {
         console.error('Błąd przy pobieraniu produktu: ', error);
+        return undefined;
+    }
+}
+export async function GetOrderById(orderId: string): Promise<Order | undefined> {
+    try{
+        const {data} = await axios.get<Order>(`${process.env.API_URL}/api/v1/Order/GetById/${orderId}`);
+        return data;
+    }
+    catch (error) {
+        console.error('Błąd przy pobieraniu zamówienia: ', error);
         return undefined;
     }
 }
