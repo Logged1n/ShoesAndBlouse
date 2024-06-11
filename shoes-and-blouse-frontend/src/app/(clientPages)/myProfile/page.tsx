@@ -3,7 +3,7 @@ import UserProfile from '@/components/UserProfile';
 
 const App: React.FC = () => {
     // Zakładam, że masz sposób na uzyskanie userId, np. z parametrów URL lub stanu aplikacji
-    const userId = '2'; // Zastąp odpowiednim ID użytkownika
+    const userId = '1'; // Zastąp odpowiednim ID użytkownika
 
     return (
         <div>

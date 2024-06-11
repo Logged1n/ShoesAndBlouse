@@ -39,6 +39,15 @@
       <Compile Remove="Users\CommandHandlers\CreateUserCommandHandler.cs" />
       <Compile Remove="Users\Commands\CreateUserCommand.cs" />
       <Compile Remove="Validators\User\CreateUserCommandValidator.cs" />
+      <Compile Remove="Validators\Review\**" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <EmbeddedResource Remove="Validators\Review\**" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <None Remove="Validators\Review\**" />
     </ItemGroup>
 
 </Project>

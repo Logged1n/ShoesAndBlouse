@@ -23,6 +23,7 @@ namespace ShoesAndBlouse.Infrastructure
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
             services.AddScoped<IAddressRepository, AddressRepository>();
+            services.AddScoped<IReviewRepository, ReviewRepository>();
             
             //Mediator Pattern Setup
             services.AddMediatR(cfg => 
