@@ -61,7 +61,7 @@ const CategoryList = () => {
                             primary={category.name}
                         />
                         <Box>
-                            <Link href={`/adminPanel/categories/update/${category.id}`} passHref>
+                            <Link href={`/adminPanel/categories/edit/${category.id}`} passHref>
                                 <IconButton color="primary">
                                     <EditIcon />
                                 </IconButton>
