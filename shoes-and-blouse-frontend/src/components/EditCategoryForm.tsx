@@ -128,7 +128,6 @@ interface EditCategoryFormProps {
                         {...register("name", { required: false })}
                         error={!!errors.name}
                         helperText={errors.name ? errors.name.message : ''}
-                        value={category.name}
                     />
                     <Box sx={{ display: 'flex' }}>
                         <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
