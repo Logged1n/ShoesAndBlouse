@@ -27,7 +27,7 @@ export interface Product {
     description: string;
     price: Price;
     categories: Record<number, string>;
-    photoUrl: string;
+    photoUrl: File;
 }
 
 export interface Category {
