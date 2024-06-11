@@ -2,6 +2,7 @@
 using ShoesAndBlouse.Application.Carts.Queries;
 using ShoesAndBlouse.Domain.Entities;
 using ShoesAndBlouse.Domain.Interfaces;
+using ShoesAndBlouse.Domain.ValueObjects;
 
 namespace ShoesAndBlouse.Application.Carts.QueryHandlers;
 

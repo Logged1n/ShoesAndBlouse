@@ -49,7 +49,7 @@ public class CategoryController : ControllerBase
             return BadRequest(validationResult.Errors);
 
         var category = await _mediator.Send(command);
-        return Ok(category);
+        return CreatedAtAction(nameof(GetById), new {categoryId = category.Id}, category);
     }
 
     [MapToApiVersion(1)]
@@ -72,7 +72,7 @@ public class CategoryController : ControllerBase
         var result = await _mediator.Send(command);
 
         if (result)
-            return Ok();
+            return NoContent();
         else
             return NotFound();
     }

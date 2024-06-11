@@ -30,7 +30,7 @@ public class ProductController : ControllerBase
     public async Task<ActionResult<ProductDto>> GetById(int productId)
     {
         var product = await _mediator.Send(new GetProductByIdQuery { Id = productId });
-        if (Convert.ToInt32(productId) == 0)
+        if (productId == 0)
             return NotFound(product);
 
         _hostUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
@@ -64,7 +64,7 @@ public class ProductController : ControllerBase
         var product = await _mediator.Send(command);
         product.PhotoUrl =$"{_hostUrl}/{product.PhotoUrl}";
         
-        return Ok(product);
+        return CreatedAtAction(nameof(GetById), new { productId = product.Id}, product);
     }
 
     [MapToApiVersion(1)]
@@ -87,7 +87,7 @@ public class ProductController : ControllerBase
         var result = await _mediator.Send(command);
 
         if (result)
-            return Ok();
+            return NoContent();
         else
             return NotFound(); // Return NotFound (404) if product was not found.
     }

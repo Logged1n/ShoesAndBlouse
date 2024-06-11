@@ -15,7 +15,7 @@ public class OrderRepository(PostgresDbContext context) : IOrderRepository
             .Include(o => o.User)
             .Include(o => o.ShippingAddress)
             .Include(o => o.BillingAddress)
-            .Include(o => o.ProductsQty)
+            .Include(o => o.OrderDetails)
             .ToListAsync(cancellationToken);
         return orders;
     }
@@ -27,7 +27,7 @@ public class OrderRepository(PostgresDbContext context) : IOrderRepository
             .Include(o => o.User)
             .Include(o => o.ShippingAddress)
             .Include(o => o.BillingAddress)
-            .Include(o => o.ProductsQty)
+            .Include(o => o.OrderDetails)
             .ToListAsync(cancellationToken);
         return userOrders;
     }
@@ -39,7 +39,7 @@ public class OrderRepository(PostgresDbContext context) : IOrderRepository
             .Include(o => o.User)
             .Include(o => o.ShippingAddress)
             .Include(o => o.BillingAddress)
-            .Include(o => o.ProductsQty)
+            .Include(o => o.OrderDetails)
             .ToListAsync(cancellationToken);
         return orders;
     }
@@ -50,7 +50,7 @@ public class OrderRepository(PostgresDbContext context) : IOrderRepository
             .Include(o => o.User)
             .Include(o => o.ShippingAddress)
             .Include(o => o.BillingAddress)
-            .Include(o => o.ProductsQty)
+            .Include(o => o.OrderDetails)
             .FirstOrDefaultAsync(o => o.Id == orderId, cancellationToken);
         return order;
     }

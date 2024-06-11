@@ -43,7 +43,7 @@ namespace ShoesAndBlouse.Application.Files.CommandHandlers
             if (!Directory.Exists(uploadsFolder))
                 Directory.CreateDirectory(uploadsFolder);
 
-            var fileName = $"{productId}{Path.GetExtension(photoFile.FileName)}";
+            var fileName = $"{productId}.png";
             var filePath = Path.Combine(uploadsFolder, fileName);
 
             await using (var fileStream = new FileStream(filePath, FileMode.Create))
