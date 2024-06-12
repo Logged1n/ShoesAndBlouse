@@ -10,12 +10,27 @@ namespace ShoesAndBlouse.Infrastructure.Repositories;
     {
         public async Task<ICollection<Review>> GetAllAsync(CancellationToken cancellationToken)
         {
-            return await context.Reviews.ToListAsync(cancellationToken);
+            return await context.Reviews
+                .Include(r => r.Product)
+                .Include(r => r.User)
+                .ToListAsync(cancellationToken);
         }
 
         public async Task<Review?> GetReviewByIdAsync(int reviewId, CancellationToken cancellationToken)
         {
-            return await context.Reviews.FirstOrDefaultAsync(r => r.Id == reviewId, cancellationToken);
+            return await context.Reviews
+                .Include(r => r.Product)
+                .Include(r => r.User)
+                .FirstOrDefaultAsync(r => r.Id == reviewId, cancellationToken);
+        }
+
+        public async Task<ICollection<Review>> GetAllProductReviewsAsync(int productId, CancellationToken cancellationToken)
+        {
+            return await context.Reviews
+                .Where(r => r.Product.Id == productId)
+                .Include(r => r.Product)
+                .Include(r => r.User)
+                .ToListAsync(cancellationToken);
         }
 
         public async Task<Review> CreateReviewAsync(Review toCreate, CancellationToken cancellationToken=default)

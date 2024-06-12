@@ -1,4 +1,6 @@
-﻿namespace ShoesAndBlouse.Application.DTOs;
+﻿using ShoesAndBlouse.Domain.Entities;
+
+namespace ShoesAndBlouse.Application.DTOs;
 
 public class CategoryDto
 {
