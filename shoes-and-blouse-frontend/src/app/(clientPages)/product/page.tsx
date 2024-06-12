@@ -1,8 +1,11 @@
 "use client"
+
 import React, { useEffect, useState } from 'react';
-import styles from '../../../styles/page.module.css';
-import { GetAllProducts } from '../../actions/actions';
-import { Product } from '../../_types/api_interfaces'; // Importowanie typu Product
+import styles from '@/styles/page.module.css';
+import { GetProducts } from '@/app/actions/actions';
+import { Product } from '@/app/_types/api_interfaces';
+import { AddShoppingCart } from "@mui/icons-material";
+import Link from 'next/link';
 
 const ViewProductPage: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
@@ -12,15 +15,15 @@ const ViewProductPage: React.FC = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const data = await GetAllProducts();
-                console.log('Pobrane produkty:', data);  // Dodane logowanie
+                const data = await GetProducts();
+                console.log('Pobrane produkty:', data);
                 if (data.length === 0) {
                     setError('Brak produktów do wyświetlenia.');
                 }
                 setProducts(data);
             } catch (err) {
                 setError('Błąd przy pobieraniu produktów.');
-                console.error('Fetch error:', err); // Dodane logowanie błędu
+                console.error('Fetch error:', err);
             } finally {
                 setLoading(false);
             }
@@ -46,8 +49,15 @@ const ViewProductPage: React.FC = () => {
                 <div className={styles.productGrid}>
                     {products.map(product => (
                         <div key={product.id} className={styles.productItem}>
-                            <img src={product.photoUrl} alt={product.name} />
-                            <h3>{product.name}</h3>
+                            <Link href={`/product/${product.id}`}>
+                                <img src={product.photoUrl} alt={product.name} />
+                            </Link>
+                            <div style={{ display: "flex", alignItems: "center" }}>
+                                <h3>{product.name}</h3>
+                                <Link href={`/cart/${product.id}`}>
+                                    <AddShoppingCart style={{ cursor: 'pointer', marginLeft: '10px' }} />
+                                </Link>
+                            </div>
                             <p>{product.description}</p>
                             <p className={styles.price}>{product.price.amount} {product.price.currency}</p>
                         </div>
