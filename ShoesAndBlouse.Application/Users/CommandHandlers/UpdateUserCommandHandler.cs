@@ -20,11 +20,12 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, bool>
         {
             return false;
         }
-
-        user.Name = request.Name;
-        user.Email = request.Email;
-        user.Surname = request.Surname;
-        // Update other properties
+        if(request.Name is not null) 
+            user.Name = request.Name;
+        if(request.Email is not null)
+            user.Email = request.Email;
+        if(request.Surname is not null)
+            user.Surname = request.Surname;
 
         var updatedUser = await _userRepository.UpdateUserAsync(user, cancellationToken);
         return updatedUser != null;
