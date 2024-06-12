@@ -12,6 +12,7 @@ public class ProductRepository(PostgresDbContext context) : IProductRepository
     {
         var products = await context.Products
             .Include(p => p.Categories)
+            .Include(p => p.Reviews)
             .ToListAsync(cancellationToken);
 
         return products;

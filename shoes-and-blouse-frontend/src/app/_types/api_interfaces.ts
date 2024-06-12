@@ -56,3 +56,12 @@ export interface User {
     email: string;
     surname: string;
 }
+
+export interface Review {
+    id: string;
+    score: number;
+    productId: string;
+    userId: string;
+    title: string;
+    description: string;
+}

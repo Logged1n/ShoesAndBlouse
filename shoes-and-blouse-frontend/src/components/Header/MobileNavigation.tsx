@@ -7,7 +7,6 @@ type MobileNavigationProps = {
 }
 
 const MobileNavigation = ({ isMobileActive } : MobileNavigationProps) => {
- //TODO change Links to components (Dropdown with onClick events instead of hover effect)
     return (
         <>
             <nav className={`${styles.mobileNavigation} ${
