@@ -61,9 +61,7 @@ const DesktopNavigationBar = ({
                 <span className={styles.upperHamburger} id={"upperHam"}></span>
                 <span className={styles.bottomHamburger} id={"bottomHam"}></span>
             </div>
-            <div className={styles.searchWrapper}>
-                SearchBar Component
-            </div>
+
         </nav>
     );
 }

@@ -9,6 +9,12 @@ namespace ShoesAndBlouse.Application.Mappers
         {
             if (product is not null)
             {
+                List<int> reviewIds = [];
+                foreach (var r in product.Reviews)
+                {
+                    reviewIds.Add(r.Id);
+                }
+                
                 return new ProductDto
                 {
                     Id = product.Id.ToString(),
@@ -16,7 +22,7 @@ namespace ShoesAndBlouse.Application.Mappers
                     Description = product.Description,
                     Price = product.Price,
                     Categories = product.Categories.ToDictionary(c => c.Id, c => c.Name),
-                    Reviews = ReviewMapper.MapListToDto(product.Reviews),
+                    ReviewIds = reviewIds ,
                     PhotoUrl = product.PhotoPath
                 };
             }
