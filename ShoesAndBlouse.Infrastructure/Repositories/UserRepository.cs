@@ -10,7 +10,20 @@ public class UserRepository(PostgresDbContext context) : IUserRepository
 {
     public async Task<User?> GetUserByIdAsync(int userId, CancellationToken cancellationToken)
     {
-        return await context.Users.FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
+        return await context.Users
+            .Include(u => u.Address)
+            .Include(u => u.Reviews)
+            .Include(u => u.Orders)
+            .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
+    }
+
+    public async Task<ICollection<User>> GetAllUsersAsync(CancellationToken cancellationToken = default)
+    {
+        return await context.Users
+            .Include(u => u.Address)
+            .Include(u => u.Reviews)
+            .Include(u => u.Orders)
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<User?> UpdateUserAsync(User toUpdate, CancellationToken cancellationToken = default)

@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using ShoesAndBlouse.Domain.Entities;
 using ShoesAndBlouse.Domain.Interfaces;
 using ShoesAndBlouse.Application.DTOs;
 using ShoesAndBlouse.Application.Users.Queries;
@@ -17,7 +16,7 @@ public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, List<Us
 
     public async Task<List<UserDto>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
     {
-        var users = await _userRepository.GetAllAsync(cancellationToken);
+        var users = await _userRepository.GetAllUsersAsync(cancellationToken);
         return users.Select(user => new UserDto
         {
             Id = user.Id,
