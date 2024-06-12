@@ -49,7 +49,7 @@ const OrderList = () => {
                             secondary={OrderStatus[order.status]}
                         />
                         <Box>
-                            <Link href={`/adminPanel/orders/edit/${order.id}`} passHref>
+                            <Link href={`/adminPanel/orders/${order.id}`} passHref>
                                 <IconButton color="primary">
                                     <EditIcon/>
                                 </IconButton>

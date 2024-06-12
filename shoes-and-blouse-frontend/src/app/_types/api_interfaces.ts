@@ -12,6 +12,14 @@ export interface OrderForm{
     orderDetails: number;
     total: Price;
 }
+export interface cartItem{
+    productId: number;
+    qty: number;
+}
+export interface Cart{
+    total: Price;
+    cartItems: cartItem[];
+}
 export interface ProductForm {
     id: number;
     name: string;

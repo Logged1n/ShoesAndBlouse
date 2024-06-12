@@ -9,6 +9,6 @@ public class UpdateOrderStatusCommandHandler(IOrderRepository orderRepository) :
 
     public async Task Handle(UpdateOrderStatusCommand request, CancellationToken cancellationToken)
     {
-         await orderRepository.UpdateOrderStatusAsync(request.OrderId, request.Status, cancellationToken);
+         await orderRepository.UpdateOrderStatusAsync(Convert.ToInt32(request.OrderId), request.Status, cancellationToken);
     }
 }
