@@ -15,7 +15,7 @@ public class UpdateReviewCommandHandler : IRequestHandler<UpdateReviewCommand, b
 
     public async Task<bool> Handle(UpdateReviewCommand request, CancellationToken cancellationToken)
     {
-        var existingReview = await _reviewRepository.GetReviewByIdAsync(request.Id, cancellationToken);
+        var existingReview = await _reviewRepository.GetReviewByIdAsync(request.ReviewId, cancellationToken);
 
         if (existingReview is null)
             return false;

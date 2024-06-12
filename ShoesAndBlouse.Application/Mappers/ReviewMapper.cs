@@ -11,8 +11,8 @@ public static class ReviewMapper
         {
             Id = review.Id.ToString(),
             Score = review.Score,
-            ProductId = review.Product,
-            UserId = review.User,
+            ProductId = review.Product.Id.ToString(),
+            UserId = review.User.Id.ToString(),
             Title = review.Title,
             Description = review.Description
         };

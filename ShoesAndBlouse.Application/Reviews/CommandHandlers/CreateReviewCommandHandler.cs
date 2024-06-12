@@ -27,7 +27,7 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, R
 
         if (product == null || user == null)
         {
-            // Handle error
+            throw new ArgumentNullException();
         }
 
         var review = new Review
