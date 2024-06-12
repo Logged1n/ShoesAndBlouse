@@ -6,16 +6,14 @@ import { GetProducts } from '@/app/actions/actions';
 import { Product } from '@/app/_types/api_interfaces';
 import { AddShoppingCart } from "@mui/icons-material";
 import Link from 'next/link';
-import styles from '../../../styles/page.module.css';
-import { GetProducts } from '../../actions/actions';
-import { Product } from '../../_types/api_interfaces'; // Importowanie typu Product
 
 const ViewProductPage: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
+    const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [filterText, setFilterText] = useState<string>(''); // State for filter text
-    const [selectedCategory, setSelectedCategory] = useState<string>(''); // State for selected category
+    const [nameFilter, setNameFilter] = useState<string>('');
+    const [categoryFilter, setCategoryFilter] = useState<string>('');
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -26,9 +24,10 @@ const ViewProductPage: React.FC = () => {
                     setError('Brak produktów do wyświetlenia.');
                 }
                 setProducts(data);
+                setFilteredProducts(data);
             } catch (err) {
                 setError('Błąd przy pobieraniu produktów.');
-                console.error('Fetch error:', err); // Dodane logowanie błędu
+                console.error('Fetch error:', err);
             } finally {
                 setLoading(false);
             }
@@ -37,26 +36,26 @@ const ViewProductPage: React.FC = () => {
         fetchProducts();
     }, []);
 
-    const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFilterText(event.target.value);
-    };
+    useEffect(() => {
+        filterProducts();
+    }, [nameFilter, categoryFilter, products]);
 
-    const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedCategory(event.target.value);
+    const filterProducts = () => {
+        let filtered = products;
+        if (nameFilter) {
+            filtered = filtered.filter(product =>
+                product.name.toLowerCase().includes(nameFilter.toLowerCase())
+            );
+        }
+        if (categoryFilter) {
+            filtered = filtered.filter(product =>
+                Object.values(product.categories).some(category =>
+                    category.toLowerCase().includes(categoryFilter.toLowerCase())
+                )
+            );
+        }
+        setFilteredProducts(filtered);
     };
-
-    const getUniqueCategories = () => {
-        const categories = new Set<string>();
-        products.forEach(product => {
-            Object.values(product.categories).forEach(category => categories.add(category));
-        });
-        return Array.from(categories);
-    };
-
-    const filteredProducts = products.filter(product =>
-        product.name.toLowerCase().includes(filterText.toLowerCase()) &&
-        (selectedCategory === '' || Object.values(product.categories).includes(selectedCategory))
-    );
 
     if (loading) {
         return <div>Loading...</div>;
@@ -69,27 +68,35 @@ const ViewProductPage: React.FC = () => {
     return (
         <div className={styles.container}>
             <h1>Produkty</h1>
-            <input
-                type="text"
-                placeholder="Szukaj produktów..."
-                value={filterText}
-                onChange={handleFilterChange}
-                className={styles.searchInput}
-            />
-            <select value={selectedCategory} onChange={handleCategoryChange} className={styles.categorySelect}>
-                <option value="">Wszystkie kategorie</option>
-                {getUniqueCategories().map(category => (
-                    <option key={category} value={category}>{category}</option>
-                ))}
-            </select>
+            <div className={styles.filters}>
+                <input
+                    type="text"
+                    placeholder="Filtruj po nazwie"
+                    value={nameFilter}
+                    onChange={e => setNameFilter(e.target.value)}
+                />
+                <input
+                    type="text"
+                    placeholder="Filtruj po kategorii"
+                    value={categoryFilter}
+                    onChange={e => setCategoryFilter(e.target.value)}
+                />
+            </div>
             {filteredProducts.length === 0 ? (
                 <p>Brak produktów do wyświetlenia.</p>
             ) : (
                 <div className={styles.productGrid}>
                     {filteredProducts.map(product => (
                         <div key={product.id} className={styles.productItem}>
-                            <img src={product.photoUrl} alt={product.name} />
-                            <h3>{product.name}</h3>
+                            <Link href={`/product/${product.id}`}>
+                                <img src={product.photoUrl} alt={product.name} />
+                            </Link>
+                            <div style={{ display: "flex", alignItems: "center" }}>
+                                <h3>{product.name}</h3>
+                                <Link href={`/cart/${product.id}`}>
+                                    <AddShoppingCart style={{ cursor: 'pointer', marginLeft: '10px' }} />
+                                </Link>
+                            </div>
                             <p>{product.description}</p>
                             <p className={styles.price}>{product.price.amount} {product.price.currency}</p>
                         </div>

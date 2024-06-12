@@ -3,6 +3,7 @@
 import {Container, Typography} from "@mui/material"
 import CartItems from "@/components/CartItems";
 import React from "react";
+import Link from "next/link";
 
 export default function CarItems(){
     return(
@@ -11,6 +12,9 @@ export default function CarItems(){
                 Cart Items
             </Typography>
             <CartItems/>
+            <Link href={"/order"}>
+                <button>Make Order</button>
+            </Link>
         </Container>
     )
 }
