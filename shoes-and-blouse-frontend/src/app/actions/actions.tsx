@@ -12,9 +12,9 @@ export async function GetCategories(): Promise<Category[]> {
         return [];
     }
 }
-export async function GetProducts(): Promise<ProductForm[]> {
+export async function GetProducts(): Promise<Product[]> {
     try{
-        const {data } = await axios.get<ProductForm[]>(`${process.env.API_URL}/api/v1/Product/GetAll`);
+        const {data } = await axios.get<Product[]>(`${process.env.API_URL}/api/v1/Product/GetAll`);
         return data;
     } catch (error) {
         console.error('Błąd przy pobieraniu produktów: ', error);

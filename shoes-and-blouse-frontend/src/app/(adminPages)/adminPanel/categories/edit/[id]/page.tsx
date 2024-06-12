@@ -1,16 +1,18 @@
 "use client"
 
 import {Container, Typography} from "@mui/material";
-import EditOrder from "@/components/EditOrderStatus";
+import EditCategoryForm from "@/components/EditCategoryForm";
 import React from "react";
 
-export default function OrderStatus({params}: {params: {id: string}}){
+
+export default function EditCategory({params}: {params: {id: string}}){
+
     return(
         <Container>
             <Typography variant="h4" align="center" gutterBottom>
-                Edit Order Status
+                Edit Category
             </Typography>
-            <EditOrder id={params.id as string}/>
+            <EditCategoryForm id={params.id as string}/>
         </Container>
     )
 }

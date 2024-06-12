@@ -7,7 +7,7 @@ import { Box, IconButton, List, ListItem, ListItemText, Typography } from "@mui/
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
-import { Category } from "@/app/_types/api_interfaces"; // assuming you have a Category type
+import { Category } from "@/app/_types/api_interfaces";
 
 const CategoryList = () => {
     const [categories, setCategories] = useState<Category[]>([]);
@@ -61,7 +61,7 @@ const CategoryList = () => {
                             primary={category.name}
                         />
                         <Box>
-                            <Link href={`/adminPanel/categories/update/${category.id}`} passHref>
+                            <Link href={`/adminPanel/categories/edit/${category.id}`} passHref>
                                 <IconButton color="primary">
                                     <EditIcon />
                                 </IconButton>

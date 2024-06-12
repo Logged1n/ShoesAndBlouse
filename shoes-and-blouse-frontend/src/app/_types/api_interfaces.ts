@@ -2,7 +2,24 @@ export interface Price {
     currency: string;
     amount: number;
 }
-
+export interface OrderForm{
+    id: number;
+    createdAt: string;
+    modifiedAt: string;
+    status: number;
+    shippingAddressId: number;
+    billingAddressId: number;
+    orderDetails: number;
+    total: Price;
+}
+export interface cartItem{
+    productId: number;
+    qty: number;
+}
+export interface Cart{
+    total: Price;
+    cartItems: cartItem[];
+}
 export interface ProductForm {
     id: number;
     name: string;
