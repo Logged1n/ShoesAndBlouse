@@ -1,5 +1,6 @@
 .content{
     display: flex;
+    translate: -25%;
 }
 .login{
     margin-left:700px;

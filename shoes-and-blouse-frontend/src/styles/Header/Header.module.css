@@ -7,4 +7,5 @@
     z-index: 100;
     box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.2);
     font-size: var(--fs-body);
+    background-color: #fff;
 }
